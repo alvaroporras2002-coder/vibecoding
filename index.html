@@ -22,7 +22,7 @@
       theme: {
         extend: {
           screens: {
-            'xs': '375px',   // iPhone SE
+            'xs': '390px',   // iPhone 16 / Pixel 9
             'fold': '670px', // Pixel 9 Pro Fold / Galaxy Z Fold 6 abiertos
             'pro': '960px',  // Surface Pro 10 / iPad Pro
           },
@@ -99,21 +99,17 @@
       color: #f4f4f8;
       overflow-x: clip;
       width: 100%;
+      max-width: 100vw;
       -webkit-tap-highlight-color: transparent;
       transition: background-color 0.5s ease;
     }
 
-    /* TIPOGRAFÍA FLUIDA PARA CUALQUIER PANTALLA (375px a 4K) */
-    .hero-title-fluid {
-      font-size: clamp(2rem, 5.2vw, 3.75rem);
-      line-height: 1.08;
-    }
     .section-title-fluid {
-      font-size: clamp(1.75rem, 4.5vw, 3.25rem);
+      font-size: clamp(1.65rem, 4.5vw, 3.25rem);
       line-height: 1.12;
     }
 
-    /* TEXTURA FILM GRAIN ULTRALIGERA (SIN LAG DE SVG) */
+    /* TEXTURA FILM GRAIN ULTRALIGERA */
     .film-grain {
       position: fixed;
       inset: 0;
@@ -128,7 +124,7 @@
       display: none !important;
     }
 
-    /* CURSOR MAGNÉTICO SOLO EN DISPOSITIVOS CON MOUSE */
+    /* CURSOR MAGNÉTICO SOLO EN MOUSE */
     @media (hover: hover) and (pointer: fine) {
       body, a, button { cursor: none; }
       #cursor-dot {
@@ -144,9 +140,6 @@
         pointer-events: none; z-index: 9998;
         will-change: transform;
         transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
-      }
-      body.cursor-hover #cursor-ring {
-        width: 52px; height: 52px; border-color: var(--accent-tertiary);
       }
     }
     @media (pointer: coarse) {
@@ -173,10 +166,10 @@
     #preloader.loaded .preloader-logo { opacity: 0; transform: scale(1.15); }
     .preloader-logo { position: relative; z-index: 10; transition: opacity 0.35s ease, transform 0.5s ease; }
 
-    /* PANELES OPTIMIZADOS (SIN SATURAR GPU EN CELULARES) */
+    /* PANELES OPTIMIZADOS */
     .glass-panel {
-      background: linear-gradient(145deg, rgba(22, 18, 42, 0.88), rgba(10, 9, 20, 0.94));
-      border: 1px solid rgba(184, 41, 255, 0.22);
+      background: linear-gradient(145deg, rgba(22, 18, 42, 0.9), rgba(10, 9, 20, 0.96));
+      border: 1px solid rgba(184, 41, 255, 0.24);
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
       contain: layout style;
     }
@@ -257,12 +250,11 @@
       }
     }
 
-    /* SAFE AREAS PARA IPHONE 16 / PRO MAX / PIXEL / GALAXY */
     .safe-bottom-nav {
       padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
     }
     .safe-top-header {
-      padding-top: max(0.65rem, env(safe-area-inset-top));
+      padding-top: max(0.55rem, env(safe-area-inset-top));
     }
 
     ::-webkit-scrollbar { width: 6px; }
@@ -308,13 +300,14 @@
     <a href="#comunidad" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white" data-target="comunidad"><span>06 COMUNIDAD</span><span class="w-2 h-2 rounded-full bg-current"></span></a>
   </aside>
 
-  <!-- NAVBAR SUPERIOR RESPONSIVE (iPhone SE hasta Surface Pro / Desktop) -->
+  <!-- NAVBAR SUPERIOR BLINDADO CONTRA COLISIONES EN MÓVIL (375px+) -->
   <header id="navbar" class="fixed top-0 inset-x-0 z-50 safe-top-header">
-    <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
-      <nav class="glass-panel rounded-2xl px-3 sm:px-5 py-2 flex items-center justify-between gap-1.5">
-        <button onclick="triggerLogoEasterEgg()" class="flex items-center gap-2 text-left min-h-[40px]" title="5 clics para secreto">
-          <img src="img/logo-monograma.png" alt="LC Monograma" class="h-8 w-8 sm:h-9 sm:w-9 object-contain blend-dark-bg shrink-0" />
-          <span class="font-display font-extrabold tracking-wider text-xs sm:text-sm text-white truncate">
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+      <nav class="glass-panel rounded-2xl px-2.5 sm:px-5 py-2 flex items-center justify-between gap-1 overflow-hidden">
+        <!-- Marca compacta en una sola línea sin saltos ni superposición -->
+        <button onclick="triggerLogoEasterEgg()" class="flex items-center gap-1.5 sm:gap-2.5 text-left min-h-[36px] shrink-0" title="5 clics para secreto">
+          <img src="img/logo-monograma.png" alt="LC Monograma" class="h-7 w-7 sm:h-9 sm:w-9 object-contain blend-dark-bg shrink-0" />
+          <span class="font-display font-extrabold tracking-tight sm:tracking-wider text-[11px] xs:text-xs sm:text-sm text-white whitespace-nowrap">
             LOS <span class="text-neonPurple">CHAMACOS</span>
           </span>
         </button>
@@ -329,31 +322,32 @@
           <a href="#academia" class="hover:text-white transition-colors">Academia</a>
         </div>
 
+        <!-- Botones compactos que siempre caben en cualquier pantalla -->
         <div class="flex items-center gap-1 sm:gap-2 shrink-0">
-          <div class="hidden sm:flex items-center gap-1 px-2 py-1 rounded-xl bg-neonAcid/10 border border-neonAcid/30 text-[11px] font-bold text-neonAcid">
+          <div class="hidden md:flex items-center gap-1 px-2 py-1 rounded-xl bg-neonAcid/10 border border-neonAcid/30 text-[11px] font-bold text-neonAcid">
             🪙 <span id="coins-display">150</span>
           </div>
 
-          <button onclick="startVoiceCommand()" class="w-9 h-9 rounded-xl bg-white/5 hover:bg-neonCyan/20 border border-white/10 flex items-center justify-center text-xs" title="Comando de voz">
+          <button onclick="startVoiceCommand()" aria-label="Comando de voz" class="hidden xs:flex w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 hover:bg-neonCyan/20 border border-white/10 items-center justify-center text-xs" title="Comando de voz">
             🎙️
           </button>
 
-          <select id="currency-select" onchange="changeCurrency(this.value)" aria-label="Moneda" class="h-9 bg-white/5 border border-white/15 rounded-xl px-1.5 sm:px-2 text-[11px] font-bold text-gray-200 focus:outline-none">
+          <select id="currency-select" onchange="changeCurrency(this.value)" aria-label="Moneda" class="h-8 sm:h-9 bg-white/5 border border-white/15 rounded-xl px-1.5 sm:px-2 text-[10px] sm:text-xs font-bold text-gray-200 focus:outline-none">
             <option value="USD" class="bg-surface">USD</option>
             <option value="MXN" class="bg-surface">MXN</option>
             <option value="EUR" class="bg-surface">EUR</option>
             <option value="CRC" class="bg-surface">CRC</option>
           </select>
 
-          <button onclick="cycleStudioTheme()" class="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/15 border border-white/15 flex items-center justify-center text-xs text-neonCyan" title="Cambiar luces">
+          <button onclick="cycleStudioTheme()" aria-label="Cambiar luces" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 hover:bg-white/15 border border-white/15 flex items-center justify-center text-xs text-neonCyan" title="Cambiar luces">
             💡
           </button>
 
-          <button onclick="toggleDownloadsModal()" class="hidden xs:flex w-9 h-9 rounded-xl bg-white/5 hover:bg-neonPurple/20 border border-white/10 items-center justify-center text-xs" title="Mis Descargas">
+          <button onclick="toggleDownloadsModal()" aria-label="Mis Descargas" class="hidden sm:flex w-9 h-9 rounded-xl bg-white/5 hover:bg-neonPurple/20 border border-white/10 items-center justify-center text-xs" title="Mis Descargas">
             📥
           </button>
 
-          <button onclick="toggleCart()" class="h-9 px-2.5 sm:px-3 rounded-xl bg-white/10 hover:bg-neonPurple/30 border border-white/15 flex items-center gap-1.5 text-xs font-bold">
+          <button onclick="toggleCart()" aria-label="Abrir carrito" class="h-8 sm:h-9 px-2 sm:px-3 rounded-xl bg-white/10 hover:bg-neonPurple/30 border border-white/15 flex items-center gap-1 text-xs font-bold">
             <span>🛒</span>
             <span id="cart-count" class="px-1.5 py-0.5 text-[10px] rounded-full bg-neonAcid text-black font-black">0</span>
           </button>
@@ -363,7 +357,7 @@
   </header>
 
   <!-- ==================== 1. HERO RESPONSIVE ==================== -->
-  <section id="inicio" class="relative min-h-[92vh] flex items-center justify-center pt-24 sm:pt-28 pb-16 overflow-hidden">
+  <section id="inicio" class="relative min-h-[90vh] flex items-center justify-center pt-24 sm:pt-28 pb-16 overflow-hidden">
     <div class="absolute inset-0 z-0">
       <img src="img/concierto-vivo.jpg" alt="Los Chamacos En Vivo" class="w-full h-full object-cover opacity-35 fade-vertical" />
       <div class="absolute inset-0 bg-gradient-to-b from-void via-void/55 to-void"></div>
@@ -372,13 +366,13 @@
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
       <div class="grid lg:grid-cols-12 fold-split-grid gap-8 lg:gap-10 items-center">
         <div class="lg:col-span-7 text-center lg:text-left space-y-5">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neonPurple/15 border border-neonPurple/40 text-[10px] sm:text-xs font-bold tracking-widest uppercase text-purple-200">
-            <span class="w-2 h-2 rounded-full bg-neonAcid animate-ping"></span>
-            CYBER-SUITE • BEATS, STUDIO LAB &amp; MERCH
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-neonPurple/15 border border-neonPurple/40 text-[9px] xs:text-[10px] sm:text-xs font-bold tracking-wider sm:tracking-widest uppercase text-purple-200 max-w-full">
+            <span class="w-2 h-2 rounded-full bg-neonAcid animate-ping shrink-0"></span>
+            <span class="truncate">CYBER BEAT LEASING &amp; STREETWEAR</span>
           </div>
 
           <div class="flex justify-center lg:justify-start">
-            <img src="img/logo-principal.png" alt="Los Chamacos Logo" class="w-full max-w-[290px] sm:max-w-md lg:max-w-lg object-contain blend-dark-bg animate-float" />
+            <img src="img/logo-principal.png" alt="Los Chamacos Logo" class="w-full max-w-[270px] sm:max-w-md lg:max-w-lg object-contain blend-dark-bg animate-float" />
           </div>
 
           <p class="text-gray-300 text-sm sm:text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
@@ -399,7 +393,7 @@
         </div>
 
         <div class="lg:col-span-5 relative flex justify-center items-center">
-          <div class="relative w-full max-w-[260px] sm:max-w-sm md:max-w-md">
+          <div class="relative w-full max-w-[250px] sm:max-w-sm md:max-w-md">
             <img src="img/logo-personaje.png" alt="Mascota Los Chamacos" class="relative z-10 w-full object-contain blend-dark-bg animate-float" />
             <img src="img/sticker-circular.png" alt="Sticker Oficial" class="w-20 sm:w-28 h-20 sm:h-28 object-contain blend-dark-bg absolute -bottom-3 -left-2 sm:-left-5 z-20 animate-spin-slow" />
           </div>
@@ -487,7 +481,7 @@
         </div>
       </div>
 
-      <!-- Grid de 3 Beats (1 col en móvil, 2 en Fold/iPad Mini, 3 en Pro/Desktop) -->
+      <!-- Grid de 3 Beats -->
       <div id="beats-grid" class="grid grid-cols-1 fold:grid-cols-2 pro:grid-cols-3 gap-6 sm:gap-8">
         <!-- BEAT 1: NEBULA -->
         <div oncontextmenu="return false;" class="beat-card reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col" data-name="nebula" data-mood="espacial" data-key="F#m" data-bpm="140">
@@ -498,7 +492,7 @@
               <span class="px-2.5 py-1 rounded-full bg-black/75 border border-neonPurple/50 text-[11px] font-bold text-purple-200">140 BPM • F#m</span>
               <span class="px-2 py-1 rounded-full bg-neonAcid text-black text-[10px] font-black uppercase">Top #1</span>
             </div>
-            <button onclick="playPreview('NEBULA', 140, 'img/beat-nebula.jpg', 'purple')" aria-label="Play Nebula" class="play-btn relative z-30 absolute bottom-4 right-4 w-13 h-13 p-3.5 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_20px_rgba(184,41,255,0.65)] transition-all">
+            <button onclick="playPreview('NEBULA', 140, 'img/beat-nebula.jpg', 'purple')" aria-label="Play Nebula" class="play-btn relative z-30 absolute bottom-4 right-4 p-3.5 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_20px_rgba(184,41,255,0.65)] transition-all">
               <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
@@ -767,7 +761,7 @@
         </div>
       </div>
 
-      <!-- Grid de 6 Artículos de Merch (1 col móvil, 2 Fold/Tablet, 3 Desktop) -->
+      <!-- Grid de 6 Artículos de Merch -->
       <div class="grid grid-cols-1 fold:grid-cols-2 pro:grid-cols-3 gap-6 sm:gap-8">
         <!-- Item 1: Hoodie Negro -->
         <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
@@ -854,7 +848,7 @@
           </div>
         </div>
 
-        <!-- Item 4: Gorra Negra 360° (Mouse + Touch Swipe) -->
+        <!-- Item 4: Gorra Negra 360° -->
         <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
           <div class="relative h-64 sm:h-72 overflow-hidden select-none touch-pan-y" onmousemove="rotateCap360(event.clientX, this)" ontouchmove="rotateCap360(event.touches[0].clientX, this)">
             <img id="cap-360-img" src="img/merch-gorra-negra.jpg" alt="Gorra Negra LC" class="w-full h-full object-cover fade-card-img transition-transform duration-150" loading="lazy" />
@@ -928,7 +922,6 @@
       </div>
 
       <div class="reveal grid grid-cols-1 fold:grid-cols-2 pro:grid-cols-3 gap-6 sm:gap-8">
-        <!-- Timeline Comments -->
         <div class="glass-panel rounded-3xl p-5 sm:p-6 space-y-4">
           <h3 class="font-display text-base sm:text-lg font-extrabold text-white">🔥 TIMELINE COMMENTS</h3>
           <div id="timeline-comments" class="space-y-2.5 max-h-48 overflow-y-auto text-xs">
@@ -942,7 +935,6 @@
           </form>
         </div>
 
-        <!-- Leaderboard & Votación -->
         <div class="glass-panel rounded-3xl p-5 sm:p-6 space-y-4">
           <h3 class="font-display text-base sm:text-lg font-extrabold text-white">🏆 TOP ARTISTAS DEL SELLO</h3>
           <ul class="space-y-2 text-xs">
@@ -959,7 +951,6 @@
           </div>
         </div>
 
-        <!-- Collab Finder & Radio -->
         <div class="glass-panel rounded-3xl p-5 sm:p-6 space-y-4 fold:col-span-2 pro:col-span-1">
           <h3 class="font-display text-base sm:text-lg font-extrabold text-white">🤝 COLLAB &amp; RADIO 24/7</h3>
           <div class="p-3 rounded-xl bg-white/5 text-xs space-y-1">
@@ -1192,7 +1183,7 @@
       startDropCountdown();
     });
 
-    // STARFIELD LIGERO (SOLO ESCRITORIO PARA 60 FPS EN MÓVIL)
+    // STARFIELD LIGERO (SOLO ESCRITORIO)
     let starSpeedMult = 1;
     function initStarfield() {
       const canvas = document.getElementById('starfield-canvas');
@@ -1234,7 +1225,7 @@
       if (navigator.vibrate) navigator.vibrate(10);
     }, { passive: true });
 
-    // BARRA PROGRESO SCROLL THROTTLED CON RAF
+    // BARRA PROGRESO SCROLL THROTTLED
     let scrollTicking = false;
     window.addEventListener('scroll', () => {
       if (!scrollTicking) {
