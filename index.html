@@ -34,6 +34,7 @@
             'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
             'spin-slow': 'spin 18s linear infinite',
             'marquee': 'marquee 28s linear infinite',
+            'grain': 'grain 8s steps(10) infinite',
           },
           keyframes: {
             float: {
@@ -47,6 +48,18 @@
             marquee: {
               '0%': { transform: 'translateX(0%)' },
               '100%': { transform: 'translateX(-50%)' },
+            },
+            grain: {
+              '0%, 100%': { transform: 'translate(0, 0)' },
+              '10%': { transform: 'translate(-5%, -10%)' },
+              '20%': { transform: 'translate(-15%, 5%)' },
+              '30%': { transform: 'translate(7%, -25%)' },
+              '40%': { transform: 'translate(-5%, 25%)' },
+              '50%': { transform: 'translate(-15%, 10%)' },
+              '60%': { transform: 'translate(15%, 0%)' },
+              '70%': { transform: 'translate(0%, 15%)' },
+              '80%': { transform: 'translate(3%, 35%)' },
+              '90%': { transform: 'translate(-10%, 10%)' },
             }
           }
         }
@@ -65,13 +78,137 @@
       overflow-x: hidden;
     }
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
+    /* 1. TEXTURA DE GRANO CINEMATOGRÁFICO (FILM GRAIN) */
+    .film-grain {
+      position: fixed;
+      inset: -200%;
+      width: 400%;
+      height: 400%;
+      pointer-events: none;
+      z-index: 9990;
+      opacity: 0.032;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      animation: grain 8s steps(10) infinite;
+    }
+
+    /* 2. CURSOR MAGNÉTICO CON HALO NEÓN */
+    @media (pointer: fine) {
+      body, a, button {
+        cursor: none;
+      }
+    }
+    #cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 8px;
+      height: 8px;
+      background: #ccff00;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 12px #ccff00;
+      transition: width 0.2s, height 0.2s, background 0.2s;
     }
-    ::-webkit-scrollbar-track {
+    #cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 38px;
+      height: 38px;
+      border: 1.5px solid rgba(184, 41, 255, 0.75);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+    #cursor-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 340px;
+      height: 340px;
+      background: radial-gradient(circle, rgba(184, 41, 255, 0.14) 0%, rgba(0, 240, 255, 0.05) 45%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+    }
+    body.cursor-hover #cursor-ring {
+      width: 62px;
+      height: 62px;
+      border-color: #00f0ff;
+      background: rgba(0, 240, 255, 0.08);
+    }
+    body.cursor-hover #cursor-dot {
+      width: 5px;
+      height: 5px;
+      background: #00f0ff;
+    }
+
+    /* 6. PRELOADER TELÓN CON MONOGRAMA LC */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      pointer-events: all;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .curtain-panel {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 50.5%;
       background: #05040a;
+      transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
     }
+    .curtain-top { top: 0; border-bottom: 1px solid rgba(184, 41, 255, 0.25); }
+    .curtain-bottom { bottom: 0; border-top: 1px solid rgba(0, 240, 255, 0.25); }
+    #preloader.loaded .curtain-top { transform: translateY(-100%); }
+    #preloader.loaded .curtain-bottom { transform: translateY(100%); }
+    #preloader.loaded .preloader-logo {
+      opacity: 0;
+      transform: scale(1.25);
+    }
+    .preloader-logo {
+      position: relative;
+      z-index: 10;
+      transition: opacity 0.45s ease, transform 0.65s ease;
+    }
+
+    /* 3. EFECTO TILT 3D + REFLEJO HOLOGRÁFICO */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.18s ease-out, box-shadow 0.4s ease, border-color 0.4s ease;
+      position: relative;
+    }
+    .holo-sheen {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background: radial-gradient(
+        circle at var(--mx, 50%) var(--my, 50%),
+        rgba(255, 255, 255, 0.22) 0%,
+        rgba(184, 41, 255, 0.14) 25%,
+        rgba(0, 240, 255, 0.12) 45%,
+        transparent 70%
+      );
+      mix-blend-mode: screen;
+      z-index: 20;
+    }
+    .tilt-card:hover .holo-sheen {
+      opacity: 1;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #05040a; }
     ::-webkit-scrollbar-thumb {
       background: linear-gradient(180deg, #b829ff, #00f0ff);
       border-radius: 9999px;
@@ -82,23 +219,14 @@
       -webkit-mask-image: radial-gradient(ellipse 78% 75% at 50% 50%, #000 52%, transparent 98%);
       mask-image: radial-gradient(ellipse 78% 75% at 50% 50%, #000 52%, transparent 98%);
     }
-
     .fade-vertical {
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
     }
-
-    .fade-bottom {
-      -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
-      mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
-    }
-
     .fade-card-img {
       -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
       mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
     }
-
-    /* Fondos oscuros de logos integrados con screen/lighten */
     .blend-dark-bg {
       mix-blend-mode: lighten;
     }
@@ -111,7 +239,6 @@
       border: 1px solid rgba(184, 41, 255, 0.18);
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
     }
-
     .glass-panel:hover {
       border-color: rgba(184, 41, 255, 0.48);
       box-shadow: 0 20px 60px rgba(184, 41, 255, 0.16);
@@ -122,7 +249,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
     .text-gradient-acid {
       background: linear-gradient(135deg, #ccff00 10%, #00f0ff 95%);
       -webkit-background-clip: text;
@@ -141,9 +267,7 @@
     }
 
     /* Ecualizador animado */
-    .eq-bar {
-      animation: eqBounce 0.9s ease-in-out infinite alternate;
-    }
+    .eq-bar { animation: eqBounce 0.9s ease-in-out infinite alternate; }
     .eq-bar:nth-child(2) { animation-delay: 0.2s; }
     .eq-bar:nth-child(3) { animation-delay: 0.4s; }
     .eq-bar:nth-child(4) { animation-delay: 0.15s; }
@@ -156,6 +280,30 @@
   </style>
 </head>
 <body class="antialiased selection:bg-neonPurple selection:text-white">
+
+  <!-- 1. CAPA DE GRANO CINEMATOGRÁFICO -->
+  <div class="film-grain"></div>
+
+  <!-- 2. CURSOR MAGNÉTICO + HALO NEÓN -->
+  <div id="cursor-glow" class="hidden md:block"></div>
+  <div id="cursor-ring" class="hidden md:block"></div>
+  <div id="cursor-dot" class="hidden md:block"></div>
+
+  <!-- 6. PRELOADER TELÓN CON MONOGRAMA LC -->
+  <div id="preloader">
+    <div class="curtain-panel curtain-top"></div>
+    <div class="curtain-panel curtain-bottom"></div>
+    <div class="preloader-logo flex flex-col items-center gap-4">
+      <div class="relative">
+        <div class="absolute inset-0 bg-neonPurple/50 blur-2xl rounded-full animate-pulse"></div>
+        <img src="img/logo-monograma.png" alt="LC Loading" class="relative w-28 h-28 object-contain blend-dark-bg drop-shadow-[0_0_25px_rgba(0,240,255,0.8)]" />
+      </div>
+      <div class="w-40 h-1 bg-white/10 rounded-full overflow-hidden">
+        <div id="preloader-bar" class="h-full bg-gradient-to-r from-neonPurple via-neonAcid to-neonCyan w-0 transition-all duration-1000 ease-out"></div>
+      </div>
+      <span class="font-display text-[11px] tracking-[0.35em] text-gray-400 uppercase">LOS CHAMACOS RECORDS</span>
+    </div>
+  </div>
 
   <!-- Ambient Background Orbs -->
   <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -194,7 +342,6 @@
 
   <!-- ==================== 1. HERO CINEMATOGRÁFICO ==================== -->
   <section id="inicio" class="relative min-h-screen flex items-center justify-center pt-28 pb-20 overflow-hidden">
-    <!-- Foto de concierto difuminada en el fondo -->
     <div class="absolute inset-0 z-0">
       <img src="img/concierto-vivo.jpg" alt="Los Chamacos En Vivo" class="w-full h-full object-cover opacity-35 fade-vertical scale-105" />
       <div class="absolute inset-0 bg-gradient-to-b from-void via-void/50 to-void"></div>
@@ -203,7 +350,6 @@
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
       <div class="grid lg:grid-cols-12 gap-10 items-center">
-        <!-- Columna Izquierda: Logo Principal + Copy -->
         <div class="lg:col-span-7 text-center lg:text-left space-y-6">
           <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neonPurple/15 border border-neonPurple/40 text-xs font-bold tracking-widest uppercase text-purple-200">
             <span class="w-2 h-2 rounded-full bg-neonAcid animate-ping"></span>
@@ -228,7 +374,6 @@
           </div>
         </div>
 
-        <!-- Columna Derecha: Personaje + Sticker flotante -->
         <div class="lg:col-span-5 relative flex justify-center items-center">
           <div class="relative w-full max-w-md">
             <div class="absolute inset-0 bg-gradient-to-tr from-neonPurple/35 via-neonAcid/20 to-neonCyan/30 rounded-full blur-3xl"></div>
@@ -239,7 +384,6 @@
       </div>
     </div>
 
-    <!-- Difuminado inferior suave hacia la siguiente sección -->
     <div class="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-void to-transparent pointer-events-none"></div>
   </section>
 
@@ -261,7 +405,7 @@
     </div>
   </div>
 
-  <!-- ==================== 2. CATÁLOGO DE BEATS INTERACTIVO ==================== -->
+  <!-- ==================== 2. CATÁLOGO DE BEATS + SELECTOR DE LICENCIAS ==================== -->
   <section id="beats" class="relative py-28 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
@@ -270,42 +414,62 @@
         <img src="img/banner-beats.jpg" alt="Cyber Beat Leasing" class="w-full max-h-[340px] object-cover fade-edges-all mx-auto" />
       </div>
 
-      <div class="reveal flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      <div class="reveal flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
         <div>
           <span class="text-neonCyan font-bold tracking-widest text-xs uppercase">CATÁLOGO EXCLUSIVO</span>
           <h2 class="font-display text-3xl sm:text-5xl font-extrabold mt-1 text-gradient-cyber">
             BEATS DESTACADOS
           </h2>
         </div>
-        <p class="text-gray-400 max-w-md text-sm">
-          Haz clic en <strong class="text-white">Escuchar Preview</strong> para probar el beat con sintetizador en tiempo real o agrégalo directo a tu licencia.
-        </p>
+
+        <!-- 5. SELECTOR INTERACTIVO DE NIVELES DE LICENCIA -->
+        <div class="glass-panel p-1.5 rounded-2xl inline-flex flex-wrap gap-1 border-neonPurple/35">
+          <button onclick="setLicenseTier('basic', this)" class="tier-btn active-tier px-4 py-2.5 rounded-xl text-xs font-display font-bold tracking-wider uppercase transition-all bg-gradient-to-r from-neonPurple to-indigo-600 text-white shadow-[0_0_20px_rgba(184,41,255,0.45)]">
+            MP3 Lease • $29
+          </button>
+          <button onclick="setLicenseTier('pro', this)" class="tier-btn px-4 py-2.5 rounded-xl text-xs font-display font-bold tracking-wider uppercase transition-all text-gray-300 hover:text-white">
+            WAV + Stems • $59
+          </button>
+          <button onclick="setLicenseTier('exclusive', this)" class="tier-btn px-4 py-2.5 rounded-xl text-xs font-display font-bold tracking-wider uppercase transition-all text-gray-300 hover:text-white">
+            Exclusiva • $199
+          </button>
+        </div>
       </div>
 
-      <!-- Grid de 3 Beats -->
+      <!-- Barra Dinámica de Beneficios de la Licencia Seleccionada -->
+      <div id="license-perks-bar" class="reveal glass-panel rounded-2xl px-6 py-4 mb-12 flex flex-wrap items-center justify-between gap-4 border-neonCyan/30">
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 rounded-lg bg-neonCyan/15 text-neonCyan font-display font-extrabold text-xs uppercase" id="tier-badge">MP3 LEASE</span>
+          <span class="text-sm text-gray-200 font-medium" id="tier-desc">Archivo MP3 320kbps • Hasta 50,000 streams • Uso comercial en plataformas digitales</span>
+        </div>
+        <span class="text-xs text-neonAcid font-bold tracking-wider uppercase">Entrega Instantánea ✔</span>
+      </div>
+
+      <!-- Grid de 3 Beats con Tilt 3D + Reflejo Holográfico -->
       <div class="grid md:grid-cols-3 gap-8">
         <!-- BEAT 1: NEBULA -->
-        <div class="reveal glass-panel rounded-3xl overflow-hidden group transition-all duration-500 hover:-translate-y-2 flex flex-col">
+        <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="holo-sheen"></div>
           <div class="relative h-72 overflow-hidden">
             <img src="img/beat-nebula.jpg" alt="Nebula Beat" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-110" />
             <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-neonPurple/50 text-xs font-bold text-purple-200">
               140 BPM • F#m
             </div>
-            <button onclick="playPreview('NEBULA', 140, this)" class="play-btn absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
+            <button onclick="playPreview('NEBULA', 140, this)" class="play-btn relative z-30 absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
               <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between">
+          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex items-center justify-between">
                 <h3 class="font-display text-2xl font-extrabold text-white">NEBULA</h3>
-                <span class="text-neonAcid font-display font-extrabold text-xl">$29.99</span>
+                <span class="beat-price text-neonAcid font-display font-extrabold text-xl">$29.00</span>
               </div>
               <p class="text-gray-400 text-sm mt-2">Trap cósmico, bajos 808 profundos y sintetizadores espaciales envolventes.</p>
             </div>
             <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
-              <span class="text-xs text-gray-400">WAV + MP3 + Stems</span>
-              <button onclick="addToCart('Beat: NEBULA (Licencia Comercial)', 29.99)" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
+              <span class="beat-format text-xs text-gray-400">MP3 320kbps</span>
+              <button onclick="addBeatToCart('NEBULA')" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
                 + Adquirir
               </button>
             </div>
@@ -313,27 +477,28 @@
         </div>
 
         <!-- BEAT 2: 3AM -->
-        <div class="reveal glass-panel rounded-3xl overflow-hidden group transition-all duration-500 hover:-translate-y-2 flex flex-col">
+        <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="holo-sheen"></div>
           <div class="relative h-72 overflow-hidden">
             <img src="img/beat-3am.jpg" alt="3AM Beat" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-110" />
             <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-neonCyan/50 text-xs font-bold text-cyan-200">
               124 BPM • Cm
             </div>
-            <button onclick="playPreview('3AM', 124, this)" class="play-btn absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
+            <button onclick="playPreview('3AM', 124, this)" class="play-btn relative z-30 absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
               <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between">
+          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex items-center justify-between">
                 <h3 class="font-display text-2xl font-extrabold text-white">3AM</h3>
-                <span class="text-neonAcid font-display font-extrabold text-xl">$34.99</span>
+                <span class="beat-price text-neonAcid font-display font-extrabold text-xl">$29.00</span>
               </div>
               <p class="text-gray-400 text-sm mt-2">Vibe nocturno melódico ideal para sesiones de madrugada y voces atmosféricas.</p>
             </div>
             <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
-              <span class="text-xs text-gray-400">WAV + MP3 + Stems</span>
-              <button onclick="addToCart('Beat: 3AM (Licencia Comercial)', 34.99)" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
+              <span class="beat-format text-xs text-gray-400">MP3 320kbps</span>
+              <button onclick="addBeatToCart('3AM')" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
                 + Adquirir
               </button>
             </div>
@@ -341,27 +506,28 @@
         </div>
 
         <!-- BEAT 3: BROOKLYN 98 -->
-        <div class="reveal glass-panel rounded-3xl overflow-hidden group transition-all duration-500 hover:-translate-y-2 flex flex-col">
+        <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="holo-sheen"></div>
           <div class="relative h-72 overflow-hidden">
             <img src="img/beat-brooklyn98.jpg" alt="Brooklyn 98 Beat" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-110" />
             <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-neonAcid/50 text-xs font-bold text-lime-200">
               96 BPM • Am
             </div>
-            <button onclick="playPreview('BROOKLYN 98', 96, this)" class="play-btn absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
+            <button onclick="playPreview('BROOKLYN 98', 96, this)" class="play-btn relative z-30 absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
               <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between">
+          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex items-center justify-between">
                 <h3 class="font-display text-2xl font-extrabold text-white">BROOKLYN 98</h3>
-                <span class="text-neonAcid font-display font-extrabold text-xl">$39.99</span>
+                <span class="beat-price text-neonAcid font-display font-extrabold text-xl">$29.00</span>
               </div>
               <p class="text-gray-400 text-sm mt-2">Boom-bap callejero con texturas analógicas, baterías crudas y esencia clásica.</p>
             </div>
             <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
-              <span class="text-xs text-gray-400">Exclusivo / Stems</span>
-              <button onclick="addToCart('Beat: BROOKLYN 98 (Licencia Comercial)', 39.99)" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
+              <span class="beat-format text-xs text-gray-400">MP3 320kbps</span>
+              <button onclick="addBeatToCart('BROOKLYN 98')" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
                 + Adquirir
               </button>
             </div>
@@ -391,9 +557,8 @@
     </div>
   </section>
 
-  <!-- ==================== 3. EL ESTUDIO & CREW (FUSIÓN ATMOSFÉRICA) ==================== -->
+  <!-- ==================== 3. EL ESTUDIO & CREW (SCROLL PARALLAX MULTICAPA) ==================== -->
   <section id="estudio" class="relative py-28 overflow-hidden">
-    <!-- Fondo difuminado del equipo en el estudio -->
     <div class="absolute inset-0 z-0 pointer-events-none">
       <img src="img/estudio-equipo.jpg" alt="Equipo Los Chamacos" class="w-full h-full object-cover opacity-20 fade-vertical" />
       <div class="absolute inset-0 bg-gradient-to-b from-void via-void/75 to-void"></div>
@@ -410,15 +575,15 @@
         </p>
       </div>
 
-      <!-- Mosaico Orgánico Difuminado (Sin bordes duros) -->
+      <!-- 4. MOSAICO CON PARALLAX MULTICAPA -->
       <div class="grid lg:grid-cols-12 gap-8 items-center">
-        <!-- Foto grande izquierda: Equipo en el estudio -->
-        <div class="reveal lg:col-span-7 relative">
+        <!-- Capa rápida (speed -0.06) -->
+        <div class="reveal lg:col-span-7 relative parallax-layer" data-speed="-0.05">
           <img src="img/estudio-equipo.jpg" alt="Los Chamacos en el estudio" class="w-full rounded-3xl object-cover fade-edges-all shadow-2xl" />
         </div>
 
-        <!-- Columna derecha: Sintetizador + Sesión -->
-        <div class="reveal lg:col-span-5 space-y-8">
+        <!-- Capa inversa (speed +0.05) -->
+        <div class="reveal lg:col-span-5 space-y-8 parallax-layer" data-speed="0.05">
           <div class="relative">
             <img src="img/estudio-sintetizador.jpg" alt="Sintetizador Analógico" class="w-full h-60 object-cover fade-edges-all" />
             <div class="mt-2 px-2">
@@ -437,37 +602,36 @@
         </div>
       </div>
 
-      <!-- Segunda fila del estudio: Productor + Grupo Día + Grupo Noche + Firma -->
-      <div class="grid md:grid-cols-3 gap-8 mt-14 items-center">
-        <div class="reveal text-center">
+      <!-- Segunda fila con velocidades escalonadas -->
+      <div class="grid md:grid-cols-3 gap-8 mt-20 items-center">
+        <div class="reveal text-center parallax-layer" data-speed="-0.04">
           <img src="img/estudio-productor.jpg" alt="Productor en consola" class="w-full h-72 object-cover fade-edges-all" />
           <p class="text-xs uppercase tracking-widest text-neonCyan font-bold mt-2">Producción Ejecutiva</p>
         </div>
 
-        <div class="reveal text-center">
+        <div class="reveal text-center parallax-layer" data-speed="0.04">
           <img src="img/estudio-grupo.jpg" alt="El Crew afuera del estudio" class="w-full h-72 object-cover fade-edges-all" />
           <p class="text-xs uppercase tracking-widest text-neonPurple font-bold mt-2">La Hermandad LC</p>
         </div>
 
-        <div class="reveal text-center">
+        <div class="reveal text-center parallax-layer" data-speed="-0.04">
           <img src="img/estudio-grupo-noche.jpg" alt="Sesión nocturna en la ciudad" class="w-full h-72 object-cover fade-edges-all" />
           <p class="text-xs uppercase tracking-widest text-neonAcid font-bold mt-2">Inspiración 24/7</p>
         </div>
       </div>
 
       <!-- Firma Digital centrada y difuminada -->
-      <div class="reveal mt-16 flex flex-col items-center justify-center text-center">
+      <div class="reveal mt-20 flex flex-col items-center justify-center text-center">
         <img src="img/firma-digital.png" alt="Firma Los Chamacos" class="h-24 sm:h-28 object-contain blend-dark-bg opacity-90" />
         <span class="text-xs tracking-[0.3em] uppercase text-gray-500 mt-2">Sello Oficial • Los Chamacos Records</span>
       </div>
     </div>
   </section>
 
-  <!-- ==================== 4. COLECCIÓN MERCH STREETWEAR ==================== -->
+  <!-- ==================== 4. COLECCIÓN MERCH STREETWEAR (CON TILT 3D + HOLO) ==================== -->
   <section id="merch" class="relative py-28 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-      <!-- Banner Promo Poster integrado con difuminado -->
       <div class="reveal grid lg:grid-cols-12 gap-10 items-center mb-20">
         <div class="lg:col-span-5">
           <img src="img/promo-poster.jpg" alt="Promo Merch Los Chamacos" class="w-full max-w-md mx-auto object-cover fade-edges-all" />
@@ -488,16 +652,17 @@
         </div>
       </div>
 
-      <!-- Grid de Productos Merch (6 artículos) -->
+      <!-- Grid de Productos Merch (6 artículos con Tilt 3D + Holo Sheen) -->
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
         <!-- Item 1: Hoodie Negro -->
-        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+        <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="holo-sheen"></div>
           <div class="relative h-72 overflow-hidden">
             <img src="img/merch-hoodie-negro.jpg" alt="Hoodie Los Chamacos Negro" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
             <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-neonPurple text-white text-xs font-bold">TOP VENTAS</span>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between">
+          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex justify-between items-center">
                 <h3 class="font-display text-xl font-bold text-white">Hoodie LC Neon</h3>
@@ -512,11 +677,12 @@
         </div>
 
         <!-- Item 2: Camiseta Negra Frente -->
-        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+        <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="holo-sheen"></div>
           <div class="relative h-72 overflow-hidden">
             <img src="img/merch-camiseta-negra.jpg" alt="Camiseta Negra Frente" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between">
+          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex justify-between items-center">
                 <h3 class="font-display text-xl font-bold text-white">Tee Minimal Glow</h3>
@@ -531,12 +697,13 @@
         </div>
 
         <!-- Item 3: Camiseta Espalda -->
-        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+        <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="holo-sheen"></div>
           <div class="relative h-72 overflow-hidden">
             <img src="img/merch-camiseta-espalda.jpg" alt="Camiseta Espalda Gráfico" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
             <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-neonCyan text-black text-xs font-bold">EDICIÓN TOUR</span>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between">
+          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex justify-between items-center">
                 <h3 class="font-display text-xl font-bold text-white">Tee Full Back Art</h3>
@@ -551,11 +718,12 @@
         </div>
 
         <!-- Item 4: Gorra Negra -->
-        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+        <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="holo-sheen"></div>
           <div class="relative h-72 overflow-hidden">
             <img src="img/merch-gorra-negra.jpg" alt="Gorra Negra LC" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between">
+          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex justify-between items-center">
                 <h3 class="font-display text-xl font-bold text-white">Snapback Monograma LC</h3>
@@ -570,11 +738,12 @@
         </div>
 
         <!-- Item 5: Termo Negro -->
-        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+        <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="holo-sheen"></div>
           <div class="relative h-72 overflow-hidden">
             <img src="img/merch-termo-negro.jpg" alt="Termo Estudio Negro" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between">
+          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex justify-between items-center">
                 <h3 class="font-display text-xl font-bold text-white">Termo Studio Matte</h3>
@@ -589,11 +758,12 @@
         </div>
 
         <!-- Item 6: Taza + Stickers -->
-        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+        <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="holo-sheen"></div>
           <div class="relative h-72 overflow-hidden">
             <img src="img/merch-taza-stickers.jpg" alt="Pack Taza y Stickers" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between">
+          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex justify-between items-center">
                 <h3 class="font-display text-xl font-bold text-white">Pack Taza + Stickers</h3>
@@ -621,7 +791,6 @@
         </h2>
       </div>
 
-      <!-- Banner Checkout difuminado sin bordes bruscos -->
       <div class="reveal relative rounded-3xl overflow-hidden">
         <img src="img/banner-checkout.jpg" alt="Pago 100% Seguro Encriptación SSL 256 Bits" class="w-full max-w-4xl mx-auto object-cover fade-edges-all" />
       </div>
@@ -685,7 +854,140 @@
 
   <!-- ==================== SCRIPTS DE INTERACTIVIDAD ==================== -->
   <script>
-    // 1. Scroll Reveal Animation
+    // 6. PRELOADER TELÓN CON MONOGRAMA LC
+    window.addEventListener('DOMContentLoaded', () => {
+      const bar = document.getElementById('preloader-bar');
+      const preloader = document.getElementById('preloader');
+      if (bar) bar.style.width = '100%';
+      setTimeout(() => {
+        if (preloader) {
+          preloader.classList.add('loaded');
+          preloader.style.pointerEvents = 'none';
+          setTimeout(() => preloader.remove(), 950);
+        }
+      }, 1150);
+    });
+
+    // 2. CURSOR MAGNÉTICO CON HALO NEÓN
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    const glow = document.getElementById('cursor-glow');
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+    let ringX = mouseX, ringY = mouseY;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (dot) {
+        dot.style.left = mouseX + 'px';
+        dot.style.top = mouseY + 'px';
+      }
+      if (glow) {
+        glow.style.left = mouseX + 'px';
+        glow.style.top = mouseY + 'px';
+      }
+    });
+
+    function animateCursor() {
+      ringX += (mouseX - ringX) * 0.16;
+      ringY += (mouseY - ringY) * 0.16;
+      if (ring) {
+        ring.style.left = ringX + 'px';
+        ring.style.top = ringY + 'px';
+      }
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    document.querySelectorAll('a, button, .tilt-card').forEach((el) => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+
+    // 3. EFECTO TILT 3D + REFLEJO HOLOGRÁFICO EN TARJETAS
+    document.querySelectorAll('.tilt-card').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -6;
+        const rotateY = ((x - centerX) / centerX) * 6;
+
+        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+        card.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
+        card.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      });
+    });
+
+    // 4. SCROLL PARALLAX MULTICAPA EN "EL ESTUDIO"
+    const parallaxLayers = document.querySelectorAll('.parallax-layer');
+    window.addEventListener('scroll', () => {
+      if (window.innerWidth < 768) return;
+      parallaxLayers.forEach((layer) => {
+        const speed = parseFloat(layer.getAttribute('data-speed')) || 0;
+        const rect = layer.getBoundingClientRect();
+        const offset = (rect.top - window.innerHeight / 2) * speed;
+        layer.style.transform = `translateY(${offset}px)`;
+      });
+    }, { passive: true });
+
+    // 5. SELECTOR INTERACTIVO DE NIVELES DE LICENCIA
+    const licenseTiers = {
+      basic: {
+        label: 'MP3 Lease',
+        price: 29.00,
+        format: 'MP3 320kbps',
+        desc: 'Archivo MP3 320kbps • Hasta 50,000 streams • Uso comercial en plataformas digitales'
+      },
+      pro: {
+        label: 'WAV + Stems',
+        price: 59.00,
+        format: 'WAV 24-bit + Trackouts',
+        desc: 'WAV sin comprimir + Pistas separadas (Stems) • Streams ilimitados • Radio y shows en vivo'
+      },
+      exclusive: {
+        label: 'Derechos Exclusivos',
+        price: 199.00,
+        format: 'Propiedad Total + Contrato',
+        desc: 'Propiedad 100% exclusiva • El beat se retira de la tienda • WAV + Stems + Contrato firmado'
+      }
+    };
+    let currentTierKey = 'basic';
+
+    function setLicenseTier(tierKey, btn) {
+      currentTierKey = tierKey;
+      const tier = licenseTiers[tierKey];
+
+      document.querySelectorAll('.tier-btn').forEach((b) => {
+        b.classList.remove('bg-gradient-to-r', 'from-neonPurple', 'to-indigo-600', 'text-white', 'shadow-[0_0_20px_rgba(184,41,255,0.45)]');
+        b.classList.add('text-gray-300');
+      });
+      btn.classList.remove('text-gray-300');
+      btn.classList.add('bg-gradient-to-r', 'from-neonPurple', 'to-indigo-600', 'text-white', 'shadow-[0_0_20px_rgba(184,41,255,0.45)]');
+
+      document.getElementById('tier-badge').textContent = tier.label.toUpperCase();
+      document.getElementById('tier-desc').textContent = tier.desc;
+
+      document.querySelectorAll('.beat-price').forEach((el) => {
+        el.textContent = `$${tier.price.toFixed(2)}`;
+      });
+      document.querySelectorAll('.beat-format').forEach((el) => {
+        el.textContent = tier.format;
+      });
+    }
+
+    function addBeatToCart(beatName) {
+      const tier = licenseTiers[currentTierKey];
+      addToCart(`Beat: ${beatName} (${tier.label})`, tier.price);
+    }
+
+    // Scroll Reveal Animation (Original)
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -696,7 +998,7 @@
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-    // 2. Sintetizador WebAudio para Preview real de los Beats
+    // Sintetizador WebAudio para Preview real de los Beats (Original)
     let audioCtx = null;
     let beatInterval = null;
 
@@ -740,7 +1042,7 @@
       document.getElementById('audio-bar').classList.add('hidden');
     }
 
-    // 3. Lógica del Carrito
+    // Lógica del Carrito (Original)
     let cart = [];
 
     function toggleCart() {
