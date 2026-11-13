@@ -2,11 +2,11 @@
 <html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LOS CHAMACOS RECORDS | Cyber Beat Leasing & Streetwear</title>
-  <meta name="description" content="Sello discográfico independiente, Cyber Beat Leasing con entrega instantánea WAV + Stems y colección oficial de streetwear Los Chamacos Records." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>LOS CHAMACOS RECORDS | Cyber-Suite Studio, Beats & Streetwear</title>
+  <meta name="description" content="Sello discográfico independiente, Cyber Beat Leasing, Studio Workstation interactivo y colección oficial de streetwear Los Chamacos Records." />
   <meta property="og:title" content="LOS CHAMACOS RECORDS | Cyber Beat Leasing & Streetwear" />
-  <meta property="og:description" content="Descarga beats exclusivos con licencias comerciales inmediatas y viste el movimiento." />
+  <meta property="og:description" content="Produce, graba, descarga beats con licencias comerciales inmediatas y viste el movimiento." />
   <meta property="og:image" content="img/promo-poster.jpg" />
   <link rel="icon" type="image/png" href="img/favicon.png" />
 
@@ -21,6 +21,11 @@
     tailwind.config = {
       theme: {
         extend: {
+          screens: {
+            'xs': '375px',   // iPhone SE
+            'fold': '670px', // Pixel 9 Pro Fold / Galaxy Z Fold 6 abiertos
+            'pro': '960px',  // Surface Pro 10 / iPad Pro
+          },
           fontFamily: {
             sans: ['Outfit', 'sans-serif'],
             display: ['Syne', 'sans-serif'],
@@ -34,36 +39,18 @@
           },
           animation: {
             'float': 'float 6s ease-in-out infinite',
-            'float-slow': 'float 9s ease-in-out infinite',
-            'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
-            'spin-slow': 'spin 18s linear infinite',
+            'spin-slow': 'spin 20s linear infinite',
+            'spin-vinyl': 'spin 4s linear infinite',
             'marquee': 'marquee 28s linear infinite',
-            'grain': 'grain 8s steps(10) infinite',
           },
           keyframes: {
             float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-14px)' },
-            },
-            pulseGlow: {
-              '0%, 100%': { opacity: '0.55', transform: 'scale(1)' },
-              '50%': { opacity: '0.9', transform: 'scale(1.06)' },
+              '0%, 100%': { transform: 'translate3d(0, 0px, 0)' },
+              '50%': { transform: 'translate3d(0, -10px, 0)' },
             },
             marquee: {
-              '0%': { transform: 'translateX(0%)' },
-              '100%': { transform: 'translateX(-50%)' },
-            },
-            grain: {
-              '0%, 100%': { transform: 'translate(0, 0)' },
-              '10%': { transform: 'translate(-5%, -10%)' },
-              '20%': { transform: 'translate(-15%, 5%)' },
-              '30%': { transform: 'translate(7%, -25%)' },
-              '40%': { transform: 'translate(-5%, 25%)' },
-              '50%': { transform: 'translate(-15%, 10%)' },
-              '60%': { transform: 'translate(15%, 0%)' },
-              '70%': { transform: 'translate(0%, 15%)' },
-              '80%': { transform: 'translate(3%, 35%)' },
-              '90%': { transform: 'translate(-10%, 10%)' },
+              '0%': { transform: 'translate3d(0%, 0, 0)' },
+              '100%': { transform: 'translate3d(-50%, 0, 0)' },
             }
           }
         }
@@ -72,7 +59,6 @@
   </script>
 
   <style>
-    /* TEMAS DE ILUMINACIÓN DE ESTUDIO */
     :root, [data-theme="purple"] {
       --void: #05040a;
       --accent-primary: #b829ff;
@@ -91,472 +77,517 @@
       --accent-secondary: #ffffff;
       --accent-tertiary: #b829ff;
     }
+    [data-theme="midnight"] {
+      --void: #030614;
+      --accent-primary: #3b82f6;
+      --accent-secondary: #38bdf8;
+      --accent-tertiary: #a855f7;
+    }
+    [data-theme="brooklyn"] {
+      --void: #0a0603;
+      --accent-primary: #f59e0b;
+      --accent-secondary: #ef4444;
+      --accent-tertiary: #fde047;
+    }
 
-    body {
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
       background-color: var(--void);
       color: #f4f4f8;
-      overflow-x: hidden;
-      transition: background-color 0.6s ease;
+      overflow-x: clip;
+      width: 100%;
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color 0.5s ease;
     }
 
-    /* FILM GRAIN */
+    /* TIPOGRAFÍA FLUIDA PARA CUALQUIER PANTALLA (375px a 4K) */
+    .hero-title-fluid {
+      font-size: clamp(2rem, 5.2vw, 3.75rem);
+      line-height: 1.08;
+    }
+    .section-title-fluid {
+      font-size: clamp(1.75rem, 4.5vw, 3.25rem);
+      line-height: 1.12;
+    }
+
+    /* TEXTURA FILM GRAIN ULTRALIGERA (SIN LAG DE SVG) */
     .film-grain {
       position: fixed;
-      inset: -200%;
-      width: 400%;
-      height: 400%;
+      inset: 0;
       pointer-events: none;
       z-index: 9990;
-      opacity: 0.032;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      animation: grain 8s steps(10) infinite;
+      opacity: 0.035;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 0);
+      background-size: 4px 4px;
+    }
+    body.eco-mode .film-grain,
+    body.eco-mode #starfield-canvas {
+      display: none !important;
     }
 
-    /* CURSOR MAGNÉTICO */
-    @media (pointer: fine) {
+    /* CURSOR MAGNÉTICO SOLO EN DISPOSITIVOS CON MOUSE */
+    @media (hover: hover) and (pointer: fine) {
       body, a, button { cursor: none; }
+      #cursor-dot {
+        position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+        background: var(--accent-secondary); border-radius: 50%;
+        pointer-events: none; z-index: 9999;
+        will-change: transform;
+        box-shadow: 0 0 10px var(--accent-secondary);
+      }
+      #cursor-ring {
+        position: fixed; top: 0; left: 0; width: 34px; height: 34px;
+        border: 1.5px solid var(--accent-primary); border-radius: 50%;
+        pointer-events: none; z-index: 9998;
+        will-change: transform;
+        transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+      }
+      body.cursor-hover #cursor-ring {
+        width: 52px; height: 52px; border-color: var(--accent-tertiary);
+      }
     }
-    #cursor-dot {
-      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
-      background: var(--accent-secondary); border-radius: 50%;
-      pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
-      box-shadow: 0 0 12px var(--accent-secondary);
-      transition: width 0.2s, height 0.2s;
-    }
-    #cursor-ring {
-      position: fixed; top: 0; left: 0; width: 38px; height: 38px;
-      border: 1.5px solid var(--accent-primary); border-radius: 50%;
-      pointer-events: none; z-index: 9998; transform: translate(-50%, -50%);
-      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-    }
-    #cursor-glow {
-      position: fixed; top: 0; left: 0; width: 340px; height: 340px;
-      background: radial-gradient(circle, rgba(184, 41, 255, 0.14) 0%, rgba(0, 240, 255, 0.05) 45%, transparent 70%);
-      border-radius: 50%; pointer-events: none; z-index: 1; transform: translate(-50%, -50%);
-    }
-    body.cursor-hover #cursor-ring {
-      width: 62px; height: 62px;
-      border-color: var(--accent-tertiary);
-      background: rgba(0, 240, 255, 0.08);
+    @media (pointer: coarse) {
+      #cursor-dot, #cursor-ring { display: none !important; }
     }
 
-    /* PRELOADER */
-    #preloader {
-      position: fixed; inset: 0; z-index: 10000;
-      display: flex; align-items: center; justify-content: center;
+    .click-ripple {
+      position: fixed; border-radius: 50%; pointer-events: none; z-index: 9997;
+      border: 2px solid var(--accent-tertiary);
+      transform: translate(-50%, -50%) scale(0);
+      animation: rippleOut 0.55s ease-out forwards;
     }
-    .curtain-panel {
-      position: absolute; left: 0; right: 0; height: 50.5%;
-      background: #05040a;
-      transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+    @keyframes rippleOut {
+      to { transform: translate(-50%, -50%) scale(3.8); opacity: 0; }
     }
+
+    /* PRELOADER RÁPIDO */
+    #preloader { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; }
+    .curtain-panel { position: absolute; left: 0; right: 0; height: 50.5%; background: #05040a; transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1); will-change: transform; }
     .curtain-top { top: 0; border-bottom: 1px solid rgba(184, 41, 255, 0.25); }
     .curtain-bottom { bottom: 0; border-top: 1px solid rgba(0, 240, 255, 0.25); }
-    #preloader.loaded .curtain-top { transform: translateY(-100%); }
-    #preloader.loaded .curtain-bottom { transform: translateY(100%); }
-    #preloader.loaded .preloader-logo { opacity: 0; transform: scale(1.25); }
-    .preloader-logo { position: relative; z-index: 10; transition: opacity 0.45s ease, transform 0.65s ease; }
+    #preloader.loaded .curtain-top { transform: translate3d(0, -100%, 0); }
+    #preloader.loaded .curtain-bottom { transform: translate3d(0, 100%, 0); }
+    #preloader.loaded .preloader-logo { opacity: 0; transform: scale(1.15); }
+    .preloader-logo { position: relative; z-index: 10; transition: opacity 0.35s ease, transform 0.5s ease; }
 
-    /* TILT 3D + HOLO SHEEN */
+    /* PANELES OPTIMIZADOS (SIN SATURAR GPU EN CELULARES) */
+    .glass-panel {
+      background: linear-gradient(145deg, rgba(22, 18, 42, 0.88), rgba(10, 9, 20, 0.94));
+      border: 1px solid rgba(184, 41, 255, 0.22);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+      contain: layout style;
+    }
+    @media (min-width: 1024px) {
+      .glass-panel {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+      .glass-panel:hover {
+        border-color: var(--accent-primary);
+      }
+    }
+
+    /* TILT 3D SOLO EN ESCRITORIO */
     .tilt-card {
-      transform-style: preserve-3d;
-      transition: transform 0.18s ease-out, box-shadow 0.4s ease, border-color 0.4s ease;
       position: relative;
+      transition: transform 0.2s ease-out, border-color 0.3s ease;
     }
     .holo-sheen {
-      position: absolute; inset: 0; pointer-events: none; opacity: 0;
-      transition: opacity 0.3s ease;
-      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.22) 0%, rgba(184,41,255,0.14) 25%, rgba(0,240,255,0.12) 45%, transparent 70%);
-      mix-blend-mode: screen; z-index: 20;
+      position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.25s ease;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.18) 0%, rgba(184,41,255,0.12) 30%, transparent 68%);
+      z-index: 20;
     }
-    .tilt-card:hover .holo-sheen { opacity: 1; }
+    @media (hover: hover) and (pointer: fine) {
+      .tilt-card:hover .holo-sheen { opacity: 1; }
+    }
 
     /* MÁSCARAS DE DIFUMINADO */
     .fade-edges-all {
-      -webkit-mask-image: radial-gradient(ellipse 78% 75% at 50% 50%, #000 52%, transparent 98%);
-      mask-image: radial-gradient(ellipse 78% 75% at 50% 50%, #000 52%, transparent 98%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 78% at 50% 50%, #000 54%, transparent 98%);
+      mask-image: radial-gradient(ellipse 80% 78% at 50% 50%, #000 54%, transparent 98%);
     }
     .fade-vertical {
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
-      mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
     }
     .fade-card-img {
-      -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
-      mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
     }
     .blend-dark-bg { mix-blend-mode: lighten; }
 
-    .glass-panel {
-      background: linear-gradient(145deg, rgba(20, 16, 38, 0.68), rgba(8, 7, 16, 0.88));
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(184, 41, 255, 0.2);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
-    }
-    .glass-panel:hover {
-      border-color: var(--accent-primary);
-    }
-
     .text-gradient-cyber {
       background: linear-gradient(135deg, #ffffff 10%, var(--accent-primary) 55%, var(--accent-tertiary) 95%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .text-gradient-acid {
       background: linear-gradient(135deg, var(--accent-secondary) 10%, var(--accent-tertiary) 95%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
-    .glitch-hover:hover {
-      text-shadow: 2px 0 var(--accent-tertiary), -2px 0 var(--accent-primary);
+    .synth-grid {
+      background-image:
+        linear-gradient(to right, rgba(184, 41, 255, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 240, 255, 0.2) 1px, transparent 1px);
+      background-size: 44px 44px;
+      transform: perspective(400px) rotateX(62deg);
+      transform-origin: bottom;
     }
 
     .reveal {
       opacity: 0;
-      transform: translateY(36px) scale(0.98);
-      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translate3d(0, 24px, 0);
+      transition: opacity 0.65s ease-out, transform 0.65s ease-out;
+      will-change: opacity, transform;
     }
-    .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
+    .reveal.active {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
 
-    ::-webkit-scrollbar { width: 8px; }
+    /* SOPORTE PLEGABLES (FOLDABLES DUAL-SCREEN) */
+    @media (horizontal-viewport-segments: 2) {
+      .fold-split-grid {
+        display: grid;
+        grid-template-columns: env(viewport-segment-width 0 0) env(viewport-segment-width 1 0);
+        gap: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0));
+      }
+    }
+
+    /* SAFE AREAS PARA IPHONE 16 / PRO MAX / PIXEL / GALAXY */
+    .safe-bottom-nav {
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+    }
+    .safe-top-header {
+      padding-top: max(0.65rem, env(safe-area-inset-top));
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #05040a; }
     ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--accent-primary), var(--accent-tertiary)); border-radius: 9999px; }
   </style>
 </head>
-<body class="antialiased selection:bg-neonPurple selection:text-white pb-24" data-theme="purple">
+<body class="antialiased selection:bg-neonPurple selection:text-white pb-28 sm:pb-24" data-theme="purple">
 
-  <!-- BARRA DE PROGRESO DE SCROLL NEÓN -->
+  <!-- STARFIELD CÓSMICO LIGERO -->
+  <canvas id="starfield-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-50"></canvas>
+
+  <!-- BARRA DE PROGRESO DE SCROLL -->
   <div class="fixed top-0 left-0 right-0 h-1 z-[60] bg-white/5">
-    <div id="scroll-progress" class="h-full bg-gradient-to-r from-neonPurple via-neonAcid to-neonCyan w-0 transition-all duration-75"></div>
+    <div id="scroll-progress" class="h-full bg-gradient-to-r from-neonPurple via-neonAcid to-neonCyan w-0"></div>
   </div>
 
   <!-- FILM GRAIN & CURSOR -->
   <div class="film-grain"></div>
-  <div id="cursor-glow" class="hidden md:block"></div>
-  <div id="cursor-ring" class="hidden md:block"></div>
-  <div id="cursor-dot" class="hidden md:block"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-dot"></div>
 
   <!-- PRELOADER TELÓN -->
   <div id="preloader">
     <div class="curtain-panel curtain-top"></div>
     <div class="curtain-panel curtain-bottom"></div>
-    <div class="preloader-logo flex flex-col items-center gap-4">
-      <div class="relative">
-        <div class="absolute inset-0 bg-neonPurple/50 blur-2xl rounded-full animate-pulse"></div>
-        <img src="img/logo-monograma.png" alt="LC Loading" class="relative w-28 h-28 object-contain blend-dark-bg" />
+    <div class="preloader-logo flex flex-col items-center gap-3 px-4 text-center">
+      <img src="img/logo-monograma.png" alt="LC Loading" class="w-24 h-24 object-contain blend-dark-bg" />
+      <div class="w-36 h-1 bg-white/10 rounded-full overflow-hidden">
+        <div id="preloader-bar" class="h-full bg-gradient-to-r from-neonPurple via-neonAcid to-neonCyan w-0 transition-all duration-700 ease-out"></div>
       </div>
-      <div class="w-40 h-1 bg-white/10 rounded-full overflow-hidden">
-        <div id="preloader-bar" class="h-full bg-gradient-to-r from-neonPurple via-neonAcid to-neonCyan w-0 transition-all duration-1000 ease-out"></div>
-      </div>
-      <span class="font-display text-[11px] tracking-[0.35em] text-gray-400 uppercase">LOS CHAMACOS RECORDS</span>
+      <span class="font-display text-[10px] tracking-[0.3em] text-gray-400 uppercase">LOS CHAMACOS RECORDS</span>
     </div>
   </div>
 
-  <!-- INDICADOR LATERAL FLOTANTE DE CAPÍTULOS -->
-  <aside class="hidden xl:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 flex-col gap-4 text-[10px] font-display font-bold tracking-widest uppercase">
-    <a href="#inicio" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white transition-colors" data-target="inicio">
-      <span>01 INICIO</span><span class="w-2 h-2 rounded-full bg-current"></span>
-    </a>
-    <a href="#beats" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white transition-colors" data-target="beats">
-      <span>02 BEATS</span><span class="w-2 h-2 rounded-full bg-current"></span>
-    </a>
-    <a href="#estudio" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white transition-colors" data-target="estudio">
-      <span>03 ESTUDIO</span><span class="w-2 h-2 rounded-full bg-current"></span>
-    </a>
-    <a href="#merch" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white transition-colors" data-target="merch">
-      <span>04 MERCH</span><span class="w-2 h-2 rounded-full bg-current"></span>
-    </a>
-    <a href="#servicios" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white transition-colors" data-target="servicios">
-      <span>05 CUSTOM</span><span class="w-2 h-2 rounded-full bg-current"></span>
-    </a>
+  <!-- INDICADOR LATERAL FLOTANTE (SOLO ESCRITORIO XL) -->
+  <aside class="hidden xl:flex fixed right-4 top-1/2 -translate-y-1/2 z-40 flex-col gap-3 text-[10px] font-display font-bold tracking-widest uppercase">
+    <a href="#inicio" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white" data-target="inicio"><span>01 INICIO</span><span class="w-2 h-2 rounded-full bg-current"></span></a>
+    <a href="#beats" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white" data-target="beats"><span>02 BEATS</span><span class="w-2 h-2 rounded-full bg-current"></span></a>
+    <a href="#workstation" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white" data-target="workstation"><span>03 STUDIO LAB</span><span class="w-2 h-2 rounded-full bg-current"></span></a>
+    <a href="#estudio" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white" data-target="estudio"><span>04 CREW</span><span class="w-2 h-2 rounded-full bg-current"></span></a>
+    <a href="#merch" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white" data-target="merch"><span>05 MERCH</span><span class="w-2 h-2 rounded-full bg-current"></span></a>
+    <a href="#comunidad" class="chapter-dot flex items-center justify-end gap-2 text-gray-500 hover:text-white" data-target="comunidad"><span>06 COMUNIDAD</span><span class="w-2 h-2 rounded-full bg-current"></span></a>
   </aside>
 
-  <!-- Ambient Background Orbs -->
-  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-    <div class="absolute -top-40 -left-40 w-[520px] h-[520px] rounded-full bg-neonPurple/20 blur-[150px] animate-pulse-glow"></div>
-    <div class="absolute top-[40%] -right-40 w-[480px] h-[480px] rounded-full bg-neonCyan/15 blur-[160px] animate-pulse-glow"></div>
-    <div class="absolute bottom-0 left-1/3 w-[500px] h-[400px] rounded-full bg-neonAcid/10 blur-[160px]"></div>
-  </div>
-
-  <!-- NAVBAR FLOTANTE -->
-  <header id="navbar" class="fixed top-1 inset-x-0 z-50 transition-all duration-500">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3">
-      <nav class="glass-panel rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between gap-2">
-        <!-- Logo con Easter Egg (5 clics) -->
-        <button onclick="triggerLogoEasterEgg()" class="flex items-center gap-3 group text-left" title="Haz clic 5 veces para sorpresa">
-          <img src="img/logo-monograma.png" alt="LC Monograma" class="h-10 w-10 object-contain blend-dark-bg transition-transform duration-300 group-hover:scale-110" />
-          <span class="font-display font-extrabold tracking-wider text-sm sm:text-base text-white">
+  <!-- NAVBAR SUPERIOR RESPONSIVE (iPhone SE hasta Surface Pro / Desktop) -->
+  <header id="navbar" class="fixed top-0 inset-x-0 z-50 safe-top-header">
+    <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
+      <nav class="glass-panel rounded-2xl px-3 sm:px-5 py-2 flex items-center justify-between gap-1.5">
+        <button onclick="triggerLogoEasterEgg()" class="flex items-center gap-2 text-left min-h-[40px]" title="5 clics para secreto">
+          <img src="img/logo-monograma.png" alt="LC Monograma" class="h-8 w-8 sm:h-9 sm:w-9 object-contain blend-dark-bg shrink-0" />
+          <span class="font-display font-extrabold tracking-wider text-xs sm:text-sm text-white truncate">
             LOS <span class="text-neonPurple">CHAMACOS</span>
           </span>
         </button>
 
-        <div class="hidden lg:flex items-center gap-7 text-xs font-bold tracking-widest text-gray-300 uppercase">
+        <!-- Links visibles desde Tablet / Surface Pro (pro: 960px) -->
+        <div class="hidden pro:flex items-center gap-5 text-[11px] font-bold tracking-widest text-gray-300 uppercase">
           <a href="#beats" class="hover:text-neonCyan transition-colors">Beats</a>
-          <a href="#estudio" class="hover:text-neonPurple transition-colors">Estudio</a>
+          <a href="#workstation" class="hover:text-neonAcid transition-colors">Studio Lab</a>
+          <a href="#estudio" class="hover:text-neonPurple transition-colors">Crew</a>
           <a href="#merch" class="hover:text-neonAcid transition-colors">Merch</a>
-          <a href="#servicios" class="hover:text-white transition-colors">Custom Beats</a>
-          <button onclick="toggleMpcModal()" class="text-neonAcid hover:underline">MPC Pad</button>
+          <a href="#comunidad" class="hover:text-neonCyan transition-colors">Comunidad</a>
+          <a href="#academia" class="hover:text-white transition-colors">Academia</a>
         </div>
 
-        <div class="flex items-center gap-2 sm:gap-3">
-          <!-- Selector de Moneda -->
-          <select id="currency-select" onchange="changeCurrency(this.value)" class="bg-white/5 border border-white/15 rounded-xl px-2.5 py-1.5 text-xs font-bold text-gray-200 focus:outline-none">
-            <option value="USD" class="bg-surface">USD $</option>
-            <option value="MXN" class="bg-surface">MXN $</option>
-            <option value="EUR" class="bg-surface">EUR €</option>
-            <option value="CRC" class="bg-surface">CRC ₡</option>
+        <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+          <div class="hidden sm:flex items-center gap-1 px-2 py-1 rounded-xl bg-neonAcid/10 border border-neonAcid/30 text-[11px] font-bold text-neonAcid">
+            🪙 <span id="coins-display">150</span>
+          </div>
+
+          <button onclick="startVoiceCommand()" class="w-9 h-9 rounded-xl bg-white/5 hover:bg-neonCyan/20 border border-white/10 flex items-center justify-center text-xs" title="Comando de voz">
+            🎙️
+          </button>
+
+          <select id="currency-select" onchange="changeCurrency(this.value)" aria-label="Moneda" class="h-9 bg-white/5 border border-white/15 rounded-xl px-1.5 sm:px-2 text-[11px] font-bold text-gray-200 focus:outline-none">
+            <option value="USD" class="bg-surface">USD</option>
+            <option value="MXN" class="bg-surface">MXN</option>
+            <option value="EUR" class="bg-surface">EUR</option>
+            <option value="CRC" class="bg-surface">CRC</option>
           </select>
 
-          <!-- Interruptor Studio Lights -->
-          <button onclick="cycleStudioTheme()" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/15 text-xs font-bold text-neonCyan transition-all" title="Cambiar iluminación del estudio">
-            💡 Luces
+          <button onclick="cycleStudioTheme()" class="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/15 border border-white/15 flex items-center justify-center text-xs text-neonCyan" title="Cambiar luces">
+            💡
           </button>
 
-          <!-- Favoritos -->
-          <button onclick="toggleWishlistModal()" class="relative px-3 py-1.5 rounded-xl bg-white/5 hover:bg-pink-500/20 border border-white/10 text-xs font-bold">
-            ♥ <span id="wish-count">0</span>
+          <button onclick="toggleDownloadsModal()" class="hidden xs:flex w-9 h-9 rounded-xl bg-white/5 hover:bg-neonPurple/20 border border-white/10 items-center justify-center text-xs" title="Mis Descargas">
+            📥
           </button>
 
-          <!-- Carrito -->
-          <button onclick="toggleCart()" class="relative px-3.5 py-2 rounded-xl bg-white/10 hover:bg-neonPurple/30 border border-white/15 transition-all flex items-center gap-2 text-xs font-bold">
-            <span class="hidden sm:inline">Carrito</span>
-            <span id="cart-count" class="px-2 py-0.5 text-xs rounded-full bg-neonAcid text-black font-black">0</span>
+          <button onclick="toggleCart()" class="h-9 px-2.5 sm:px-3 rounded-xl bg-white/10 hover:bg-neonPurple/30 border border-white/15 flex items-center gap-1.5 text-xs font-bold">
+            <span>🛒</span>
+            <span id="cart-count" class="px-1.5 py-0.5 text-[10px] rounded-full bg-neonAcid text-black font-black">0</span>
           </button>
         </div>
       </nav>
     </div>
   </header>
 
-  <!-- ==================== 1. HERO CINEMATOGRÁFICO ==================== -->
-  <section id="inicio" class="relative min-h-screen flex items-center justify-center pt-28 pb-20 overflow-hidden">
+  <!-- ==================== 1. HERO RESPONSIVE ==================== -->
+  <section id="inicio" class="relative min-h-[92vh] flex items-center justify-center pt-24 sm:pt-28 pb-16 overflow-hidden">
     <div class="absolute inset-0 z-0">
-      <img src="img/concierto-vivo.jpg" alt="Los Chamacos En Vivo" class="w-full h-full object-cover opacity-35 fade-vertical scale-105" />
-      <div class="absolute inset-0 bg-gradient-to-b from-void via-void/50 to-void"></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-void via-transparent to-void"></div>
+      <img src="img/concierto-vivo.jpg" alt="Los Chamacos En Vivo" class="w-full h-full object-cover opacity-35 fade-vertical" />
+      <div class="absolute inset-0 bg-gradient-to-b from-void via-void/55 to-void"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-      <div class="grid lg:grid-cols-12 gap-10 items-center">
-        <div class="lg:col-span-7 text-center lg:text-left space-y-6">
-          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neonPurple/15 border border-neonPurple/40 text-xs font-bold tracking-widest uppercase text-purple-200">
+      <div class="grid lg:grid-cols-12 fold-split-grid gap-8 lg:gap-10 items-center">
+        <div class="lg:col-span-7 text-center lg:text-left space-y-5">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neonPurple/15 border border-neonPurple/40 text-[10px] sm:text-xs font-bold tracking-widest uppercase text-purple-200">
             <span class="w-2 h-2 rounded-full bg-neonAcid animate-ping"></span>
-            CYBER BEAT LEASING &amp; STREETWEAR
+            CYBER-SUITE • BEATS, STUDIO LAB &amp; MERCH
           </div>
 
           <div class="flex justify-center lg:justify-start">
-            <img src="img/logo-principal.png" alt="Los Chamacos Logo" class="w-full max-w-md sm:max-w-lg object-contain blend-dark-bg drop-shadow-[0_0_35px_rgba(184,41,255,0.45)] animate-float-slow" />
+            <img src="img/logo-principal.png" alt="Los Chamacos Logo" class="w-full max-w-[290px] sm:max-w-md lg:max-w-lg object-contain blend-dark-bg animate-float" />
           </div>
 
-          <p class="text-gray-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
-            Sonido urbano futurista producido desde cero. Descarga beats con licencias comerciales inmediatas o viste la colección oficial de <strong class="text-white font-semibold">Los Chamacos Records</strong>.
+          <p class="text-gray-300 text-sm sm:text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+            Escribe tus letras en tiempo real, graba tu voz encima de nuestros beats, descarga licencias WAV + Stems al instante o viste el drop oficial de <strong class="text-white font-semibold">Los Chamacos Records</strong>.
           </p>
 
-          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
-            <a href="#beats" class="px-7 py-4 rounded-2xl bg-gradient-to-r from-neonPurple to-indigo-600 hover:from-fuchsia-500 hover:to-neonCyan text-white font-bold tracking-wide shadow-[0_0_30px_rgba(184,41,255,0.5)] transition-all transform hover:-translate-y-1">
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-3 pt-1">
+            <a href="#beats" class="px-5 sm:px-6 py-3.5 rounded-2xl bg-gradient-to-r from-neonPurple to-indigo-600 text-white font-bold text-xs sm:text-sm tracking-wide shadow-[0_0_25px_rgba(184,41,255,0.45)]">
               EXPLORAR BEATS
             </a>
-            <a href="#merch" class="px-7 py-4 rounded-2xl glass-panel text-white font-bold tracking-wide hover:border-neonAcid/60 transition-all transform hover:-translate-y-1">
-              VER MERCH OFICIAL
+            <a href="#workstation" class="px-5 sm:px-6 py-3.5 rounded-2xl glass-panel text-neonAcid font-bold text-xs sm:text-sm tracking-wide">
+              ✍️ STUDIO LAB
             </a>
-            <button onclick="toggleMpcModal()" class="px-5 py-4 rounded-2xl border border-neonAcid/40 text-neonAcid hover:bg-neonAcid hover:text-black font-bold text-xs uppercase tracking-widest transition-all">
-              🎛️ Probar MPC
+            <button onclick="toggleMpcModal()" class="px-4 py-3.5 rounded-2xl border border-neonCyan/40 text-neonCyan font-bold text-xs uppercase tracking-wider">
+              🎛️ MPC Pad
             </button>
           </div>
         </div>
 
         <div class="lg:col-span-5 relative flex justify-center items-center">
-          <div class="relative w-full max-w-md">
-            <div class="absolute inset-0 bg-gradient-to-tr from-neonPurple/35 via-neonAcid/20 to-neonCyan/30 rounded-full blur-3xl"></div>
-            <img src="img/logo-personaje.png" alt="Mascota Los Chamacos" class="relative z-10 w-full object-contain blend-dark-bg animate-float drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)]" />
-            <img src="img/sticker-circular.png" alt="Sticker Oficial" class="w-24 sm:w-28 h-24 sm:h-28 object-contain blend-dark-bg absolute -bottom-4 -left-2 sm:-left-6 z-20 animate-spin-slow" />
+          <div class="relative w-full max-w-[260px] sm:max-w-sm md:max-w-md">
+            <img src="img/logo-personaje.png" alt="Mascota Los Chamacos" class="relative z-10 w-full object-contain blend-dark-bg animate-float" />
+            <img src="img/sticker-circular.png" alt="Sticker Oficial" class="w-20 sm:w-28 h-20 sm:h-28 object-contain blend-dark-bg absolute -bottom-3 -left-2 sm:-left-5 z-20 animate-spin-slow" />
           </div>
         </div>
       </div>
     </div>
-
-    <div class="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-void to-transparent pointer-events-none"></div>
   </section>
 
   <!-- CINTA DE MARQUESINA INFINITA -->
-  <div class="relative z-10 py-4 border-y border-white/10 bg-surface/70 backdrop-blur-md overflow-hidden">
+  <div class="relative z-10 py-3 border-y border-white/10 bg-surface/80 overflow-hidden">
     <div class="flex whitespace-nowrap animate-marquee">
-      <div class="flex items-center gap-10 px-5 text-sm font-display font-extrabold tracking-widest uppercase text-gray-300">
+      <div class="flex items-center gap-8 px-4 text-[11px] sm:text-xs font-display font-extrabold tracking-widest uppercase text-gray-300">
         <span class="text-neonAcid">✦ BUNDLE 3x2 AUTOMÁTICO EN BEATS</span>
-        <span>ENTREGA INSTANTÁNEA WAV + STEMS</span>
+        <span>VOICE TAG PROTECTOR ACTIVO</span>
         <span class="text-neonPurple">✦ CUPÓN: CHAMACOS10 (-10%)</span>
-        <span>LOS CHAMACOS RECORDS</span>
-        <span class="text-neonCyan">✦ STREETWEAR EDICIÓN LIMITADA</span>
+        <span>GRABA TU MAQUETA EN EL STUDIO LAB</span>
+        <span class="text-neonCyan">✦ DESCUENTO MERCH HASTA 25%</span>
         <span class="text-neonAcid">✦ BUNDLE 3x2 AUTOMÁTICO EN BEATS</span>
-        <span>ENTREGA INSTANTÁNEA WAV + STEMS</span>
+        <span>VOICE TAG PROTECTOR ACTIVO</span>
         <span class="text-neonPurple">✦ CUPÓN: CHAMACOS10 (-10%)</span>
-        <span>LOS CHAMACOS RECORDS</span>
-        <span class="text-neonCyan">✦ STREETWEAR EDICIÓN LIMITADA</span>
       </div>
     </div>
   </div>
 
-  <!-- ==================== 2. CATÁLOGO DE BEATS + FILTROS + LICENCIAS ==================== -->
-  <section id="beats" class="relative py-28 overflow-hidden">
+  <!-- ==================== 2. CATÁLOGO DE BEATS ==================== -->
+  <section id="beats" class="relative py-20 sm:py-24 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-      <!-- Banner Cyber Beat Leasing difuminado -->
-      <div class="reveal mb-16 relative rounded-3xl overflow-hidden">
-        <img src="img/banner-beats.jpg" alt="Cyber Beat Leasing" class="w-full max-h-[340px] object-cover fade-edges-all mx-auto" loading="lazy" />
+      <div class="reveal mb-10 sm:mb-14 relative rounded-3xl overflow-hidden">
+        <img src="img/banner-beats.jpg" alt="Cyber Beat Leasing" class="w-full max-h-[300px] object-cover fade-edges-all mx-auto" loading="lazy" />
       </div>
 
-      <div class="reveal flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
+      <div class="reveal flex flex-col lg:flex-row lg:items-end justify-between mb-6 gap-5">
         <div>
-          <span class="text-neonCyan font-bold tracking-widest text-xs uppercase">CATÁLOGO EXCLUSIVO • PACK 3x2 ACTIVO</span>
-          <h2 class="font-display text-3xl sm:text-5xl font-extrabold mt-1 text-gradient-cyber glitch-hover">
+          <span class="text-neonCyan font-bold tracking-widest text-xs uppercase">CATÁLOGO EXCLUSIVO • PACK 3x2</span>
+          <h2 class="font-display section-title-fluid font-extrabold mt-1 text-gradient-cyber">
             BEATS DESTACADOS
           </h2>
         </div>
 
-        <!-- SELECTOR INTERACTIVO DE NIVELES DE LICENCIA -->
-        <div class="flex flex-wrap items-center gap-3">
+        <div class="flex flex-wrap items-center gap-2">
           <div class="glass-panel p-1.5 rounded-2xl inline-flex flex-wrap gap-1 border-neonPurple/35">
-            <button onclick="setLicenseTier('basic', this)" class="tier-btn px-4 py-2.5 rounded-xl text-xs font-display font-bold tracking-wider uppercase transition-all bg-gradient-to-r from-neonPurple to-indigo-600 text-white shadow-[0_0_20px_rgba(184,41,255,0.45)]">
-              MP3 Lease • <span class="price-display" data-usd="29">$29</span>
+            <button onclick="setLicenseTier('basic', this)" class="tier-btn px-3 py-2 rounded-xl text-[11px] sm:text-xs font-display font-bold uppercase bg-gradient-to-r from-neonPurple to-indigo-600 text-white">
+              MP3 • <span class="price-display" data-usd="29">$29</span>
             </button>
-            <button onclick="setLicenseTier('pro', this)" class="tier-btn px-4 py-2.5 rounded-xl text-xs font-display font-bold tracking-wider uppercase transition-all text-gray-300 hover:text-white">
-              WAV + Stems • <span class="price-display" data-usd="59">$59</span>
+            <button onclick="setLicenseTier('pro', this)" class="tier-btn px-3 py-2 rounded-xl text-[11px] sm:text-xs font-display font-bold uppercase text-gray-300">
+              WAV+Stems • <span class="price-display" data-usd="59">$59</span>
             </button>
-            <button onclick="setLicenseTier('exclusive', this)" class="tier-btn px-4 py-2.5 rounded-xl text-xs font-display font-bold tracking-wider uppercase transition-all text-gray-300 hover:text-white">
+            <button onclick="setLicenseTier('exclusive', this)" class="tier-btn px-3 py-2 rounded-xl text-[11px] sm:text-xs font-display font-bold uppercase text-gray-300">
               Exclusiva • <span class="price-display" data-usd="199">$199</span>
             </button>
           </div>
-          <button onclick="toggleCompareModal()" class="px-4 py-3 rounded-2xl glass-panel text-xs font-bold text-neonCyan hover:border-neonCyan uppercase tracking-wider">
-            ⚖️ Comparar
+
+          <button onclick="handleTapTempo()" class="px-3.5 py-2.5 rounded-2xl glass-panel border-neonAcid/40 text-neonAcid text-xs font-display font-extrabold uppercase">
+            🥁 Tap: <span id="tap-bpm-val">--</span>
+          </button>
+
+          <button onclick="toggleCompareModal()" class="px-3.5 py-2.5 rounded-2xl glass-panel text-xs font-bold text-neonCyan uppercase">
+            ⚖️ Tabla
           </button>
         </div>
       </div>
 
-      <!-- Barra de Filtros: Buscador, Mood, BPM Máximo -->
-      <div class="reveal glass-panel rounded-2xl p-4 mb-8 grid sm:grid-cols-3 gap-4 items-center">
-        <input id="beat-search" oninput="filterBeats()" type="text" placeholder="🔍 Buscar beat por nombre o clave (ej. Nebula, F#m)..." class="bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-neonCyan" />
+      <!-- Filtros -->
+      <div class="reveal glass-panel rounded-2xl p-3.5 sm:p-4 mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-center">
+        <input id="beat-search" oninput="filterBeats()" type="text" placeholder="🔍 Buscar beat..." class="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-neonCyan" />
 
-        <select id="beat-mood" onchange="filterBeats()" class="bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-neonPurple">
+        <select id="beat-mood" onchange="filterBeats()" class="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-gray-200 focus:outline-none">
           <option value="all" class="bg-surface">Todos los Moods</option>
           <option value="espacial" class="bg-surface">Espacial / Trap Cósmico</option>
           <option value="nocturno" class="bg-surface">Nocturno / Melódico</option>
           <option value="callejero" class="bg-surface">Callejero / Boom-Bap</option>
         </select>
 
-        <div class="flex items-center gap-3 px-2">
-          <span class="text-xs text-gray-400 whitespace-nowrap font-bold">BPM Máx: <strong id="bpm-val" class="text-neonAcid">150</strong></span>
+        <select id="beat-key" onchange="filterBeats()" class="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-gray-200 focus:outline-none">
+          <option value="all" class="bg-surface">Todas las Claves</option>
+          <option value="F#m" class="bg-surface">F#m (Fa# Menor)</option>
+          <option value="Cm" class="bg-surface">Cm (Do Menor)</option>
+          <option value="Am" class="bg-surface">Am (La Menor)</option>
+        </select>
+
+        <div class="flex items-center gap-2 px-1">
+          <span class="text-xs text-gray-400 whitespace-nowrap font-bold">BPM ≤ <strong id="bpm-val" class="text-neonAcid">150</strong></span>
           <input id="bpm-range" oninput="document.getElementById('bpm-val').textContent=this.value; filterBeats()" type="range" min="90" max="150" value="150" class="w-full accent-neonAcid" />
         </div>
       </div>
 
-      <!-- Barra Dinámica de Beneficios -->
-      <div class="reveal glass-panel rounded-2xl px-6 py-4 mb-12 flex flex-wrap items-center justify-between gap-4 border-neonCyan/30">
-        <div class="flex items-center gap-3">
-          <span class="px-2.5 py-1 rounded-lg bg-neonCyan/15 text-neonCyan font-display font-extrabold text-xs uppercase" id="tier-badge">MP3 LEASE</span>
-          <span class="text-sm text-gray-200 font-medium" id="tier-desc">Archivo MP3 320kbps • Hasta 50,000 streams • Uso comercial en plataformas digitales</span>
-        </div>
-        <span class="text-xs text-neonAcid font-bold tracking-wider uppercase">Entrega Instantánea ✔</span>
-      </div>
-
-      <!-- Grid de Beats -->
-      <div id="beats-grid" class="grid md:grid-cols-3 gap-8">
+      <!-- Grid de 3 Beats (1 col en móvil, 2 en Fold/iPad Mini, 3 en Pro/Desktop) -->
+      <div id="beats-grid" class="grid grid-cols-1 fold:grid-cols-2 pro:grid-cols-3 gap-6 sm:gap-8">
         <!-- BEAT 1: NEBULA -->
-        <div class="beat-card reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col" data-name="nebula f#m" data-mood="espacial" data-bpm="140">
+        <div oncontextmenu="return false;" class="beat-card reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col" data-name="nebula" data-mood="espacial" data-key="F#m" data-bpm="140">
           <div class="holo-sheen"></div>
-          <div class="relative h-72 overflow-hidden">
-            <img src="img/beat-nebula.jpg" alt="Nebula Beat" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-            <div class="absolute top-4 left-4 flex items-center gap-2">
-              <span class="px-3 py-1 rounded-full bg-black/65 backdrop-blur-md border border-neonPurple/50 text-xs font-bold text-purple-200">140 BPM • F#m</span>
-              <span class="px-2.5 py-1 rounded-full bg-neonAcid text-black text-[10px] font-black uppercase">Beat del Mes</span>
+          <div class="relative h-64 sm:h-72 overflow-hidden">
+            <img src="img/beat-nebula.jpg" alt="Nebula Beat" class="w-full h-full object-cover fade-card-img" loading="lazy" />
+            <div class="absolute top-3.5 left-3.5 flex items-center gap-1.5">
+              <span class="px-2.5 py-1 rounded-full bg-black/75 border border-neonPurple/50 text-[11px] font-bold text-purple-200">140 BPM • F#m</span>
+              <span class="px-2 py-1 rounded-full bg-neonAcid text-black text-[10px] font-black uppercase">Top #1</span>
             </div>
-            <button onclick="toggleWishlist('Beat: NEBULA')" class="relative z-30 absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 hover:bg-pink-500/40 text-white flex items-center justify-center text-sm transition-all" title="Guardar en favoritos">♥</button>
-            <button onclick="playPreview('NEBULA', 140)" class="play-btn relative z-30 absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
+            <button onclick="playPreview('NEBULA', 140, 'img/beat-nebula.jpg', 'purple')" aria-label="Play Nebula" class="play-btn relative z-30 absolute bottom-4 right-4 w-13 h-13 p-3.5 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_20px_rgba(184,41,255,0.65)] transition-all">
               <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
+          <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex items-center justify-between">
-                <h3 class="font-display text-2xl font-extrabold text-white">NEBULA</h3>
-                <span class="beat-price price-display text-neonAcid font-display font-extrabold text-xl" data-usd="29">$29.00</span>
+                <h3 class="font-display text-xl sm:text-2xl font-extrabold text-white">NEBULA</h3>
+                <span class="beat-price price-display text-neonAcid font-display font-extrabold text-lg sm:text-xl" data-usd="29">$29.00</span>
               </div>
-              <p class="text-gray-400 text-sm mt-2">Trap cósmico, bajos 808 profundos y sintetizadores espaciales envolventes.</p>
+              <p class="text-gray-400 text-xs sm:text-sm mt-1.5">Trap cósmico, bajos 808 profundos y sintetizadores espaciales.</p>
+              <div class="flex flex-wrap gap-1.5 mt-3">
+                <button onclick="jumpCue('NEBULA', 140, 'Intro')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-neonPurple/40 text-[11px] font-bold text-gray-300">0:00 Intro</button>
+                <button onclick="jumpCue('NEBULA', 140, 'Drop 808')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-neonPurple/40 text-[11px] font-bold text-neonCyan">0:24 Drop</button>
+                <button onclick="jumpCue('NEBULA', 140, 'Puente')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-neonPurple/40 text-[11px] font-bold text-gray-300">1:12 Puente</button>
+              </div>
             </div>
-            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-2">
-              <span class="beat-format text-xs text-gray-400">MP3 320kbps</span>
-              <div class="flex items-center gap-2">
-                <button onclick="shareBeat('NEBULA')" class="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/15 text-xs text-gray-300" title="Copiar enlace">🔗</button>
-                <button onclick="addBeatToCart('NEBULA')" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
-                  + Adquirir
-                </button>
-              </div>
+            <div class="mt-5 pt-3.5 border-t border-white/10 flex items-center justify-between gap-2">
+              <button onclick="openSplitPay('Beat: NEBULA', 29)" class="text-xs text-neonCyan hover:underline font-bold py-1">🤝 Split Pay</button>
+              <button onclick="addBeatToCart('NEBULA')" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold uppercase transition-all">
+                + Adquirir
+              </button>
             </div>
           </div>
         </div>
 
         <!-- BEAT 2: 3AM -->
-        <div class="beat-card reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col" data-name="3am cm" data-mood="nocturno" data-bpm="124">
+        <div oncontextmenu="return false;" class="beat-card reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col" data-name="3am" data-mood="nocturno" data-key="Cm" data-bpm="124">
           <div class="holo-sheen"></div>
-          <div class="relative h-72 overflow-hidden">
-            <img src="img/beat-3am.jpg" alt="3AM Beat" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-            <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/65 backdrop-blur-md border border-neonCyan/50 text-xs font-bold text-cyan-200">
+          <div class="relative h-64 sm:h-72 overflow-hidden">
+            <img src="img/beat-3am.jpg" alt="3AM Beat" class="w-full h-full object-cover fade-card-img" loading="lazy" />
+            <div class="absolute top-3.5 left-3.5 px-2.5 py-1 rounded-full bg-black/75 border border-neonCyan/50 text-[11px] font-bold text-cyan-200">
               124 BPM • Cm
             </div>
-            <button onclick="toggleWishlist('Beat: 3AM')" class="relative z-30 absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 hover:bg-pink-500/40 text-white flex items-center justify-center text-sm transition-all">♥</button>
-            <button onclick="playPreview('3AM', 124)" class="play-btn relative z-30 absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
+            <button onclick="playPreview('3AM', 124, 'img/beat-3am.jpg', 'midnight')" aria-label="Play 3AM" class="play-btn relative z-30 absolute bottom-4 right-4 p-3.5 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_20px_rgba(184,41,255,0.65)] transition-all">
               <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
+          <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex items-center justify-between">
-                <h3 class="font-display text-2xl font-extrabold text-white">3AM</h3>
-                <span class="beat-price price-display text-neonAcid font-display font-extrabold text-xl" data-usd="29">$29.00</span>
+                <h3 class="font-display text-xl sm:text-2xl font-extrabold text-white">3AM</h3>
+                <span class="beat-price price-display text-neonAcid font-display font-extrabold text-lg sm:text-xl" data-usd="29">$29.00</span>
               </div>
-              <p class="text-gray-400 text-sm mt-2">Vibe nocturno melódico ideal para sesiones de madrugada y voces atmosféricas.</p>
+              <p class="text-gray-400 text-xs sm:text-sm mt-1.5">Vibe nocturno melódico ideal para sesiones de madrugada.</p>
+              <div class="flex flex-wrap gap-1.5 mt-3">
+                <button onclick="jumpCue('3AM', 124, 'Intro')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-neonCyan/40 text-[11px] font-bold text-gray-300">0:00 Intro</button>
+                <button onclick="jumpCue('3AM', 124, 'Coro')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-neonCyan/40 text-[11px] font-bold text-neonCyan">0:30 Coro</button>
+                <button onclick="jumpCue('3AM', 124, 'Outro')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-neonCyan/40 text-[11px] font-bold text-gray-300">1:45 Outro</button>
+              </div>
             </div>
-            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-2">
-              <span class="beat-format text-xs text-gray-400">MP3 320kbps</span>
-              <div class="flex items-center gap-2">
-                <button onclick="shareBeat('3AM')" class="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/15 text-xs text-gray-300" title="Copiar enlace">🔗</button>
-                <button onclick="addBeatToCart('3AM')" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
-                  + Adquirir
-                </button>
-              </div>
+            <div class="mt-5 pt-3.5 border-t border-white/10 flex items-center justify-between gap-2">
+              <button onclick="openSplitPay('Beat: 3AM', 29)" class="text-xs text-neonCyan hover:underline font-bold py-1">🤝 Split Pay</button>
+              <button onclick="addBeatToCart('3AM')" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold uppercase transition-all">
+                + Adquirir
+              </button>
             </div>
           </div>
         </div>
 
         <!-- BEAT 3: BROOKLYN 98 -->
-        <div class="beat-card reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col" data-name="brooklyn 98 am" data-mood="callejero" data-bpm="96">
+        <div oncontextmenu="return false;" class="beat-card reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col" data-name="brooklyn 98" data-mood="callejero" data-key="Am" data-bpm="96">
           <div class="holo-sheen"></div>
-          <div class="relative h-72 overflow-hidden">
-            <img src="img/beat-brooklyn98.jpg" alt="Brooklyn 98 Beat" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-            <div class="absolute top-4 left-4 flex items-center gap-2">
-              <span class="px-3 py-1 rounded-full bg-black/65 backdrop-blur-md border border-neonAcid/50 text-xs font-bold text-lime-200">96 BPM • Am</span>
-              <span class="px-2.5 py-1 rounded-full bg-red-500/80 text-white text-[10px] font-bold">1 Exclusiva</span>
+          <div class="relative h-64 sm:h-72 overflow-hidden">
+            <img src="img/beat-brooklyn98.jpg" alt="Brooklyn 98 Beat" class="w-full h-full object-cover fade-card-img" loading="lazy" />
+            <div class="absolute top-3.5 left-3.5 px-2.5 py-1 rounded-full bg-black/75 border border-neonAcid/50 text-[11px] font-bold text-lime-200">
+              96 BPM • Am
             </div>
-            <button onclick="toggleWishlist('Beat: BROOKLYN 98')" class="relative z-30 absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 hover:bg-pink-500/40 text-white flex items-center justify-center text-sm transition-all">♥</button>
-            <button onclick="playPreview('BROOKLYN 98', 96)" class="play-btn relative z-30 absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
+            <button onclick="playPreview('BROOKLYN 98', 96, 'img/beat-brooklyn98.jpg', 'brooklyn')" aria-label="Play Brooklyn 98" class="play-btn relative z-30 absolute bottom-4 right-4 p-3.5 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_20px_rgba(184,41,255,0.65)] transition-all">
               <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
+          <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex items-center justify-between">
-                <h3 class="font-display text-2xl font-extrabold text-white">BROOKLYN 98</h3>
-                <span class="beat-price price-display text-neonAcid font-display font-extrabold text-xl" data-usd="29">$29.00</span>
+                <h3 class="font-display text-xl sm:text-2xl font-extrabold text-white">BROOKLYN 98</h3>
+                <span class="beat-price price-display text-neonAcid font-display font-extrabold text-lg sm:text-xl" data-usd="29">$29.00</span>
               </div>
-              <p class="text-gray-400 text-sm mt-2">Boom-bap callejero con texturas analógicas, baterías crudas y esencia clásica.</p>
+              <p class="text-gray-400 text-xs sm:text-sm mt-1.5">Boom-bap callejero con texturas analógicas y baterías crudas.</p>
+              <div class="flex flex-wrap gap-1.5 mt-3">
+                <button onclick="jumpCue('BROOKLYN 98', 96, 'Intro Vinyl')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-neonAcid/40 text-[11px] font-bold text-gray-300">0:00 Vinyl</button>
+                <button onclick="jumpCue('BROOKLYN 98', 96, 'Verso')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-neonAcid/40 text-[11px] font-bold text-neonAcid">0:18 Verso</button>
+                <button onclick="jumpCue('BROOKLYN 98', 96, 'Scratch')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-neonAcid/40 text-[11px] font-bold text-gray-300">1:05 Scratch</button>
+              </div>
             </div>
-            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-2">
-              <span class="beat-format text-xs text-gray-400">MP3 320kbps</span>
-              <div class="flex items-center gap-2">
-                <button onclick="shareBeat('BROOKLYN 98')" class="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/15 text-xs text-gray-300" title="Copiar enlace">🔗</button>
-                <button onclick="addBeatToCart('BROOKLYN 98')" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
-                  + Adquirir
-                </button>
-              </div>
+            <div class="mt-5 pt-3.5 border-t border-white/10 flex items-center justify-between gap-2">
+              <button onclick="openSplitPay('Beat: BROOKLYN 98', 29)" class="text-xs text-neonCyan hover:underline font-bold py-1">🤝 Split Pay</button>
+              <button onclick="addBeatToCart('BROOKLYN 98')" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold uppercase transition-all">
+                + Adquirir
+              </button>
             </div>
           </div>
         </div>
@@ -564,183 +595,232 @@
     </div>
   </section>
 
-  <!-- ==================== 3. EL ESTUDIO & CREW (PARALLAX + HOTSPOTS + STATS) ==================== -->
-  <section id="estudio" class="relative py-28 overflow-hidden">
-    <div class="absolute inset-0 z-0 pointer-events-none">
-      <img src="img/estudio-equipo.jpg" alt="Equipo Los Chamacos" class="w-full h-full object-cover opacity-20 fade-vertical" loading="lazy" />
-      <div class="absolute inset-0 bg-gradient-to-b from-void via-void/75 to-void"></div>
-    </div>
-
+  <!-- ==================== 3. STUDIO LAB: WORKSTATION PARA ARTISTAS ==================== -->
+  <section id="workstation" class="relative py-20 sm:py-24 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="reveal text-center max-w-3xl mx-auto mb-16">
-        <span class="text-neonPurple font-bold tracking-widest text-xs uppercase">DETRÁS DEL SONIDO</span>
-        <h2 class="font-display text-3xl sm:text-5xl font-extrabold mt-2 text-gradient-cyber glitch-hover">
-          NACIDOS EN LA CALLE, FORJADOS EN EL ESTUDIO
+      <div class="reveal text-center max-w-3xl mx-auto mb-12">
+        <span class="text-neonAcid font-bold tracking-widest text-xs uppercase">HERRAMIENTAS DE COMPOSICIÓN EN VIVO</span>
+        <h2 class="font-display section-title-fluid font-extrabold mt-2 text-gradient-cyber">
+          LC STUDIO LAB &amp; LYRIC PAD
         </h2>
-        <p class="text-gray-300 mt-4 text-base font-light">
-          Haz clic en los puntos luminosos del sintetizador o en las fotos del crew para explorar nuestro arsenal analógico y digital.
+        <p class="text-gray-300 mt-3 text-sm sm:text-base">
+          Escribe tus barras con contador automático de sílabas, graba tu voz con el micrófono, ajusta el tono/velocidad del beat y exporta tu maqueta.
         </p>
       </div>
 
-      <!-- CONTADORES DE ESTADÍSTICAS DEL SELLO -->
-      <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
-        <div class="glass-panel rounded-2xl p-5 text-center">
-          <p class="font-display text-3xl sm:text-4xl font-extrabold text-neonAcid">+180</p>
-          <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Beats Publicados</p>
+      <div class="reveal grid grid-cols-1 lg:grid-cols-12 fold-split-grid gap-6 sm:gap-8">
+        <!-- Lyric Pad -->
+        <div class="lg:col-span-7 glass-panel rounded-3xl p-5 sm:p-8 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="font-display text-lg sm:text-xl font-extrabold text-white">✍️ BLOC DE LETRAS</h3>
+            <div class="flex items-center gap-2">
+              <button onclick="insertSongStructure()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-neonPurple text-xs font-bold text-white">+ Estructura</button>
+              <button onclick="generateWritingChallenge()" class="px-3 py-2 rounded-xl bg-neonAcid/20 border border-neonAcid/40 text-neonAcid text-xs font-bold">🎲 Reto 60s</button>
+            </div>
+          </div>
+
+          <p id="writing-challenge-box" class="hidden p-3 rounded-xl bg-neonPurple/15 border border-neonPurple/40 text-xs text-purple-200 font-semibold"></p>
+
+          <div class="grid grid-cols-12 gap-2 sm:gap-3">
+            <textarea id="lyric-editor" oninput="updateSyllableCounter()" rows="8" placeholder="Escribe tus versos aquí mientras suena el beat..." class="col-span-8 sm:col-span-9 bg-black/50 border border-white/15 rounded-2xl p-3.5 text-sm text-white leading-relaxed focus:outline-none focus:border-neonCyan font-mono"></textarea>
+            <div id="syllable-column" class="col-span-4 sm:col-span-3 bg-black/40 border border-white/10 rounded-2xl p-2.5 text-xs text-neonAcid font-mono overflow-y-auto max-h-[225px]">
+              <p class="text-[10px] text-gray-400 uppercase mb-1">Sílabas</p>
+              <div id="syllable-lines" class="space-y-1"></div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+            <div class="flex items-center gap-2 flex-1 min-w-[200px]">
+              <input id="rhyme-input" type="text" placeholder="Buscar rima (ej. noche)..." class="flex-1 bg-white/5 border border-white/15 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none" />
+              <button onclick="findRhymes()" class="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-neonCyan hover:text-black text-xs font-bold">Rimar</button>
+            </div>
+            <button onclick="exportProjectBundle()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-neonPurple to-neonCyan text-black font-display font-extrabold text-xs uppercase">
+              📦 Exportar Proyecto
+            </button>
+          </div>
+          <p id="rhyme-results" class="text-xs text-neonCyan font-medium"></p>
         </div>
-        <div class="glass-panel rounded-2xl p-5 text-center">
-          <p class="font-display text-3xl sm:text-4xl font-extrabold text-neonCyan">4.2M</p>
-          <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Streams Globales</p>
-        </div>
-        <div class="glass-panel rounded-2xl p-5 text-center">
-          <p class="font-display text-3xl sm:text-4xl font-extrabold text-neonPurple">+65</p>
-          <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Artistas Activos</p>
-        </div>
-        <div class="glass-panel rounded-2xl p-5 text-center">
-          <p class="font-display text-3xl sm:text-4xl font-extrabold text-white">24/7</p>
-          <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Sesiones en Vivo</p>
+
+        <!-- Grabadora, Pitch, Velocidad, Metrónomo y Comparador A/B -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="glass-panel rounded-3xl p-5 sm:p-6 space-y-3.5">
+            <div class="flex items-center justify-between">
+              <h3 class="font-display text-base sm:text-lg font-extrabold text-white">🎤 GRABADORA DE MAQUETA</h3>
+              <span id="rec-status" class="text-[11px] font-bold text-gray-400">Listo</span>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button id="btn-rec-start" onclick="startMicRecording()" class="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold uppercase">● Grabar</button>
+              <button id="btn-rec-stop" onclick="stopMicRecording()" disabled class="px-4 py-2.5 rounded-xl bg-white/10 text-gray-400 text-xs font-bold uppercase disabled:opacity-40">⏹ Parar</button>
+              <button onclick="analyzeVocalRange()" class="px-3 py-2.5 rounded-xl bg-neonCyan/15 border border-neonCyan/40 text-neonCyan text-xs font-bold">🎵 Clave</button>
+            </div>
+            <audio id="recorded-audio" controls class="w-full hidden mt-2 h-9"></audio>
+          </div>
+
+          <div class="glass-panel rounded-3xl p-5 sm:p-6 space-y-3.5">
+            <h3 class="font-display text-base sm:text-lg font-extrabold text-white">🎚️ PITCH, VELOCIDAD &amp; METRÓNOMO</h3>
+            <div class="flex items-center justify-between text-xs gap-2">
+              <span class="text-gray-300 font-bold">Tono: <strong id="pitch-val" class="text-neonAcid">0</strong> st</span>
+              <input oninput="setPitchShift(this.value)" type="range" min="-2" max="2" step="1" value="0" class="w-36 accent-neonPurple" />
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="setSpeedMode(1, 'Normal')" class="px-3 py-2 rounded-lg bg-neonPurple/30 border border-neonPurple text-xs font-bold text-white">1.0x</button>
+              <button onclick="setSpeedMode(0.75, 'Slowed')" class="px-3 py-2 rounded-lg bg-white/5 text-xs font-bold text-gray-300">0.75x Slow</button>
+              <button onclick="setSpeedMode(1.25, 'Double-Time')" class="px-3 py-2 rounded-lg bg-white/5 text-xs font-bold text-gray-300">1.25x Fast</button>
+              <button onclick="toggleMetronome()" class="px-3 py-2 rounded-lg bg-neonAcid/20 border border-neonAcid/40 text-neonAcid text-xs font-bold">⏱️ Metrónomo</button>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-3xl p-5 sm:p-6 space-y-3">
+            <div class="flex justify-between items-center">
+              <h3 class="font-display text-xs sm:text-sm font-extrabold text-white uppercase">🔊 Comparador A/B Mezcla</h3>
+              <span id="ab-label" class="text-xs font-bold text-neonAcid">100% Master LC</span>
+            </div>
+            <input oninput="updateMixSlider(this.value)" type="range" min="0" max="100" value="100" class="w-full accent-neonCyan" />
+          </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- MOSAICO CON PARALLAX MULTICAPA + HOTSPOTS -->
-      <div class="grid lg:grid-cols-12 gap-8 items-center">
-        <div class="reveal lg:col-span-7 relative parallax-layer" data-speed="-0.05">
-          <img onclick="openLightbox('img/estudio-equipo.jpg', 'El Crew de Los Chamacos en el estudio principal')" src="img/estudio-equipo.jpg" alt="Los Chamacos en el estudio" class="w-full rounded-3xl object-cover fade-edges-all shadow-2xl" loading="lazy" />
+  <!-- ==================== 4. EL ESTUDIO & CREW ==================== -->
+  <section id="estudio" class="relative py-20 sm:py-24 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="reveal text-center max-w-3xl mx-auto mb-12">
+        <span class="text-neonPurple font-bold tracking-widest text-xs uppercase">DETRÁS DEL SONIDO</span>
+        <h2 class="font-display section-title-fluid font-extrabold mt-2 text-gradient-cyber">
+          NACIDOS EN LA CALLE, FORJADOS EN EL ESTUDIO
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 fold-split-grid gap-8 items-center">
+        <div class="reveal lg:col-span-7 relative">
+          <img src="img/estudio-equipo.jpg" alt="Los Chamacos en el estudio" class="w-full rounded-3xl object-cover fade-edges-all" loading="lazy" />
         </div>
 
-        <div class="reveal lg:col-span-5 space-y-8 parallax-layer" data-speed="0.05">
-          <!-- Sintetizador con Hotspots Interactivos -->
-          <div class="relative group">
-            <img src="img/estudio-sintetizador.jpg" alt="Sintetizador Analógico" class="w-full h-64 object-cover fade-edges-all" loading="lazy" />
-            <button onclick="showToast('🎛️ Sintetizador Polifónico Analógico: Bajos 808 y Leads')" class="absolute top-1/3 left-1/3 w-6 h-6 rounded-full bg-neonCyan text-black font-black text-xs animate-ping"></button>
-            <button onclick="showToast('🎛️ Sintetizador Polifónico Analógico: Bajos 808 y Leads')" class="absolute top-1/3 left-1/3 w-6 h-6 rounded-full bg-neonCyan text-black font-black text-xs flex items-center justify-center">+</button>
-            <button onclick="showToast('🎹 Secuenciador Hardware & Pads RGB en tiempo real')" class="absolute bottom-1/3 right-1/3 w-6 h-6 rounded-full bg-neonAcid text-black font-black text-xs flex items-center justify-center">+</button>
-            <div class="mt-2 px-2">
-              <h3 class="font-display text-xl font-bold text-white">Síntesis &amp; Diseño Sonoro</h3>
-              <p class="text-gray-400 text-sm">Toca los puntos (+) sobre el sintetizador para inspeccionar el equipo.</p>
+        <div class="reveal lg:col-span-5 space-y-6">
+          <div class="relative">
+            <img src="img/estudio-sintetizador.jpg" alt="Sintetizador Analógico" class="w-full h-56 sm:h-60 object-cover fade-edges-all" loading="lazy" />
+            <button onclick="showToast('🎛️ Sintetizador Polifónico Analógico: Bajos 808 y Leads')" aria-label="Info Sintetizador" class="absolute top-1/3 left-1/3 w-7 h-7 rounded-full bg-neonCyan text-black font-black text-xs flex items-center justify-center shadow-lg">+</button>
+            <div class="mt-2 px-1">
+              <h3 class="font-display text-lg sm:text-xl font-bold text-white">Síntesis &amp; Diseño Sonoro</h3>
+              <p class="text-gray-400 text-xs sm:text-sm">Texturas hardware y procesamiento digital de última generación.</p>
             </div>
           </div>
 
           <div class="relative">
-            <img onclick="openLightbox('img/estudio-sesion.jpg', 'Sesión de Ingeniería y Mezcla')" src="img/estudio-sesion.jpg" alt="Sesión de Producción" class="w-full h-60 object-cover fade-edges-all" loading="lazy" />
-            <div class="mt-2 px-2">
-              <h3 class="font-display text-xl font-bold text-white">Ingeniería &amp; Mezcla</h3>
-              <p class="text-gray-400 text-sm">Cada pista lista para competir en plataformas globales desde el primer play.</p>
+            <img src="img/estudio-sesion.jpg" alt="Sesión de Producción" class="w-full h-56 sm:h-60 object-cover fade-edges-all" loading="lazy" />
+            <div class="mt-2 px-1">
+              <h3 class="font-display text-lg sm:text-xl font-bold text-white">Ingeniería &amp; Mezcla</h3>
+              <p class="text-gray-400 text-xs sm:text-sm">Cada pista lista para competir en plataformas globales.</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Segunda fila del estudio -->
-      <div class="grid md:grid-cols-3 gap-8 mt-20 items-center">
-        <div class="reveal text-center parallax-layer" data-speed="-0.04">
-          <img onclick="openLightbox('img/estudio-productor.jpg', 'Producción Ejecutiva')" src="img/estudio-productor.jpg" alt="Productor en consola" class="w-full h-72 object-cover fade-edges-all" loading="lazy" />
+      <div class="grid grid-cols-1 fold:grid-cols-3 gap-6 sm:gap-8 mt-14 items-center">
+        <div class="reveal text-center">
+          <img src="img/estudio-productor.jpg" alt="Productor en consola" class="w-full h-64 sm:h-72 object-cover fade-edges-all" loading="lazy" />
           <p class="text-xs uppercase tracking-widest text-neonCyan font-bold mt-2">Producción Ejecutiva</p>
         </div>
 
-        <div class="reveal text-center parallax-layer" data-speed="0.04">
-          <img onclick="openLightbox('img/estudio-grupo.jpg', 'La Hermandad LC')" src="img/estudio-grupo.jpg" alt="El Crew afuera del estudio" class="w-full h-72 object-cover fade-edges-all" loading="lazy" />
+        <div class="reveal text-center">
+          <img src="img/estudio-grupo.jpg" alt="El Crew afuera del estudio" class="w-full h-64 sm:h-72 object-cover fade-edges-all" loading="lazy" />
           <p class="text-xs uppercase tracking-widest text-neonPurple font-bold mt-2">La Hermandad LC</p>
         </div>
 
-        <div class="reveal text-center parallax-layer" data-speed="-0.04">
-          <img onclick="openLightbox('img/estudio-grupo-noche.jpg', 'Sesión Nocturna 24/7')" src="img/estudio-grupo-noche.jpg" alt="Sesión nocturna en la ciudad" class="w-full h-72 object-cover fade-edges-all" loading="lazy" />
-          <p class="text-xs uppercase tracking-widest text-neonAcid font-bold mt-2">Inspiración 24/7</p>
+        <div class="reveal text-center">
+          <img src="img/estudio-grupo-noche.jpg" alt="Sesión nocturna en la ciudad" class="w-full h-64 sm:h-72 object-cover fade-edges-all" loading="lazy" />
+          <p class="text-xs uppercase tracking-widest text-neonAcid font-bold mt-2">REC • 03:00 AM • NIGHT SHIFT</p>
         </div>
       </div>
 
-      <!-- Firma Digital centrada y difuminada -->
-      <div class="reveal mt-20 flex flex-col items-center justify-center text-center">
-        <img src="img/firma-digital.png" alt="Firma Los Chamacos" class="h-24 sm:h-28 object-contain blend-dark-bg opacity-90" loading="lazy" />
-        <span class="text-xs tracking-[0.3em] uppercase text-gray-500 mt-2">Sello Oficial • Los Chamacos Records</span>
+      <div class="reveal mt-14 flex flex-col items-center justify-center text-center">
+        <img src="img/firma-digital.png" alt="Firma Los Chamacos" class="h-20 sm:h-28 object-contain blend-dark-bg opacity-90" loading="lazy" />
+        <span class="text-[11px] tracking-[0.28em] uppercase text-gray-500 mt-2">Sello Oficial • Los Chamacos Records</span>
       </div>
     </div>
   </section>
 
-  <!-- ==================== 4. COLECCIÓN MERCH STREETWEAR (TALLAS + VISTA REVERSIBLE) ==================== -->
-  <section id="merch" class="relative py-28 overflow-hidden">
+  <!-- ==================== 5. MERCH STREETWEAR ==================== -->
+  <section id="merch" class="relative py-20 sm:py-24 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-      <div class="reveal grid lg:grid-cols-12 gap-10 items-center mb-16">
+      <div class="reveal grid grid-cols-1 lg:grid-cols-12 fold-split-grid gap-8 sm:gap-10 items-center mb-14">
         <div class="lg:col-span-5">
-          <img src="img/promo-poster.jpg" alt="Promo Merch Los Chamacos" class="w-full max-w-md mx-auto object-cover fade-edges-all" loading="lazy" />
+          <img src="img/promo-poster.jpg" alt="Promo Merch Los Chamacos" class="w-full max-w-xs sm:max-w-md mx-auto object-cover fade-edges-all" loading="lazy" />
         </div>
-        <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
-          <span class="text-neonAcid font-bold tracking-widest text-xs uppercase">DROP OFICIAL • EDICIÓN NUMERADA #001/100</span>
-          <h2 class="font-display text-4xl sm:text-6xl font-extrabold text-gradient-acid leading-tight glitch-hover">
+        <div class="lg:col-span-7 space-y-4 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-neonAcid/15 border border-neonAcid/40 text-[11px] sm:text-xs font-bold text-neonAcid">
+            ⏳ PRÓXIMO DROP EN: <span id="drop-countdown" class="font-mono">02d 14h 38m 19s</span>
+          </div>
+          <h2 class="font-display section-title-fluid font-extrabold text-gradient-acid">
             VISTE EL MOVIMIENTO
           </h2>
-          <p class="text-gray-300 text-base sm:text-lg font-light max-w-xl mx-auto lg:mx-0">
-            Prendas heavyweight con estampados neón de alta densidad. Selecciona tu talla o llévate el <strong class="text-white">Combo Studio Pack</strong> con descuento automático.
+          <p class="text-gray-300 text-sm sm:text-base font-light max-w-xl mx-auto lg:mx-0">
+            Personaliza tu Hoodie con tu nombre artístico en la manga, gira la gorra en 360° o calcula tu talla exacta. <strong class="text-white">Descuento por volumen: 2 prendas -10%, 3 -15%, 4+ -25%.</strong>
           </p>
-          <div class="flex flex-wrap justify-center lg:justify-start gap-3 pt-2">
-            <button onclick="addStudioCombo()" class="px-5 py-3 rounded-2xl bg-neonAcid text-black font-display font-extrabold text-xs uppercase tracking-wider hover:opacity-90 transition-all">
-              ⚡ Añadir Combo Studio Pack (-20%)
-            </button>
-            <button onclick="toggleSizeGuide()" class="px-5 py-3 rounded-2xl glass-panel text-xs font-bold text-white uppercase tracking-wider">
-              📏 Guía de Tallas
-            </button>
+          <div class="flex flex-wrap justify-center lg:justify-start gap-2 pt-1">
+            <button onclick="toggleSizeCalculator()" class="px-3.5 py-2.5 rounded-xl glass-panel text-xs font-bold text-neonCyan uppercase">📏 Talla</button>
+            <button onclick="toggleGiftCardModal()" class="px-3.5 py-2.5 rounded-xl glass-panel text-xs font-bold text-neonPurple uppercase">💳 Gift Card</button>
+            <button onclick="verifyNfcTag()" class="px-3.5 py-2.5 rounded-xl glass-panel text-xs font-bold text-neonAcid uppercase">📲 NFC</button>
           </div>
         </div>
       </div>
 
-      <!-- Grid de Productos Merch (6 artículos con Selector de Talla + Quick View) -->
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
+      <!-- Grid de 6 Artículos de Merch (1 col móvil, 2 Fold/Tablet, 3 Desktop) -->
+      <div class="grid grid-cols-1 fold:grid-cols-2 pro:grid-cols-3 gap-6 sm:gap-8">
         <!-- Item 1: Hoodie Negro -->
         <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
           <div class="holo-sheen"></div>
-          <div class="relative h-72 overflow-hidden">
-            <img src="img/merch-hoodie-negro.jpg" alt="Hoodie Los Chamacos Negro" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-            <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-neonPurple text-white text-xs font-bold">TOP VENTAS</span>
-            <button onclick="openLightbox('img/merch-hoodie-negro.jpg', 'Hoodie LC Neon — Algodón Heavyweight 280gsm')" class="relative z-30 absolute top-4 right-4 px-3 py-1 rounded-full bg-black/65 text-xs text-white font-bold">🔍 Zoom</button>
+          <div class="relative h-64 sm:h-72 overflow-hidden">
+            <img src="img/merch-hoodie-negro.jpg" alt="Hoodie Los Chamacos Negro" class="w-full h-full object-cover fade-card-img" loading="lazy" />
+            <span class="absolute top-3.5 left-3.5 px-2.5 py-1 rounded-full bg-neonPurple text-white text-[11px] font-bold">CUSTOM MANGA</span>
+            <span id="hoodie-sleeve-preview" class="absolute bottom-6 right-5 px-2 py-0.5 rounded bg-black/80 border border-neonAcid text-[10px] font-display font-extrabold text-neonAcid uppercase">LC</span>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
+          <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex justify-between items-center">
-                <h3 class="font-display text-xl font-bold text-white">Hoodie LC Neon</h3>
-                <span class="price-display text-neonAcid font-extrabold text-lg" data-usd="54.99">$54.99</span>
+                <h3 class="font-display text-lg sm:text-xl font-bold text-white">Hoodie LC Neon</h3>
+                <span class="price-display text-neonAcid font-extrabold text-base sm:text-lg" data-usd="54.99">$54.99</span>
               </div>
-              <p class="text-gray-400 text-sm mt-1">Sudadera negra oversized con bordado LC en manga y logo púrpura.</p>
-              <!-- Selector de talla -->
+              <input id="custom-sleeve-input" oninput="document.getElementById('hoodie-sleeve-preview').textContent = this.value || 'LC'" maxlength="12" type="text" placeholder="Tag en manga (opcional)..." class="mt-2.5 w-full bg-white/5 border border-white/15 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-neonAcid" />
               <div class="flex items-center gap-1.5 mt-3">
                 <span class="text-[11px] text-gray-400 mr-1">Talla:</span>
-                <button onclick="selectSize(this)" class="size-btn active-size px-2.5 py-1 rounded-lg text-xs font-bold bg-neonPurple text-white">S</button>
-                <button onclick="selectSize(this)" class="size-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white/5 text-gray-300">M</button>
-                <button onclick="selectSize(this)" class="size-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white/5 text-gray-300">L</button>
-                <button onclick="selectSize(this)" class="size-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white/5 text-gray-300">XL</button>
+                <button onclick="selectSize(this)" class="size-btn active-size w-8 h-8 rounded-lg text-xs font-bold bg-neonPurple text-white">S</button>
+                <button onclick="selectSize(this)" class="size-btn w-8 h-8 rounded-lg text-xs font-bold bg-white/5 text-gray-300">M</button>
+                <button onclick="selectSize(this)" class="size-btn w-8 h-8 rounded-lg text-xs font-bold bg-white/5 text-gray-300">L</button>
+                <button onclick="selectSize(this)" class="size-btn w-8 h-8 rounded-lg text-xs font-bold bg-white/5 text-gray-300">XL</button>
               </div>
             </div>
-            <button onclick="addMerchWithSize(this, 'Hoodie LC Neon', 54.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+            <button onclick="addCustomHoodie(this)" class="mt-4 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
               Agregar al Carrito
             </button>
           </div>
         </div>
 
-        <!-- Item 2: Camiseta Negra Frente (con botón de giro Frente/Espalda) -->
+        <!-- Item 2: Camiseta Frente/Espalda -->
         <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
           <div class="holo-sheen"></div>
-          <div class="relative h-72 overflow-hidden">
-            <img id="tee-front-img" src="img/merch-camiseta-negra.jpg" alt="Camiseta Negra Frente" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-            <button onclick="flipTeeImage()" class="relative z-30 absolute top-4 left-4 px-3 py-1 rounded-full bg-black/75 border border-neonCyan/50 text-neonCyan text-xs font-bold">🔄 Ver Espalda</button>
-            <button onclick="openLightbox('img/merch-camiseta-negra.jpg', 'Tee Minimal Glow — Corte Boxy')" class="relative z-30 absolute top-4 right-4 px-3 py-1 rounded-full bg-black/65 text-xs text-white font-bold">🔍 Zoom</button>
+          <div class="relative h-64 sm:h-72 overflow-hidden">
+            <img id="tee-front-img" src="img/merch-camiseta-negra.jpg" alt="Camiseta Negra Frente" class="w-full h-full object-cover fade-card-img" loading="lazy" />
+            <button onclick="flipTeeImage()" class="relative z-30 absolute top-3.5 left-3.5 px-3 py-1.5 rounded-full bg-black/75 border border-neonCyan/50 text-neonCyan text-xs font-bold">🔄 Girar</button>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
+          <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex justify-between items-center">
-                <h3 class="font-display text-xl font-bold text-white">Tee Minimal Glow</h3>
-                <span class="price-display text-neonAcid font-extrabold text-lg" data-usd="29.99">$29.99</span>
+                <h3 class="font-display text-lg sm:text-xl font-bold text-white">Tee Minimal Glow</h3>
+                <span class="price-display text-neonAcid font-extrabold text-base sm:text-lg" data-usd="29.99">$29.99</span>
               </div>
-              <p class="text-gray-400 text-sm mt-1">Camiseta negra corte boxy con logotipo neón en el pecho.</p>
+              <p class="text-gray-400 text-xs sm:text-sm mt-1">Camiseta negra corte boxy con logotipo neón.</p>
               <div class="flex items-center gap-1.5 mt-3">
                 <span class="text-[11px] text-gray-400 mr-1">Talla:</span>
-                <button onclick="selectSize(this)" class="size-btn active-size px-2.5 py-1 rounded-lg text-xs font-bold bg-neonPurple text-white">S</button>
-                <button onclick="selectSize(this)" class="size-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white/5 text-gray-300">M</button>
-                <button onclick="selectSize(this)" class="size-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white/5 text-gray-300">L</button>
-                <button onclick="selectSize(this)" class="size-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white/5 text-gray-300">XL</button>
+                <button onclick="selectSize(this)" class="size-btn active-size w-8 h-8 rounded-lg text-xs font-bold bg-neonPurple text-white">S</button>
+                <button onclick="selectSize(this)" class="size-btn w-8 h-8 rounded-lg text-xs font-bold bg-white/5 text-gray-300">M</button>
+                <button onclick="selectSize(this)" class="size-btn w-8 h-8 rounded-lg text-xs font-bold bg-white/5 text-gray-300">L</button>
+                <button onclick="selectSize(this)" class="size-btn w-8 h-8 rounded-lg text-xs font-bold bg-white/5 text-gray-300">XL</button>
               </div>
             </div>
-            <button onclick="addMerchWithSize(this, 'Tee Minimal Glow', 29.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+            <button onclick="addMerchWithSize(this, 'Tee Minimal Glow', 29.99)" class="mt-4 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
               Agregar al Carrito
             </button>
           </div>
@@ -749,48 +829,46 @@
         <!-- Item 3: Camiseta Espalda -->
         <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
           <div class="holo-sheen"></div>
-          <div class="relative h-72 overflow-hidden">
-            <img src="img/merch-camiseta-espalda.jpg" alt="Camiseta Espalda Gráfico" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-            <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-neonCyan text-black text-xs font-bold">EDICIÓN TOUR</span>
-            <button onclick="openLightbox('img/merch-camiseta-espalda.jpg', 'Tee Full Back Art — Edición Tour')" class="relative z-30 absolute top-4 right-4 px-3 py-1 rounded-full bg-black/65 text-xs text-white font-bold">🔍 Zoom</button>
+          <div class="relative h-64 sm:h-72 overflow-hidden">
+            <img src="img/merch-camiseta-espalda.jpg" alt="Camiseta Espalda Gráfico" class="w-full h-full object-cover fade-card-img" loading="lazy" />
+            <span class="absolute top-3.5 left-3.5 px-2.5 py-1 rounded-full bg-neonCyan text-black text-[11px] font-bold">EDICIÓN TOUR</span>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
+          <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex justify-between items-center">
-                <h3 class="font-display text-xl font-bold text-white">Tee Full Back Art</h3>
-                <span class="price-display text-neonAcid font-extrabold text-lg" data-usd="34.99">$34.99</span>
+                <h3 class="font-display text-lg sm:text-xl font-bold text-white">Tee Full Back Art</h3>
+                <span class="price-display text-neonAcid font-extrabold text-base sm:text-lg" data-usd="34.99">$34.99</span>
               </div>
-              <p class="text-gray-400 text-sm mt-1">Estampado trasero de gran formato con arte exclusivo de la gira.</p>
+              <p class="text-gray-400 text-xs sm:text-sm mt-1">Estampado trasero de gran formato de la gira.</p>
               <div class="flex items-center gap-1.5 mt-3">
                 <span class="text-[11px] text-gray-400 mr-1">Talla:</span>
-                <button onclick="selectSize(this)" class="size-btn active-size px-2.5 py-1 rounded-lg text-xs font-bold bg-neonPurple text-white">S</button>
-                <button onclick="selectSize(this)" class="size-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white/5 text-gray-300">M</button>
-                <button onclick="selectSize(this)" class="size-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white/5 text-gray-300">L</button>
-                <button onclick="selectSize(this)" class="size-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white/5 text-gray-300">XL</button>
+                <button onclick="selectSize(this)" class="size-btn active-size w-8 h-8 rounded-lg text-xs font-bold bg-neonPurple text-white">S</button>
+                <button onclick="selectSize(this)" class="size-btn w-8 h-8 rounded-lg text-xs font-bold bg-white/5 text-gray-300">M</button>
+                <button onclick="selectSize(this)" class="size-btn w-8 h-8 rounded-lg text-xs font-bold bg-white/5 text-gray-300">L</button>
+                <button onclick="selectSize(this)" class="size-btn w-8 h-8 rounded-lg text-xs font-bold bg-white/5 text-gray-300">XL</button>
               </div>
             </div>
-            <button onclick="addMerchWithSize(this, 'Tee Full Back Art', 34.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+            <button onclick="addMerchWithSize(this, 'Tee Full Back Art', 34.99)" class="mt-4 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
               Agregar al Carrito
             </button>
           </div>
         </div>
 
-        <!-- Item 4: Gorra Negra -->
-        <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
-          <div class="holo-sheen"></div>
-          <div class="relative h-72 overflow-hidden">
-            <img src="img/merch-gorra-negra.jpg" alt="Gorra Negra LC" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-            <button onclick="openLightbox('img/merch-gorra-negra.jpg', 'Snapback Monograma LC — Bordado 3D')" class="relative z-30 absolute top-4 right-4 px-3 py-1 rounded-full bg-black/65 text-xs text-white font-bold">🔍 Zoom</button>
+        <!-- Item 4: Gorra Negra 360° (Mouse + Touch Swipe) -->
+        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="relative h-64 sm:h-72 overflow-hidden select-none touch-pan-y" onmousemove="rotateCap360(event.clientX, this)" ontouchmove="rotateCap360(event.touches[0].clientX, this)">
+            <img id="cap-360-img" src="img/merch-gorra-negra.jpg" alt="Gorra Negra LC" class="w-full h-full object-cover fade-card-img transition-transform duration-150" loading="lazy" />
+            <span class="absolute top-3.5 left-3.5 px-2.5 py-1 rounded-full bg-black/75 border border-neonAcid/50 text-neonAcid text-[11px] font-bold">🔄 Desliza 360°</span>
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
+          <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center">
-                <h3 class="font-display text-xl font-bold text-white">Snapback Monograma LC</h3>
-                <span class="price-display text-neonAcid font-extrabold text-lg" data-usd="24.99">$24.99</span>
+                <h3 class="font-display text-lg sm:text-xl font-bold text-white">Snapback Monograma LC</h3>
+                <span class="price-display text-neonAcid font-extrabold text-base sm:text-lg" data-usd="24.99">$24.99</span>
               </div>
-              <p class="text-gray-400 text-sm mt-1">Gorra estructurada negra con monograma bordado en relieve 3D.</p>
+              <p class="text-gray-400 text-xs sm:text-sm mt-1">Gorra estructurada negra con bordado en relieve 3D.</p>
             </div>
-            <button onclick="addToCart('Snapback Monograma LC (Unitalla)', 24.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+            <button onclick="addMerchItem('Snapback Monograma LC', 24.99)" class="mt-4 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
               Agregar al Carrito
             </button>
           </div>
@@ -799,19 +877,18 @@
         <!-- Item 5: Termo Negro -->
         <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
           <div class="holo-sheen"></div>
-          <div class="relative h-72 overflow-hidden">
-            <img src="img/merch-termo-negro.jpg" alt="Termo Estudio Negro" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-            <button onclick="openLightbox('img/merch-termo-negro.jpg', 'Termo Studio Matte — Acero Inoxidable')" class="relative z-30 absolute top-4 right-4 px-3 py-1 rounded-full bg-black/65 text-xs text-white font-bold">🔍 Zoom</button>
+          <div class="relative h-64 sm:h-72 overflow-hidden">
+            <img src="img/merch-termo-negro.jpg" alt="Termo Estudio Negro" class="w-full h-full object-cover fade-card-img" loading="lazy" />
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
+          <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex justify-between items-center">
-                <h3 class="font-display text-xl font-bold text-white">Termo Studio Matte</h3>
-                <span class="price-display text-neonAcid font-extrabold text-lg" data-usd="22.99">$22.99</span>
+                <h3 class="font-display text-lg sm:text-xl font-bold text-white">Termo Studio Matte</h3>
+                <span class="price-display text-neonAcid font-extrabold text-base sm:text-lg" data-usd="22.99">$22.99</span>
               </div>
-              <p class="text-gray-400 text-sm mt-1">Acero inoxidable negro mate térmico para largas sesiones de grabación.</p>
+              <p class="text-gray-400 text-xs sm:text-sm mt-1">Acero inoxidable negro mate térmico para el estudio.</p>
             </div>
-            <button onclick="addToCart('Termo Studio Matte LC', 22.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+            <button onclick="addMerchItem('Termo Studio Matte LC', 22.99)" class="mt-4 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
               Agregar al Carrito
             </button>
           </div>
@@ -820,247 +897,283 @@
         <!-- Item 6: Taza + Stickers -->
         <div class="reveal tilt-card glass-panel rounded-3xl overflow-hidden group flex flex-col">
           <div class="holo-sheen"></div>
-          <div class="relative h-72 overflow-hidden">
-            <img src="img/merch-taza-stickers.jpg" alt="Pack Taza y Stickers" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-            <button onclick="openLightbox('img/merch-taza-stickers.jpg', 'Pack Taza Cerámica + Stickers Troquelados')" class="relative z-30 absolute top-4 right-4 px-3 py-1 rounded-full bg-black/65 text-xs text-white font-bold">🔍 Zoom</button>
+          <div class="relative h-64 sm:h-72 overflow-hidden">
+            <img src="img/merch-taza-stickers.jpg" alt="Pack Taza y Stickers" class="w-full h-full object-cover fade-card-img" loading="lazy" />
           </div>
-          <div class="p-6 flex-1 flex flex-col justify-between relative z-30">
+          <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between relative z-30">
             <div>
               <div class="flex justify-between items-center">
-                <h3 class="font-display text-xl font-bold text-white">Pack Taza + Stickers</h3>
-                <span class="price-display text-neonAcid font-extrabold text-lg" data-usd="19.99">$19.99</span>
+                <h3 class="font-display text-lg sm:text-xl font-bold text-white">Pack Taza + Stickers</h3>
+                <span class="price-display text-neonAcid font-extrabold text-base sm:text-lg" data-usd="19.99">$19.99</span>
               </div>
-              <p class="text-gray-400 text-sm mt-1">Taza cerámica negra brillante + set de calcomanías troqueladas.</p>
+              <p class="text-gray-400 text-xs sm:text-sm mt-1">Taza cerámica negra + set de stickers troquelados.</p>
             </div>
-            <button onclick="addToCart('Pack Taza + Stickers LC', 19.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+            <button onclick="addMerchItem('Pack Taza + Stickers LC', 19.99)" class="mt-4 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
               Agregar al Carrito
             </button>
           </div>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- ==================== 5. SERVICIOS CUSTOM BEATS, FAQ & CLUB VIP ==================== -->
-  <section id="servicios" class="relative py-24 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-20">
+  <!-- ==================== 6. COMUNIDAD, LISTENING PARTY & LEADERBOARD ==================== -->
+  <section id="comunidad" class="relative py-20 sm:py-24 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
+      <div class="reveal text-center max-w-3xl mx-auto">
+        <span class="text-neonCyan font-bold tracking-widest text-xs uppercase">THE INNER CIRCLE • 42 EN LÍNEA</span>
+        <h2 class="font-display section-title-fluid font-extrabold mt-2 text-gradient-cyber">
+          COMUNIDAD &amp; LISTENING PARTY
+        </h2>
+      </div>
 
-      <!-- Formulario Beat Personalizado + Mezcla/Mastering -->
-      <div class="reveal grid lg:grid-cols-12 gap-10 items-start">
-        <div class="lg:col-span-6 glass-panel rounded-3xl p-8 space-y-5">
-          <span class="text-neonCyan font-bold tracking-widest text-xs uppercase">PRODUCCIÓN A MEDIDA</span>
-          <h3 class="font-display text-3xl font-extrabold text-white">PIDE TU BEAT EXCLUSIVO O MEZCLA</h3>
-          <p class="text-gray-400 text-sm">Cuéntanos tu vibra, BPM deseado o link de referencia y nuestro equipo lo produce desde cero para ti.</p>
-          <form onsubmit="submitCustomRequest(event)" class="space-y-4">
-            <div class="grid sm:grid-cols-2 gap-4">
-              <input required type="text" placeholder="Tu nombre artístico" class="bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neonPurple" />
-              <input required type="email" placeholder="Tu correo electrónico" class="bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neonPurple" />
-            </div>
-            <select class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-gray-200 focus:outline-none">
-              <option class="bg-surface">Beat Personalizado Desde Cero ($149)</option>
-              <option class="bg-surface">Mezcla + Mastering Profesional ($79)</option>
-              <option class="bg-surface">Producción Ejecutiva EP / Álbum</option>
-            </select>
-            <textarea required rows="3" placeholder="Describe el estilo, BPM, artistas de referencia..." class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neonCyan"></textarea>
-            <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-neonPurple to-neonCyan text-black font-display font-extrabold text-xs uppercase tracking-widest hover:opacity-95 transition-all">
-              Enviar Solicitud al Estudio
-            </button>
+      <div class="reveal grid grid-cols-1 fold:grid-cols-2 pro:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Timeline Comments -->
+        <div class="glass-panel rounded-3xl p-5 sm:p-6 space-y-4">
+          <h3 class="font-display text-base sm:text-lg font-extrabold text-white">🔥 TIMELINE COMMENTS</h3>
+          <div id="timeline-comments" class="space-y-2.5 max-h-48 overflow-y-auto text-xs">
+            <div class="p-2.5 rounded-xl bg-white/5"><span class="text-neonAcid font-bold">@KiddVibe [0:24]</span> — Ese drop de 808 en Nebula rompe bocinas 🔥</div>
+            <div class="p-2.5 rounded-xl bg-white/5"><span class="text-neonCyan font-bold">@LunaFlow [0:30]</span> — Ya grabé el coro de 3AM, suena brutal!</div>
+            <div class="p-2.5 rounded-xl bg-white/5"><span class="text-neonPurple font-bold">@MC_Rojas [0:18]</span> — Brooklyn 98 tiene esencia pura</div>
+          </div>
+          <form onsubmit="addTimelineComment(event)" class="flex gap-2">
+            <input id="comment-text" required type="text" placeholder="Deja tu comentario..." class="flex-1 min-w-0 bg-white/5 border border-white/15 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none" />
+            <button type="submit" class="px-3.5 py-2.5 rounded-xl bg-neonPurple text-white text-xs font-bold shrink-0">Enviar</button>
           </form>
         </div>
 
-        <!-- Acordeón FAQ + Club VIP -->
-        <div class="lg:col-span-6 space-y-6">
-          <div class="glass-panel rounded-3xl p-8 space-y-4">
-            <span class="text-neonPurple font-bold tracking-widest text-xs uppercase">DUDAS FRECUENTES</span>
-            <h3 class="font-display text-2xl font-extrabold text-white">PREGUNTAS SOBRE LICENCIAS</h3>
-            <details class="border-b border-white/10 pb-3 text-sm">
-              <summary class="font-bold text-white cursor-pointer">¿Puedo subir mi canción a Spotify y Apple Music?</summary>
-              <p class="text-gray-400 mt-2">Sí, todas nuestras licencias (MP3, WAV + Stems y Exclusiva) incluyen derechos comerciales para distribución digital.</p>
-            </details>
-            <details class="border-b border-white/10 pb-3 text-sm">
-              <summary class="font-bold text-white cursor-pointer">¿Qué pasa cuando compro una Licencia Exclusiva?</summary>
-              <p class="text-gray-400 mt-2">El beat se retira inmediatamente de la tienda, recibes los Stems en 24-bit y el contrato de propiedad exclusiva.</p>
-            </details>
-            <details class="text-sm">
-              <summary class="font-bold text-white cursor-pointer">¿Hacen envíos internacionales del merch?</summary>
-              <p class="text-gray-400 mt-2">Sí, realizamos envíos asegurados con número de rastreo a toda Latinoamérica, EE.UU. y Europa.</p>
-            </details>
+        <!-- Leaderboard & Votación -->
+        <div class="glass-panel rounded-3xl p-5 sm:p-6 space-y-4">
+          <h3 class="font-display text-base sm:text-lg font-extrabold text-white">🏆 TOP ARTISTAS DEL SELLO</h3>
+          <ul class="space-y-2 text-xs">
+            <li class="flex justify-between p-2.5 rounded-xl bg-neonAcid/10 border border-neonAcid/30"><span class="font-bold text-white">1. @YungCyber (VIP)</span><span class="text-neonAcid font-bold">14 Tracks</span></li>
+            <li class="flex justify-between p-2.5 rounded-xl bg-white/5"><span class="font-bold text-gray-200">2. @ValeriaSky</span><span class="text-neonCyan font-bold">9 Tracks</span></li>
+            <li class="flex justify-between p-2.5 rounded-xl bg-white/5"><span class="font-bold text-gray-200">3. @Dante98</span><span class="text-neonPurple font-bold">7 Tracks</span></li>
+          </ul>
+          <div class="pt-2 border-t border-white/10">
+            <p class="text-xs font-bold text-gray-300 mb-2">🗳️ Vota el próximo Beat Drop:</p>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <button onclick="voteNextDrop('Cyber Trap Oscuro')" class="py-2.5 rounded-xl bg-white/5 hover:bg-neonPurple/30 font-bold text-white">Cyber Trap (64%)</button>
+              <button onclick="voteNextDrop('Neo-Perreo')" class="py-2.5 rounded-xl bg-white/5 hover:bg-neonCyan/30 font-bold text-white">Neo-Perreo (36%)</button>
+            </div>
           </div>
+        </div>
 
-          <!-- Club VIP Newsletter -->
-          <div class="glass-panel rounded-3xl p-8 border-neonAcid/35">
-            <span class="text-neonAcid font-bold tracking-widest text-xs uppercase">THE INNER CIRCLE VIP</span>
-            <h3 class="font-display text-2xl font-extrabold text-white mt-1">1 BEAT GRATIS AL SUSCRIBIRTE</h3>
-            <p class="text-gray-400 text-sm mt-1">Recibe un beat gratuito de regalo y acceso anticipado a drops limitados.</p>
-            <form onsubmit="subscribeVip(event)" class="mt-4 flex gap-2">
-              <input required type="email" placeholder="tu@correo.com" class="flex-1 bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neonAcid" />
-              <button type="submit" class="px-5 py-3 rounded-xl bg-neonAcid text-black font-display font-extrabold text-xs uppercase tracking-wider">
-                Unirme
-              </button>
-            </form>
+        <!-- Collab Finder & Radio -->
+        <div class="glass-panel rounded-3xl p-5 sm:p-6 space-y-4 fold:col-span-2 pro:col-span-1">
+          <h3 class="font-display text-base sm:text-lg font-extrabold text-white">🤝 COLLAB &amp; RADIO 24/7</h3>
+          <div class="p-3 rounded-xl bg-white/5 text-xs space-y-1">
+            <p class="font-bold text-neonCyan">Busco Vocalista R&amp;B para "3AM"</p>
+            <p class="text-gray-400">Split 50/50 en regalías • @ProdAlex</p>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <button onclick="playPreview('RADIO LC 24/7', 118, 'img/logo-monograma.png', 'acid')" class="flex-1 py-2.5 px-3 rounded-xl bg-neonAcid text-black font-display font-extrabold text-xs uppercase">📻 Radio 24/7</button>
+            <button onclick="shareReferral()" class="px-3.5 py-2.5 rounded-xl glass-panel text-xs font-bold text-white">🎁 Referir</button>
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Banner Checkout 100% Seguro -->
-      <div id="licencias" class="reveal relative rounded-3xl overflow-hidden pt-6">
+  <!-- ==================== 7. ACADEMIA & CHECKOUT SSL ==================== -->
+  <section id="academia" class="relative py-16 sm:py-20 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-14">
+      <div class="reveal glass-panel rounded-3xl p-5 sm:p-8">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div>
+            <span class="text-neonPurple font-bold tracking-widest text-xs uppercase">LC ACADEMY &amp; RECURSOS</span>
+            <h3 class="font-display text-xl sm:text-3xl font-extrabold text-white">DECONSTRUCCIÓN DE "NEBULA"</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="downloadDawTemplate('FL Studio')" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-xs font-bold">⬇ FL Studio</button>
+            <button onclick="downloadDawTemplate('Ableton Live')" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-neonCyan hover:text-black text-xs font-bold">⬇ Ableton</button>
+            <button onclick="downloadDawTemplate('Checklist Spotify')" class="px-3.5 py-2 rounded-xl bg-neonPurple/30 border border-neonPurple text-xs font-bold text-white">📋 Checklist</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-xs">
+          <div class="p-4 rounded-2xl bg-black/40 border border-white/10"><strong class="text-neonAcid block mb-1">01. Sub-Bass 808</strong>Saturación analógica en F#m con sidechain al kick.</div>
+          <div class="p-4 rounded-2xl bg-black/40 border border-white/10"><strong class="text-neonCyan block mb-1">02. Pad Cósmico</strong>Sintetizador polifónico con shimmer reverb largo.</div>
+          <div class="p-4 rounded-2xl bg-black/40 border border-white/10"><strong class="text-neonPurple block mb-1">03. Hi-Hats Rolls</strong>Tresillos a 1/32 con paneo automático L/R.</div>
+          <div class="p-4 rounded-2xl bg-black/40 border border-white/10"><strong class="text-white block mb-1">04. Master -9 LUFS</strong>Limitación transparente lista para Spotify.</div>
+        </div>
+      </div>
+
+      <div id="licencias" class="reveal relative rounded-3xl overflow-hidden">
         <img src="img/banner-checkout.jpg" alt="Pago 100% Seguro Encriptación SSL 256 Bits" class="w-full max-w-4xl mx-auto object-cover fade-edges-all" loading="lazy" />
       </div>
     </div>
   </section>
 
   <!-- ==================== FOOTER ==================== -->
-  <footer class="relative pt-14 pb-28 border-t border-white/10 bg-surface/60 backdrop-blur-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
-      <div class="flex items-center gap-4">
-        <img src="img/logo-monograma.png" alt="LC Logo" class="h-12 w-12 object-contain blend-dark-bg" />
+  <footer class="relative pt-14 pb-32 pro:pb-24 border-t border-white/10 bg-surface/80 overflow-hidden">
+    <div class="absolute inset-x-0 bottom-0 h-40 synth-grid opacity-40 pointer-events-none"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
+      <div class="flex items-center gap-3">
+        <img src="img/logo-monograma.png" alt="LC Logo" class="h-11 w-11 object-contain blend-dark-bg" />
         <div>
-          <p class="font-display font-extrabold text-white tracking-wider">LOS CHAMACOS RECORDS</p>
-          <p class="text-xs text-gray-400">Beats • Producción Musical • Streetwear Oficial</p>
+          <p class="font-display font-extrabold text-sm text-white tracking-wider">LOS CHAMACOS RECORDS</p>
+          <p class="text-xs text-gray-400">Hora Local: <span id="local-timezone" class="text-neonCyan font-semibold">...</span></p>
         </div>
       </div>
 
-      <div class="flex items-center gap-6 text-xs text-gray-400">
-        <a href="#inicio" class="hover:text-white transition-colors">Inicio</a>
-        <a href="#beats" class="hover:text-white transition-colors">Beats</a>
-        <a href="#estudio" class="hover:text-white transition-colors">Estudio</a>
-        <a href="#merch" class="hover:text-white transition-colors">Merch</a>
+      <div class="flex flex-wrap justify-center items-center gap-4 text-xs text-gray-400">
+        <button onclick="toggleEcoMode()" class="py-1.5 px-2 hover:text-neonAcid">🔋 Modo Ahorro</button>
+        <button onclick="resetAllPreferences()" class="py-1.5 px-2 hover:text-red-400">♻️ Restablecer</button>
+        <button onclick="toggleMpcModal()" class="py-1.5 px-2 hover:text-white">🎛️ MPC Pad</button>
       </div>
 
-      <p class="text-xs text-gray-500">
-        &copy; 2026 Los Chamacos Records. Todos los derechos reservados.
-      </p>
+      <p class="text-xs text-gray-500">&copy; 2026 Los Chamacos Records.</p>
     </div>
   </footer>
 
-  <!-- ==================== REPRODUCTOR STICKY DOCK CON ESPECTRO CANVAS ==================== -->
-  <div id="sticky-player" class="fixed bottom-0 inset-x-0 z-40 glass-panel border-t border-neonCyan/40 px-4 py-2.5 hidden">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <canvas id="spectrum-canvas" width="110" height="34" class="rounded-lg bg-black/40"></canvas>
-        <div>
-          <p class="text-[10px] text-neonCyan uppercase tracking-widest font-bold">Sonando Ahora</p>
-          <p id="now-playing-title" class="font-display font-bold text-white text-sm">NEBULA — Los Chamacos</p>
+  <!-- BARRA DE NAVEGACIÓN INFERIOR APP NATIVA (MÓVIL & TABLET < 960px) -->
+  <nav class="pro:hidden fixed bottom-0 inset-x-0 z-40 glass-panel border-t border-white/15 safe-bottom-nav px-2 pt-2">
+    <div class="grid grid-cols-5 text-center text-[10px] font-display font-bold tracking-wider uppercase text-gray-300">
+      <a href="#inicio" class="py-1 flex flex-col items-center gap-0.5 hover:text-neonCyan"><span>🏠</span><span>Inicio</span></a>
+      <a href="#beats" class="py-1 flex flex-col items-center gap-0.5 hover:text-neonPurple"><span>🎵</span><span>Beats</span></a>
+      <a href="#workstation" class="py-1 flex flex-col items-center gap-0.5 text-neonAcid"><span>✍️</span><span>Lab</span></a>
+      <a href="#merch" class="py-1 flex flex-col items-center gap-0.5 hover:text-neonCyan"><span>👕</span><span>Merch</span></a>
+      <button onclick="toggleCart()" class="py-1 flex flex-col items-center gap-0.5 hover:text-white"><span>🛒</span><span>Carrito</span></button>
+    </div>
+  </nav>
+
+  <!-- REPRODUCTOR STICKY FLOTANTE -->
+  <div id="sticky-player" class="fixed bottom-14 pro:bottom-0 inset-x-0 z-40 glass-panel border-t border-neonCyan/40 px-3 sm:px-4 py-2 hidden">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black border-2 border-neonPurple flex items-center justify-center overflow-hidden animate-spin-vinyl shrink-0">
+          <img id="vinyl-cover" src="img/beat-nebula.jpg" alt="Vinyl" class="w-full h-full object-cover opacity-85" />
+          <div class="absolute w-2.5 h-2.5 rounded-full bg-void border border-white/40"></div>
+        </div>
+        <canvas id="spectrum-canvas" width="85" height="30" class="rounded-lg bg-black/50 hidden sm:block shrink-0"></canvas>
+        <div class="truncate">
+          <p class="text-[9px] sm:text-[10px] text-neonCyan uppercase tracking-widest font-bold">Voice Tag Activo</p>
+          <p id="now-playing-title" class="font-display font-bold text-white text-xs sm:text-sm truncate">NEBULA — Los Chamacos</p>
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <button id="loop-btn" onclick="toggleLoop()" class="px-3 py-1.5 rounded-lg bg-neonPurple/30 border border-neonPurple text-xs font-bold text-white">🔁 Loop ON</button>
-        <input id="volume-slider" oninput="setVolume(this.value)" type="range" min="0" max="0.2" step="0.01" value="0.08" class="w-20 accent-neonAcid hidden sm:block" title="Volumen" />
-        <button onclick="stopPreview()" class="px-4 py-1.5 rounded-lg bg-red-500/25 hover:bg-red-500/45 text-red-200 text-xs font-bold uppercase">
-          ⏹ Detener
-        </button>
+      <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        <button onclick="generateInstaStoryCard()" class="px-2.5 py-1.5 rounded-lg bg-fuchsia-500/25 border border-fuchsia-400/50 text-[11px] font-bold text-white">📸 IG</button>
+        <button id="loop-btn" onclick="toggleLoop()" class="px-2 py-1.5 rounded-lg bg-neonPurple/30 border border-neonPurple text-xs font-bold text-white">🔁</button>
+        <button onclick="stopPreview()" class="px-3 py-1.5 rounded-lg bg-red-500/30 text-red-200 text-xs font-bold uppercase">⏹</button>
       </div>
     </div>
   </div>
 
-  <!-- ==================== DRAWER DEL CARRITO (CON CUPÓN, REGALO Y RECIBO) ==================== -->
+  <!-- DRAWER DEL CARRITO -->
   <div id="cart-drawer" class="fixed inset-0 z-50 hidden">
-    <div onclick="toggleCart()" class="absolute inset-0 bg-black/75 backdrop-blur-sm"></div>
-    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-surface border-l border-neonPurple/30 p-6 flex flex-col justify-between shadow-2xl">
+    <div onclick="toggleCart()" class="absolute inset-0 bg-black/75"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-surface border-l border-neonPurple/30 p-5 sm:p-6 flex flex-col justify-between shadow-2xl overflow-y-auto">
       <div>
-        <div class="flex items-center justify-between pb-4 border-b border-white/10">
-          <h3 class="font-display text-xl font-extrabold text-white">TU CARRITO</h3>
-          <button onclick="toggleCart()" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+        <div class="flex items-center justify-between pb-3 border-b border-white/10">
+          <h3 class="font-display text-lg sm:text-xl font-extrabold text-white">TU CARRITO LC</h3>
+          <button onclick="toggleCart()" class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white text-2xl">&times;</button>
         </div>
 
-        <!-- Barra de Progreso Regalo Stickers -->
         <div class="mt-3 p-3 rounded-xl bg-white/5 border border-white/10">
-          <p id="gift-msg" class="text-xs text-gray-300 font-semibold">Agrega $60 USD para desbloquear Pack de Stickers Gratis 🎁</p>
+          <p id="gift-msg" class="text-xs text-gray-300 font-semibold">Agrega $60 USD para Stickers Gratis 🎁</p>
           <div class="w-full h-1.5 bg-white/10 rounded-full mt-2 overflow-hidden">
             <div id="gift-bar" class="h-full bg-neonAcid w-0 transition-all duration-300"></div>
           </div>
         </div>
 
-        <div id="cart-items" class="mt-4 space-y-3 max-h-[44vh] overflow-y-auto pr-1">
-          <p class="text-gray-400 text-sm text-center py-10">Tu carrito está vacío.</p>
-        </div>
+        <div id="cart-items" class="mt-3 space-y-2.5 max-h-[34vh] overflow-y-auto pr-1"></div>
+
+        <label class="mt-3 flex items-center gap-2 text-xs text-gray-300 cursor-pointer py-1">
+          <input id="gift-wrap-check" type="checkbox" class="accent-neonPurple w-4 h-4" />
+          <span>🎁 Envolver para regalo + dedicatoria impresa</span>
+        </label>
       </div>
 
-      <div class="pt-4 border-t border-white/10 space-y-3">
-        <!-- Cupón de descuento -->
+      <div class="pt-3 border-t border-white/10 space-y-3">
         <div class="flex gap-2">
-          <input id="coupon-input" type="text" placeholder="Cupón (ej. CHAMACOS10)" class="flex-1 bg-white/5 border border-white/15 rounded-xl px-3 py-2 text-xs text-white uppercase focus:outline-none" />
-          <button onclick="applyCoupon()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-xs font-bold uppercase">Aplicar</button>
+          <input id="coupon-input" type="text" placeholder="Cupón (CHAMACOS10)" class="flex-1 min-w-0 bg-white/5 border border-white/15 rounded-xl px-3 py-2.5 text-xs text-white uppercase focus:outline-none" />
+          <button onclick="applyCoupon()" class="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-xs font-bold uppercase">Aplicar</button>
         </div>
 
-        <div class="flex items-center justify-between text-lg font-display font-bold">
-          <span>Total:</span>
+        <select id="payment-method" onchange="renderCart()" class="w-full bg-white/5 border border-white/15 rounded-xl px-3 py-2.5 text-xs text-gray-200">
+          <option value="card" class="bg-surface">💳 Tarjeta / Apple Pay / Google Pay / SINPE</option>
+          <option value="bnpl" class="bg-surface">📅 4 Cuotas sin intereses (BNPL)</option>
+          <option value="crypto" class="bg-surface">🪙 Cripto Web3 (USDC / ETH / SOL) -5%</option>
+        </select>
+
+        <div class="flex items-center justify-between text-base font-display font-bold">
+          <span>Total Final:</span>
           <span id="cart-total" class="text-neonAcid">$0.00</span>
         </div>
-        <button onclick="checkoutDemo()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-neonPurple to-neonCyan text-black font-display font-extrabold tracking-wider uppercase shadow-lg hover:opacity-95 transition-all">
+
+        <button onclick="checkoutDemo()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-neonPurple to-neonCyan text-black font-display font-extrabold text-xs tracking-wider uppercase shadow-lg">
           FINALIZAR COMPRA SEGURA
         </button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL COMPARAR LICENCIAS -->
+  <!-- MODALES (DESCARGAS, COMPARAR, MPC, UTILIDAD) -->
+  <div id="downloads-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div onclick="toggleDownloadsModal()" class="absolute inset-0 bg-black/80"></div>
+    <div class="relative z-10 glass-panel rounded-3xl p-6 max-w-lg w-full space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 class="font-display text-lg font-extrabold text-white">📥 MIS DESCARGAS &amp; CONTRATOS</h3>
+        <button onclick="toggleDownloadsModal()" class="text-2xl text-gray-400">&times;</button>
+      </div>
+      <div id="purchased-list" class="space-y-2 text-xs text-gray-300 max-h-60 overflow-y-auto">
+        <p class="text-gray-400">Aún no has completado órdenes en esta sesión.</p>
+      </div>
+      <div class="pt-3 border-t border-white/10 flex items-center justify-between">
+        <img src="img/firma-digital.png" alt="Firma Sello" class="h-11 object-contain blend-dark-bg" />
+        <span class="text-[11px] text-neonAcid font-bold">Certificado Oficial LC Records</span>
+      </div>
+    </div>
+  </div>
+
   <div id="compare-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-    <div onclick="toggleCompareModal()" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
-    <div class="relative z-10 glass-panel rounded-3xl p-6 sm:p-8 max-w-2xl w-full space-y-4">
+    <div onclick="toggleCompareModal()" class="absolute inset-0 bg-black/80"></div>
+    <div class="relative z-10 glass-panel rounded-3xl p-6 max-w-xl w-full space-y-4">
       <div class="flex justify-between items-center">
-        <h3 class="font-display text-2xl font-extrabold text-white">COMPARATIVA DE LICENCIAS</h3>
-        <button onclick="toggleCompareModal()" class="text-2xl text-gray-400 hover:text-white">&times;</button>
+        <h3 class="font-display text-lg font-extrabold text-white">COMPARATIVA DE LICENCIAS</h3>
+        <button onclick="toggleCompareModal()" class="text-2xl text-gray-400">&times;</button>
       </div>
-      <div class="overflow-x-auto text-sm">
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="border-b border-white/15 text-neonCyan">
-              <th class="py-2">Beneficio</th>
-              <th class="py-2">MP3 Lease</th>
-              <th class="py-2">WAV + Stems</th>
-              <th class="py-2">Exclusiva</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-white/10 text-gray-300">
-            <tr><td class="py-2">Archivos</td><td>MP3 320kbps</td><td>WAV + Stems</td><td>WAV + Stems + Contrato</td></tr>
-            <tr><td class="py-2">Streams</td><td>50,000</td><td>Ilimitados</td><td>Ilimitados</td></tr>
-            <tr><td class="py-2">Videos Monetizados</td><td>1 Video</td><td>Ilimitados</td><td>Ilimitados</td></tr>
-            <tr><td class="py-2">Exclusividad</td><td>No</td><td>No</td><td class="text-neonAcid font-bold">100% Tuyo</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <table class="w-full text-left text-xs border-collapse">
+        <thead><tr class="border-b border-white/15 text-neonCyan"><th class="py-2">Beneficio</th><th>MP3</th><th>WAV+Stems</th><th>Exclusiva</th></tr></thead>
+        <tbody class="divide-y divide-white/10 text-gray-300">
+          <tr><td class="py-2">Archivos</td><td>MP3 320kbps</td><td>WAV + Stems</td><td>WAV + Stems + Contrato</td></tr>
+          <tr><td class="py-2">Streams</td><td>50,000</td><td>Ilimitados</td><td>Ilimitados</td></tr>
+          <tr><td class="py-2">Propiedad</td><td>No exclusiva</td><td>No exclusiva</td><td class="text-neonAcid font-bold">100% Exclusiva</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- MODAL MPC PAD VIRTUAL -->
   <div id="mpc-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-    <div onclick="toggleMpcModal()" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
-    <div class="relative z-10 glass-panel rounded-3xl p-6 sm:p-8 max-w-md w-full text-center space-y-5">
+    <div onclick="toggleMpcModal()" class="absolute inset-0 bg-black/80"></div>
+    <div class="relative z-10 glass-panel rounded-3xl p-6 max-w-md w-full text-center space-y-4">
       <div class="flex justify-between items-center">
-        <h3 class="font-display text-xl font-extrabold text-white">🎛️ LC MPC PAD VIRTUAL</h3>
-        <button onclick="toggleMpcModal()" class="text-2xl text-gray-400 hover:text-white">&times;</button>
+        <h3 class="font-display text-base sm:text-lg font-extrabold text-white">🎛️ LC MPC PAD (TECLAS A, S, D, F)</h3>
+        <button onclick="toggleMpcModal()" class="text-2xl text-gray-400">&times;</button>
       </div>
-      <p class="text-xs text-gray-400">Haz clic o presiona las teclas <strong class="text-neonAcid">A, S, D, F</strong> en tu teclado</p>
-      <div class="grid grid-cols-2 gap-4">
-        <button onclick="triggerPad(65, '808 KICK')" class="h-24 rounded-2xl bg-neonPurple/25 border border-neonPurple hover:bg-neonPurple font-display font-extrabold text-white">A • 808 KICK</button>
-        <button onclick="triggerPad(190, 'CYBER SNARE')" class="h-24 rounded-2xl bg-neonCyan/25 border border-neonCyan hover:bg-neonCyan hover:text-black font-display font-extrabold text-white">S • SNARE</button>
-        <button onclick="triggerPad(440, 'HI-HAT')" class="h-24 rounded-2xl bg-neonAcid/25 border border-neonAcid hover:bg-neonAcid hover:text-black font-display font-extrabold text-white">D • HI-HAT</button>
-        <button onclick="triggerPad(330, 'SPACE LEAD')" class="h-24 rounded-2xl bg-fuchsia-500/25 border border-fuchsia-400 hover:bg-fuchsia-500 font-display font-extrabold text-white">F • LEAD</button>
+      <div class="grid grid-cols-2 gap-3">
+        <button onclick="triggerPad(65, '808 KICK')" class="h-20 rounded-2xl bg-neonPurple/25 border border-neonPurple font-display font-extrabold text-white text-xs">A • 808 KICK</button>
+        <button onclick="triggerPad(190, 'SNARE')" class="h-20 rounded-2xl bg-neonCyan/25 border border-neonCyan font-display font-extrabold text-white text-xs">S • SNARE</button>
+        <button onclick="triggerPad(440, 'HI-HAT')" class="h-20 rounded-2xl bg-neonAcid/25 border border-neonAcid font-display font-extrabold text-white text-xs">D • HI-HAT</button>
+        <button onclick="triggerPad(330, 'LEAD')" class="h-20 rounded-2xl bg-fuchsia-500/25 border border-fuchsia-400 font-display font-extrabold text-white text-xs">F • LEAD</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL LIGHTBOX ZOOM / GUÍA DE TALLAS / FAVORITOS -->
-  <div id="lightbox-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-    <div onclick="closeLightbox()" class="absolute inset-0 bg-black/85 backdrop-blur-md"></div>
-    <div class="relative z-10 max-w-3xl w-full text-center space-y-3">
-      <img id="lightbox-img" src="" alt="Vista Ampliada" class="max-h-[75vh] mx-auto rounded-3xl object-contain fade-edges-all" />
-      <p id="lightbox-caption" class="font-display text-sm text-gray-200"></p>
-      <button onclick="closeLightbox()" class="px-5 py-2 rounded-xl bg-white/10 text-xs font-bold text-white uppercase">Cerrar</button>
-    </div>
+  <div id="utility-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div onclick="document.getElementById('utility-modal').classList.add('hidden')" class="absolute inset-0 bg-black/80"></div>
+    <div id="utility-modal-content" class="relative z-10 glass-panel rounded-3xl p-6 max-w-md w-full space-y-4"></div>
   </div>
 
-  <!-- Toast de Notificación -->
-  <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-2xl glass-panel border-neonAcid/60 text-white text-sm font-semibold shadow-2xl opacity-0 pointer-events-none transition-all duration-300">
-    Agregado al carrito
-  </div>
+  <!-- TOAST -->
+  <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-2xl glass-panel border-neonAcid/60 text-white text-xs font-semibold shadow-2xl opacity-0 pointer-events-none transition-opacity duration-200 max-w-[90vw] text-center"></div>
 
-  <!-- ==================== SCRIPTS DE INTERACTIVIDAD ==================== -->
+  <!-- ==================== SCRIPTS OPTIMIZADOS ==================== -->
   <script>
-    // PRELOADER
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
     window.addEventListener('DOMContentLoaded', () => {
       const bar = document.getElementById('preloader-bar');
       const preloader = document.getElementById('preloader');
@@ -1069,449 +1182,528 @@
         if (preloader) {
           preloader.classList.add('loaded');
           preloader.style.pointerEvents = 'none';
-          setTimeout(() => preloader.remove(), 950);
+          setTimeout(() => preloader.remove(), 800);
         }
-      }, 1100);
+      }, 650);
+
+      document.getElementById('local-timezone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (!isTouchDevice) initStarfield();
       loadSavedState();
+      startDropCountdown();
     });
 
-    // BARRA DE PROGRESO DE SCROLL + CAPÍTULOS ACTIVOS
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      document.getElementById('scroll-progress').style.width = pct + '%';
-
-      document.querySelectorAll('.chapter-dot').forEach((dot) => {
-        const sec = document.getElementById(dot.dataset.target);
-        if (!sec) return;
-        const top = sec.offsetTop - 250;
-        const bottom = top + sec.offsetHeight;
-        if (scrollTop >= top && scrollTop < bottom) {
-          dot.classList.remove('text-gray-500');
-          dot.classList.add('text-neonAcid');
-        } else {
-          dot.classList.add('text-gray-500');
-          dot.classList.remove('text-neonAcid');
+    // STARFIELD LIGERO (SOLO ESCRITORIO PARA 60 FPS EN MÓVIL)
+    let starSpeedMult = 1;
+    function initStarfield() {
+      const canvas = document.getElementById('starfield-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w = canvas.width = window.innerWidth;
+      let h = canvas.height = window.innerHeight;
+      window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }, { passive: true });
+      const stars = Array.from({ length: 55 }, () => ({ x: Math.random() * w, y: Math.random() * h, z: Math.random() * 1.8 + 0.6 }));
+      function draw() {
+        if (!document.hidden && !document.body.classList.contains('eco-mode')) {
+          ctx.clearRect(0, 0, w, h);
+          ctx.fillStyle = '#ffffff';
+          for (let i = 0; i < stars.length; i++) {
+            const s = stars[i];
+            s.y += s.z * 0.35 * starSpeedMult;
+            if (s.y > h) { s.y = 0; s.x = Math.random() * w; }
+            ctx.globalAlpha = s.z / 3;
+            ctx.fillRect(s.x, s.y, s.z, s.z);
+          }
         }
-      });
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    }
+
+    // ONDA DE CLIC + HÁPTICA
+    window.addEventListener('click', (e) => {
+      if (!isTouchDevice) {
+        const r = document.createElement('div');
+        r.className = 'click-ripple';
+        r.style.left = e.clientX + 'px';
+        r.style.top = e.clientY + 'px';
+        r.style.width = '20px';
+        r.style.height = '20px';
+        document.body.appendChild(r);
+        setTimeout(() => r.remove(), 550);
+      }
+      if (navigator.vibrate) navigator.vibrate(10);
     }, { passive: true });
 
-    // INTERRUPTOR DE ILUMINACIÓN DE ESTUDIO
+    // BARRA PROGRESO SCROLL THROTTLED CON RAF
+    let scrollTicking = false;
+    window.addEventListener('scroll', () => {
+      if (!scrollTicking) {
+        requestAnimationFrame(() => {
+          const scrollTop = window.scrollY;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          document.getElementById('scroll-progress').style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }, { passive: true });
+
+    // CURSOR & TILT 3D SOLO EN MOUSE
+    if (!isTouchDevice) {
+      const dot = document.getElementById('cursor-dot'), ring = document.getElementById('cursor-ring');
+      let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        if (dot) dot.style.transform = `translate3d(${mouseX - 4}px, ${mouseY - 4}px, 0)`;
+      }, { passive: true });
+      (function animCursor() {
+        ringX += (mouseX - ringX) * 0.2;
+        ringY += (mouseY - ringY) * 0.2;
+        if (ring) ring.style.transform = `translate3d(${ringX - 17}px, ${ringY - 17}px, 0)`;
+        requestAnimationFrame(animCursor);
+      })();
+
+      document.querySelectorAll('.tilt-card').forEach((card) => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left, y = e.clientY - rect.top;
+          card.style.transform = `perspective(900px) rotateX(${((y - rect.height / 2) / (rect.height / 2)) * -4}deg) rotateY(${((x - rect.width / 2) / (rect.width / 2)) * 4}deg)`;
+          card.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
+          card.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+        }, { passive: true });
+        card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+      });
+    }
+
+    // TEMAS & EASTER EGG
     const themes = ['purple', 'acid', 'stealth'];
     let themeIdx = 0;
     function cycleStudioTheme() {
       themeIdx = (themeIdx + 1) % themes.length;
-      const t = themes[themeIdx];
-      document.body.setAttribute('data-theme', t);
-      const names = { purple: 'Cyber Purple', acid: 'Acid Overdrive', stealth: 'Midnight Stealth' };
-      showToast(`💡 Iluminación: ${names[t]}`);
+      document.body.setAttribute('data-theme', themes[themeIdx]);
+      showToast(`💡 Iluminación: ${themes[themeIdx].toUpperCase()}`);
     }
-
-    // EASTER EGG (5 CLICS EN MONOGRAMA)
     let logoClicks = 0;
     function triggerLogoEasterEgg() {
-      logoClicks++;
-      if (logoClicks >= 5) {
-        logoClicks = 0;
-        showToast('🔥 EASTER EGG DESBLOQUEADO: Usa el cupón CHAMACOS10');
-        cycleStudioTheme();
-      }
+      if (++logoClicks >= 5) { logoClicks = 0; showToast('🔥 CUPÓN SECRETO: CHAMACOS10'); cycleStudioTheme(); }
     }
 
-    // CURSOR MAGNÉTICO
-    const dot = document.getElementById('cursor-dot');
-    const ring = document.getElementById('cursor-ring');
-    const glow = document.getElementById('cursor-glow');
-    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-    let ringX = mouseX, ringY = mouseY;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX; mouseY = e.clientY;
-      if (dot) { dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; }
-      if (glow) { glow.style.left = mouseX + 'px'; glow.style.top = mouseY + 'px'; }
-    });
-    function animateCursor() {
-      ringX += (mouseX - ringX) * 0.16;
-      ringY += (mouseY - ringY) * 0.16;
-      if (ring) { ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px'; }
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    document.querySelectorAll('a, button, .tilt-card').forEach((el) => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-    });
-
-    // TILT 3D + HOLO SHEEN
-    document.querySelectorAll('.tilt-card').forEach((card) => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left, y = e.clientY - rect.top;
-        const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -6;
-        const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 6;
-        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
-        card.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
-        card.style.setProperty('--my', `${(y / rect.height) * 100}%`);
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-      });
-    });
-
-    // PARALLAX MULTICAPA
-    const parallaxLayers = document.querySelectorAll('.parallax-layer');
-    window.addEventListener('scroll', () => {
-      if (window.innerWidth < 768) return;
-      parallaxLayers.forEach((layer) => {
-        const speed = parseFloat(layer.getAttribute('data-speed')) || 0;
-        const rect = layer.getBoundingClientRect();
-        layer.style.transform = `translateY(${(rect.top - window.innerHeight / 2) * speed}px)`;
-      });
-    }, { passive: true });
-
-    // CONVERSIÓN DE MONEDA
-    const rates = { USD: { symbol: '$', mult: 1 }, MXN: { symbol: 'MX$', mult: 17.5 }, EUR: { symbol: '€', mult: 0.92 }, CRC: { symbol: '₡', mult: 515 } };
+    // MONEDA
+    const rates = { USD: { s: '$', m: 1 }, MXN: { s: 'MX$', m: 17.5 }, EUR: { s: '€', m: 0.92 }, CRC: { s: '₡', m: 515 } };
     let currentCurrency = 'USD';
-
-    function formatMoney(usdAmount) {
+    function formatMoney(usd) {
       const r = rates[currentCurrency];
-      const val = usdAmount * r.mult;
-      return currentCurrency === 'CRC' ? `${r.symbol}${Math.round(val).toLocaleString()}` : `${r.symbol}${val.toFixed(2)}`;
+      const v = usd * r.m;
+      return currentCurrency === 'CRC' ? `${r.s}${Math.round(v).toLocaleString()}` : `${r.s}${v.toFixed(2)}`;
     }
-
-    function changeCurrency(curr) {
-      currentCurrency = curr;
-      document.querySelectorAll('.price-display').forEach((el) => {
-        const usd = parseFloat(el.dataset.usd);
-        el.textContent = formatMoney(usd);
-      });
+    function changeCurrency(c) {
+      currentCurrency = c;
+      document.querySelectorAll('.price-display').forEach((el) => { el.textContent = formatMoney(parseFloat(el.dataset.usd)); });
       renderCart();
     }
 
-    // SELECTOR DE LICENCIAS + FILTROS DE BEATS
-    const licenseTiers = {
-      basic: { label: 'MP3 Lease', price: 29.00, format: 'MP3 320kbps', desc: 'Archivo MP3 320kbps • Hasta 50,000 streams • Uso comercial en plataformas digitales' },
-      pro: { label: 'WAV + Stems', price: 59.00, format: 'WAV 24-bit + Trackouts', desc: 'WAV sin comprimir + Pistas separadas (Stems) • Streams ilimitados • Radio y shows en vivo' },
-      exclusive: { label: 'Derechos Exclusivos', price: 199.00, format: 'Propiedad Total + Contrato', desc: 'Propiedad 100% exclusiva • El beat se retira de la tienda • WAV + Stems + Contrato firmado' }
-    };
+    // LICENCIAS, FILTROS & TAP TEMPO
+    const licenseTiers = { basic: { label: 'MP3 Lease', price: 29 }, pro: { label: 'WAV + Stems', price: 59 }, exclusive: { label: 'Exclusiva', price: 199 } };
     let currentTierKey = 'basic';
-
-    function setLicenseTier(tierKey, btn) {
-      currentTierKey = tierKey;
-      const tier = licenseTiers[tierKey];
-      document.querySelectorAll('.tier-btn').forEach((b) => {
-        b.classList.remove('bg-gradient-to-r', 'from-neonPurple', 'to-indigo-600', 'text-white', 'shadow-[0_0_20px_rgba(184,41,255,0.45)]');
-        b.classList.add('text-gray-300');
-      });
-      btn.classList.remove('text-gray-300');
-      btn.classList.add('bg-gradient-to-r', 'from-neonPurple', 'to-indigo-600', 'text-white', 'shadow-[0_0_20px_rgba(184,41,255,0.45)]');
-      document.getElementById('tier-badge').textContent = tier.label.toUpperCase();
-      document.getElementById('tier-desc').textContent = tier.desc;
-      document.querySelectorAll('.beat-price').forEach((el) => {
-        el.dataset.usd = tier.price;
-        el.textContent = formatMoney(tier.price);
-      });
-      document.querySelectorAll('.beat-format').forEach((el) => { el.textContent = tier.format; });
+    function setLicenseTier(key, btn) {
+      currentTierKey = key;
+      document.querySelectorAll('.tier-btn').forEach((b) => { b.classList.remove('bg-gradient-to-r', 'from-neonPurple', 'to-indigo-600', 'text-white'); b.classList.add('text-gray-300'); });
+      btn.classList.add('bg-gradient-to-r', 'from-neonPurple', 'to-indigo-600', 'text-white');
+      document.querySelectorAll('.beat-price').forEach((el) => { el.dataset.usd = licenseTiers[key].price; el.textContent = formatMoney(licenseTiers[key].price); });
     }
-
     function filterBeats() {
       const q = document.getElementById('beat-search').value.toLowerCase();
       const mood = document.getElementById('beat-mood').value;
-      const maxBpm = parseInt(document.getElementById('bpm-range').value, 10);
-      document.querySelectorAll('.beat-card').forEach((card) => {
-        const matchName = card.dataset.name.includes(q);
-        const matchMood = mood === 'all' || card.dataset.mood === mood;
-        const matchBpm = parseInt(card.dataset.bpm, 10) <= maxBpm;
-        card.style.display = (matchName && matchMood && matchBpm) ? 'flex' : 'none';
+      const key = document.getElementById('beat-key').value;
+      const bpm = parseInt(document.getElementById('bpm-range').value, 10);
+      document.querySelectorAll('.beat-card').forEach((c) => {
+        const ok = c.dataset.name.includes(q) && (mood === 'all' || c.dataset.mood === mood) && (key === 'all' || c.dataset.key === key) && parseInt(c.dataset.bpm, 10) <= bpm;
+        c.style.display = ok ? 'flex' : 'none';
       });
     }
-
-    function shareBeat(name) {
-      navigator.clipboard?.writeText(`${window.location.origin}${window.location.pathname}#beats?track=${encodeURIComponent(name)}`);
-      showToast(`🔗 Enlace de "${name}" copiado al portapapeles`);
+    let tapTimes = [];
+    function handleTapTempo() {
+      const now = Date.now();
+      tapTimes.push(now);
+      if (tapTimes.length > 5) tapTimes.shift();
+      if (tapTimes.length >= 2) {
+        const diffs = tapTimes.slice(1).map((t, i) => t - tapTimes[i]);
+        const bpm = Math.round(60000 / (diffs.reduce((a, b) => a + b, 0) / diffs.length));
+        document.getElementById('tap-bpm-val').textContent = bpm;
+        showToast(`🥁 Tempo: ${bpm} BPM`);
+      }
     }
 
-    // REPRODUCTOR STICKY CON VISUALIZADOR CANVAS
+    // AUDIO ENGINE
     let audioCtx = null, beatInterval = null, analyser = null, animFrame = null;
-    let masterVol = 0.08, isLooping = true;
+    let masterVol = 0.08, isLooping = true, pitchSemitones = 0, speedMultiplier = 1;
+    let currentBeatTitle = 'NEBULA', currentBeatBpm = 140, currentCover = 'img/beat-nebula.jpg';
 
-    function playPreview(title, bpm) {
+    function playPreview(title, bpm, cover, themeName) {
       stopPreview();
-      const dock = document.getElementById('sticky-player');
-      document.getElementById('now-playing-title').textContent = `${title} (${bpm} BPM) — Los Chamacos`;
-      dock.classList.remove('hidden');
+      currentBeatTitle = title; currentBeatBpm = bpm; currentCover = cover;
+      if (themeName) document.body.setAttribute('data-theme', themeName);
+      starSpeedMult = bpm / 70;
+
+      document.getElementById('vinyl-cover').src = cover;
+      document.getElementById('now-playing-title').textContent = `${title} (${Math.round(bpm * speedMultiplier)} BPM)`;
+      document.getElementById('sticky-player').classList.remove('hidden');
 
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       analyser = audioCtx.createAnalyser();
       analyser.fftSize = 64;
       analyser.connect(audioCtx.destination);
 
-      const stepTime = (60 / bpm / 2) * 1000;
-      const notes = title === 'NEBULA' ? [110, 130.81, 146.83, 164.81]
-                  : title === '3AM' ? [98, 116.54, 130.81, 146.83]
-                  : [82.41, 98, 110, 123.47];
+      const stepTime = (60 / (bpm * speedMultiplier) / 2) * 1000;
+      const baseNotes = title === 'NEBULA' ? [110, 130.81, 146.83, 164.81] : title === '3AM' ? [98, 116.54, 130.81, 146.83] : [82.41, 98, 110, 123.47];
       let step = 0;
 
       beatInterval = setInterval(() => {
         if (!audioCtx) return;
-        if (!isLooping && step >= 16) { stopPreview(); return; }
+        if (step > 0 && step % 32 === 0 && 'speechSynthesis' in window) {
+          const tag = new SpeechSynthesisUtterance('Los Chamacos Records');
+          tag.rate = 1.25; tag.volume = 0.25;
+          window.speechSynthesis.speak(tag);
+        }
         const now = audioCtx.currentTime;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+        const freq = baseNotes[step % baseNotes.length] * Math.pow(2, pitchSemitones / 12);
         osc.type = step % 4 === 0 ? 'sawtooth' : 'triangle';
-        osc.frequency.setValueAtTime(notes[step % notes.length], now);
+        osc.frequency.setValueAtTime(freq, now);
         gain.gain.setValueAtTime(masterVol, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-        osc.connect(gain);
-        gain.connect(analyser);
-        osc.start(now);
-        osc.stop(now + 0.26);
+        osc.connect(gain); gain.connect(analyser);
+        osc.start(now); osc.stop(now + 0.26);
         step++;
       }, stepTime);
 
       drawSpectrum();
     }
 
+    function jumpCue(title, bpm, section) { playPreview(title, bpm, currentCover); showToast(`⏩ [${section}] en ${title}`); }
+    function setPitchShift(val) { pitchSemitones = parseInt(val, 10); document.getElementById('pitch-val').textContent = (pitchSemitones > 0 ? '+' : '') + pitchSemitones; }
+    function setSpeedMode(mult, label) { speedMultiplier = mult; showToast(`⚡ Velocidad: ${label}`); if (audioCtx) playPreview(currentBeatTitle, currentBeatBpm, currentCover); }
+
+    let metroInterval = null;
+    function toggleMetronome() {
+      if (metroInterval) { clearInterval(metroInterval); metroInterval = null; showToast('⏱️ Metrónomo apagado'); return; }
+      let count = 0;
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      metroInterval = setInterval(() => {
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.frequency.value = count % 4 === 0 ? 1000 : 650;
+        g.gain.setValueAtTime(0.08, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+        osc.connect(g); g.connect(ctx.destination);
+        osc.start(); osc.stop(ctx.currentTime + 0.09);
+        count++;
+      }, 500);
+      showToast('⏱️ Metrónomo activo');
+    }
+
     function drawSpectrum() {
       const canvas = document.getElementById('spectrum-canvas');
       if (!canvas || !analyser) return;
       const ctx = canvas.getContext('2d');
-      const bufferLength = analyser.frequencyBinCount;
-      const dataArray = new Uint8Array(bufferLength);
-
-      function render() {
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      (function render() {
         if (!analyser) return;
         animFrame = requestAnimationFrame(render);
-        analyser.getByteFrequencyData(dataArray);
+        analyser.getByteFrequencyData(data);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const barWidth = (canvas.width / bufferLength) * 1.8;
-        let x = 0;
-        for (let i = 0; i < bufferLength; i++) {
-          const barHeight = (dataArray[i] / 255) * canvas.height;
+        for (let i = 0; i < 20; i++) {
+          const h = (data[i] / 255) * canvas.height;
           ctx.fillStyle = i % 2 === 0 ? '#b829ff' : '#00f0ff';
-          ctx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);
-          x += barWidth;
+          ctx.fillRect(i * 4, canvas.height - h, 3, h);
         }
-      }
-      render();
+      })();
     }
 
     function stopPreview() {
       if (beatInterval) clearInterval(beatInterval);
       if (animFrame) cancelAnimationFrame(animFrame);
       if (audioCtx) { audioCtx.close(); audioCtx = null; analyser = null; }
+      starSpeedMult = 1;
       document.getElementById('sticky-player').classList.add('hidden');
     }
+    function toggleLoop() { isLooping = !isLooping; document.getElementById('loop-btn').textContent = isLooping ? '🔁' : '➡️'; }
 
-    function setVolume(v) { masterVol = parseFloat(v); }
-    function toggleLoop() {
-      isLooping = !isLooping;
-      document.getElementById('loop-btn').textContent = isLooping ? '🔁 Loop ON' : '➡️ Loop OFF';
+    // STUDIO LAB
+    function updateSyllableCounter() {
+      const text = document.getElementById('lyric-editor').value;
+      localStorage.setItem('lc_lyrics', text);
+      document.getElementById('syllable-lines').innerHTML = text.split('\n').map((line, i) => {
+        const syllables = (line.toLowerCase().match(/[aeiouáéíóúü]+/g) || []).length;
+        return `<div>L${i + 1}: <strong class="text-white">${syllables}</strong></div>`;
+      }).join('');
+    }
+    function insertSongStructure() {
+      const ed = document.getElementById('lyric-editor');
+      ed.value += `\n[INTRO]\n\n[VERSO 1]\n\n[CORO]\n`;
+      updateSyllableCounter();
+    }
+    function generateWritingChallenge() {
+      const challenges = [
+        '🔥 Reto: Escribe 8 barras en 60s usando "Neón" y "Madrugada".',
+        '⚡ Reto: Escribe un coro de 4 líneas con máximo 10 sílabas por verso.',
+        '🌌 Reto: Haz un verso doble tempo sobre el beat NEBULA.'
+      ];
+      const box = document.getElementById('writing-challenge-box');
+      box.textContent = challenges[Math.floor(Math.random() * challenges.length)];
+      box.classList.remove('hidden');
+    }
+    function findRhymes() {
+      const w = document.getElementById('rhyme-input').value.trim().toLowerCase();
+      if (!w) return;
+      const ending = w.slice(-3);
+      const bank = ['noche', 'coche', 'derroche', 'fuego', 'juego', 'luego', 'calle', 'valle', 'detalle', 'brillo', 'sencillo', 'anillo', 'mente', 'frente', 'gente'];
+      const matches = bank.filter((item) => item.endsWith(ending) && item !== w);
+      document.getElementById('rhyme-results').textContent = matches.length ? `Rimas: ${matches.join(', ')}` : `Prueba terminaciones en "-${ending}"`;
+    }
+    function exportProjectBundle() {
+      const lyrics = document.getElementById('lyric-editor').value || 'Sin letra.';
+      const blob = new Blob([`LOS CHAMACOS RECORDS\nBeat: ${currentBeatTitle}\n\n${lyrics}`], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `Proyecto_${currentBeatTitle}_LC.txt`;
+      a.click();
+      showToast('📦 Proyecto descargado');
     }
 
-    // MPC PAD VIRTUAL
+    let mediaRecorder = null, audioChunks = [];
+    async function startMicRecording() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          const audioEl = document.getElementById('recorded-audio');
+          audioEl.src = URL.createObjectURL(new Blob(audioChunks, { type: 'audio/webm' }));
+          audioEl.classList.remove('hidden');
+          document.getElementById('rec-status').textContent = 'Lista ✔';
+        };
+        mediaRecorder.start();
+        document.getElementById('rec-status').textContent = '🔴 Grabando...';
+        document.getElementById('btn-rec-start').disabled = true;
+        document.getElementById('btn-rec-stop').disabled = false;
+      } catch (e) { showToast('⚠️ Permite acceso al micrófono'); }
+    }
+    function stopMicRecording() {
+      if (mediaRecorder) {
+        mediaRecorder.stop();
+        document.getElementById('btn-rec-start').disabled = false;
+        document.getElementById('btn-rec-stop').disabled = true;
+      }
+    }
+    function analyzeVocalRange() { showToast('🎵 Tonalidad sugerida: F#m (Ideal para Nebula)'); }
+    function updateMixSlider(val) { document.getElementById('ab-label').textContent = val > 50 ? `${val}% Master LC` : `${val}% Maqueta`; }
+
+    // MERCH
+    function selectSize(btn) {
+      btn.parentElement.querySelectorAll('.size-btn').forEach((b) => { b.classList.remove('active-size', 'bg-neonPurple', 'text-white'); b.classList.add('bg-white/5', 'text-gray-300'); });
+      btn.classList.add('active-size', 'bg-neonPurple', 'text-white');
+    }
+    function addMerchWithSize(btn, title, price) {
+      const size = btn.closest('.tilt-card').querySelector('.active-size')?.textContent || 'M';
+      addToCart(`${title} (Talla ${size})`, price, false, true);
+    }
+    function addCustomHoodie(btn) {
+      const size = btn.closest('.tilt-card').querySelector('.active-size')?.textContent || 'M';
+      const tag = document.getElementById('custom-sleeve-input').value.trim();
+      addToCart(tag ? `Hoodie LC Neon (${size} • "${tag}")` : `Hoodie LC Neon (${size})`, 54.99, false, true);
+    }
+    function addMerchItem(title, price) { addToCart(title, price, false, true); }
+
+    let showingBack = false;
+    function flipTeeImage() {
+      showingBack = !showingBack;
+      document.getElementById('tee-front-img').src = showingBack ? 'img/merch-camiseta-espalda.jpg' : 'img/merch-camiseta-negra.jpg';
+    }
+    function rotateCap360(clientX, box) {
+      const rect = box.getBoundingClientRect();
+      const pct = ((clientX - rect.left) / rect.width - 0.5) * 35;
+      document.getElementById('cap-360-img').style.transform = `perspective(600px) rotateY(${pct}deg) scale(1.06)`;
+    }
+    function startDropCountdown() {
+      let secs = 2 * 86400 + 14 * 3600 + 38 * 60 + 19;
+      setInterval(() => {
+        if (--secs <= 0) return;
+        const d = Math.floor(secs / 86400), h = Math.floor((secs % 86400) / 3600), m = Math.floor((secs % 3600) / 60), s = secs % 60;
+        const el = document.getElementById('drop-countdown');
+        if (el) el.textContent = `${String(d).padStart(2, '0')}d ${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
+      }, 1000);
+    }
+    function toggleSizeCalculator() {
+      const m = document.getElementById('utility-modal');
+      document.getElementById('utility-modal-content').innerHTML = `
+        <h3 class="font-display text-lg font-extrabold text-white">📏 RECOMENDADOR DE TALLA</h3>
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <input id="calc-h" type="number" placeholder="Altura (cm) ej. 175" class="bg-white/5 border border-white/15 rounded-xl p-3 text-white" />
+          <input id="calc-w" type="number" placeholder="Peso (kg) ej. 72" class="bg-white/5 border border-white/15 rounded-xl p-3 text-white" />
+        </div>
+        <button onclick="const h=+document.getElementById('calc-h').value; const res=h>182?'XL':h>174?'L':h>165?'M':'S'; document.getElementById('size-res').textContent='Tu talla ideal es: '+res" class="w-full py-2.5 rounded-xl bg-neonCyan text-black font-bold text-xs uppercase">Calcular</button>
+        <p id="size-res" class="text-sm font-bold text-neonAcid text-center"></p>
+      `;
+      m.classList.remove('hidden');
+    }
+    function toggleGiftCardModal() {
+      const m = document.getElementById('utility-modal');
+      document.getElementById('utility-modal-content').innerHTML = `
+        <h3 class="font-display text-lg font-extrabold text-white">💳 GIFT CARD HOLOGRÁFICA LC</h3>
+        <p class="text-xs text-gray-300">Crédito oficial para beats o streetwear con entrega inmediata.</p>
+        <button onclick="addToCart('Gift Card Holográfica LC ($50)', 50); document.getElementById('utility-modal').classList.add('hidden')" class="w-full py-3 rounded-xl bg-gradient-to-r from-neonPurple to-neonCyan text-black font-bold text-xs uppercase">Agregar Gift Card $50</button>
+      `;
+      m.classList.remove('hidden');
+    }
+    function verifyNfcTag() { showToast('✅ Chip NFC Verificado: Edición Auténtica #014/100'); }
+
+    function generateInstaStoryCard() {
+      const c = document.createElement('canvas'); c.width = 540; c.height = 960;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#0c0618'; ctx.fillRect(0, 0, 540, 960);
+      ctx.fillStyle = '#ccff00'; ctx.font = 'bold 26px sans-serif'; ctx.fillText('LOS CHAMACOS RECORDS', 75, 140);
+      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 46px sans-serif'; ctx.fillText(`🔊 ${currentBeatTitle}`, 75, 480);
+      ctx.fillStyle = '#00f0ff'; ctx.font = '24px sans-serif'; ctx.fillText(`${currentBeatBpm} BPM`, 75, 535);
+      const a = document.createElement('a'); a.download = `Story_${currentBeatTitle}.png`; a.href = c.toDataURL('image/png'); a.click();
+      showToast('📸 Story descargada');
+    }
+
+    // COMUNIDAD & ACADEMIA
+    function addTimelineComment(e) {
+      e.preventDefault();
+      const input = document.getElementById('comment-text');
+      document.getElementById('timeline-comments').innerHTML = `<div class="p-2.5 rounded-xl bg-neonPurple/15 border border-neonPurple/30"><span class="text-neonAcid font-bold">@Tú</span> — ${input.value} 🔥</div>` + document.getElementById('timeline-comments').innerHTML;
+      input.value = '';
+      showToast('🔥 Comentario publicado');
+    }
+    function voteNextDrop(option) { showToast(`🗳️ Voto registrado: ${option}`); }
+    function shareReferral() { navigator.clipboard?.writeText(`${window.location.href}?ref=CHAMACO10`); showToast('🎁 Enlace de referido copiado'); }
+    function downloadDawTemplate(name) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([`Template Oficial ${name} - Los Chamacos Records`], { type: 'text/plain' }));
+      a.download = `LC_${name.replace(/\s+/g, '_')}.txt`; a.click();
+      showToast(`⬇ Descargando ${name}`);
+    }
+
+    // CARRITO
+    let cart = [], purchases = [], discountPct = 0, coins = 150;
+    function loadSavedState() {
+      try {
+        cart = JSON.parse(localStorage.getItem('lc_cart')) || [];
+        purchases = JSON.parse(localStorage.getItem('lc_purchases')) || [];
+        coins = parseInt(localStorage.getItem('lc_coins') || '150', 10);
+        document.getElementById('coins-display').textContent = coins;
+        const savedLyrics = localStorage.getItem('lc_lyrics');
+        if (savedLyrics) { document.getElementById('lyric-editor').value = savedLyrics; updateSyllableCounter(); }
+        renderCart(); renderPurchases();
+      } catch (e) {}
+    }
+    function toggleCart() { document.getElementById('cart-drawer').classList.toggle('hidden'); }
+    function toggleDownloadsModal() { document.getElementById('downloads-modal').classList.toggle('hidden'); }
+    function toggleCompareModal() { document.getElementById('compare-modal').classList.toggle('hidden'); }
     function toggleMpcModal() { document.getElementById('mpc-modal').classList.toggle('hidden'); }
+
+    function addBeatToCart(beatName) {
+      const tier = licenseTiers[currentTierKey];
+      addToCart(`Beat: ${beatName} (${tier.label})`, tier.price, true, false);
+    }
+    function openSplitPay(item, price) { addToCart(`${item} [Split Pay 50%]`, price / 2, true, false); }
+    function addToCart(name, priceUsd, isBeat = false, isMerch = false) {
+      const beatCount = cart.filter((i) => i.isBeat).length;
+      const finalPrice = (isBeat && (beatCount + 1) % 3 === 0) ? 0 : priceUsd;
+      const finalName = finalPrice === 0 ? `${name} [GRATIS 3x2]` : name;
+      cart.push({ name: finalName, price: finalPrice, isBeat, isMerch });
+      localStorage.setItem('lc_cart', JSON.stringify(cart));
+      renderCart();
+      showToast(`✓ ${finalName}`);
+    }
+    function removeFromCart(idx) { cart.splice(idx, 1); localStorage.setItem('lc_cart', JSON.stringify(cart)); renderCart(); }
+    function applyCoupon() {
+      if (document.getElementById('coupon-input').value.trim().toUpperCase() === 'CHAMACOS10') { discountPct = 0.10; renderCart(); showToast('🎉 Cupón CHAMACOS10 (-10%)'); }
+      else showToast('Usa el cupón CHAMACOS10');
+    }
+    function renderCart() {
+      const container = document.getElementById('cart-items');
+      document.getElementById('cart-count').textContent = cart.length;
+      const merchCount = cart.filter((i) => i.isMerch).length;
+      const merchDisc = merchCount >= 4 ? 0.25 : merchCount === 3 ? 0.15 : merchCount === 2 ? 0.10 : 0;
+      const subtotal = cart.reduce((acc, item) => acc + (item.isMerch ? item.price * (1 - merchDisc) : item.price), 0);
+      const payMethod = document.getElementById('payment-method')?.value || 'card';
+      const finalTotal = subtotal * (1 - discountPct) * (payMethod === 'crypto' ? 0.95 : 1);
+
+      document.getElementById('cart-total').textContent = payMethod === 'bnpl' ? `4x ${formatMoney(finalTotal / 4)}` : formatMoney(finalTotal);
+      document.getElementById('gift-bar').style.width = Math.min(100, (subtotal / 60) * 100) + '%';
+      document.getElementById('gift-msg').textContent = subtotal >= 60 ? '🎁 ¡Pack de Stickers Gratis desbloqueado!' : `Agrega ${formatMoney(60 - subtotal)} más para Stickers Gratis 🎁`;
+
+      if (!cart.length) { container.innerHTML = `<p class="text-gray-400 text-sm text-center py-8">Tu carrito está vacío.</p>`; return; }
+      container.innerHTML = cart.map((item, idx) => `
+        <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+          <div class="pr-2"><p class="text-xs font-bold text-white">${item.name}</p><p class="text-xs text-neonAcid font-semibold">${item.price === 0 ? 'GRATIS' : formatMoney(item.price)}</p></div>
+          <button onclick="removeFromCart(${idx})" class="text-xs text-red-400 font-bold px-2 py-1">Quitar</button>
+        </div>
+      `).join('');
+    }
+    function checkoutDemo() {
+      if (!cart.length) { showToast('Agrega un beat o prenda primero'); return; }
+      const orderId = 'LC-' + Math.floor(100000 + Math.random() * 900000);
+      purchases.push({ id: orderId, date: new Date().toLocaleDateString(), items: [...cart] });
+      coins += 50;
+      localStorage.setItem('lc_purchases', JSON.stringify(purchases));
+      localStorage.setItem('lc_coins', String(coins));
+      document.getElementById('coins-display').textContent = coins;
+      cart = []; localStorage.setItem('lc_cart', '[]');
+      renderCart(); renderPurchases(); toggleCart(); toggleDownloadsModal();
+      showToast(`✅ Orden ${orderId} confirmada (+50 Coins)`);
+    }
+    function renderPurchases() {
+      const box = document.getElementById('purchased-list');
+      if (!purchases.length) return;
+      box.innerHTML = purchases.map((o) => `<div class="p-3 rounded-xl bg-white/5 border border-neonCyan/30"><p class="font-bold text-neonCyan">Orden ${o.id} • ${o.date}</p><p class="text-gray-300 mt-1">${o.items.map((i) => i.name).join(', ')}</p></div>`).join('');
+    }
+
+    // MPC & VOZ & UTILIDADES
     function triggerPad(freq, label) {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = freq < 100 ? 'sine' : 'square';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime);
-      if (freq < 100) osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.25);
-      gain.gain.setValueAtTime(0.15, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
-      osc.connect(gain); gain.connect(ctx.destination);
-      osc.start(); osc.stop(ctx.currentTime + 0.26);
+      const osc = ctx.createOscillator(), g = ctx.createGain();
+      osc.type = freq < 100 ? 'sine' : 'square'; osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      g.gain.setValueAtTime(0.14, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+      osc.connect(g); g.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + 0.23);
       showToast(`🎛️ ${label}`);
     }
     window.addEventListener('keydown', (e) => {
       if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
       const k = e.key.toLowerCase();
       if (k === 'a') triggerPad(65, '808 KICK');
-      if (k === 's') triggerPad(190, 'CYBER SNARE');
+      if (k === 's') triggerPad(190, 'SNARE');
       if (k === 'd') triggerPad(440, 'HI-HAT');
-      if (k === 'f') triggerPad(330, 'SPACE LEAD');
-      if (e.key === 'Escape') { closeLightbox(); document.getElementById('compare-modal').classList.add('hidden'); document.getElementById('mpc-modal').classList.add('hidden'); }
+      if (k === 'f') triggerPad(330, 'LEAD');
     });
-
-    // MERCH: TALLAS, GIRO CAMISETA Y COMBO
-    function selectSize(btn) {
-      const parent = btn.parentElement;
-      parent.querySelectorAll('.size-btn').forEach((b) => {
-        b.classList.remove('active-size', 'bg-neonPurple', 'text-white');
-        b.classList.add('bg-white/5', 'text-gray-300');
-      });
-      btn.classList.add('active-size', 'bg-neonPurple', 'text-white');
-      btn.classList.remove('bg-white/5', 'text-gray-300');
+    function startVoiceCommand() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) { showToast('🎙️ Tu navegador no soporta voz'); return; }
+      const rec = new SR(); rec.lang = 'es-ES';
+      rec.onresult = (e) => {
+        const cmd = e.results[0][0].transcript.toLowerCase();
+        if (cmd.includes('nebula')) playPreview('NEBULA', 140, 'img/beat-nebula.jpg', 'purple');
+        else if (cmd.includes('3am') || cmd.includes('tres')) playPreview('3AM', 124, 'img/beat-3am.jpg', 'midnight');
+        else if (cmd.includes('brooklyn')) playPreview('BROOKLYN 98', 96, 'img/beat-brooklyn98.jpg', 'brooklyn');
+        else if (cmd.includes('carrito')) toggleCart();
+      };
+      rec.start(); showToast('🎙️ Escuchando...');
     }
-
-    function addMerchWithSize(btn, title, priceUsd) {
-      const card = btn.closest('.tilt-card');
-      const size = card.querySelector('.active-size')?.textContent || 'M';
-      addToCart(`${title} (Talla ${size})`, priceUsd);
-    }
-
-    let showingBack = false;
-    function flipTeeImage() {
-      showingBack = !showingBack;
-      const img = document.getElementById('tee-front-img');
-      img.src = showingBack ? 'img/merch-camiseta-espalda.jpg' : 'img/merch-camiseta-negra.jpg';
-    }
-
-    function addStudioCombo() {
-      addToCart('Combo Studio Pack (Hoodie + Gorra + Termo + Taza -20%)', 98.00);
-    }
-
-    function toggleSizeGuide() {
-      openLightbox('img/promo-poster.jpg', 'Guía de Tallas Oversized: S (Ancho 54cm) • M (57cm) • L (60cm) • XL (63cm)');
-    }
-
-    // LIGHTBOX & MODALES
-    function openLightbox(src, caption) {
-      document.getElementById('lightbox-img').src = src;
-      document.getElementById('lightbox-caption').textContent = caption;
-      document.getElementById('lightbox-modal').classList.remove('hidden');
-    }
-    function closeLightbox() { document.getElementById('lightbox-modal').classList.add('hidden'); }
-    function toggleCompareModal() { document.getElementById('compare-modal').classList.toggle('hidden'); }
-
-    // WISHLIST (FAVORITOS)
-    let wishlist = [];
-    function toggleWishlist(item) {
-      if (!wishlist.includes(item)) {
-        wishlist.push(item);
-        showToast(`♥ ${item} guardado en favoritos`);
-      } else {
-        wishlist = wishlist.filter((i) => i !== item);
-        showToast(`Quitado de favoritos`);
-      }
-      document.getElementById('wish-count').textContent = wishlist.length;
-      localStorage.setItem('lc_wishlist', JSON.stringify(wishlist));
-    }
-    function toggleWishlistModal() {
-      showToast(wishlist.length ? `♥ Tus favoritos: ${wishlist.join(', ')}` : 'Aún no tienes beats en favoritos');
-    }
-
-    // CARRITO CON BUNDLE 3x2, CUPÓN Y PERSISTENCIA
-    let cart = [];
-    let discountPct = 0;
-
-    function loadSavedState() {
-      try {
-        cart = JSON.parse(localStorage.getItem('lc_cart')) || [];
-        wishlist = JSON.parse(localStorage.getItem('lc_wishlist')) || [];
-        document.getElementById('wish-count').textContent = wishlist.length;
-        renderCart();
-      } catch (e) {}
-    }
-
-    function toggleCart() { document.getElementById('cart-drawer').classList.toggle('hidden'); }
-
+    function toggleEcoMode() { document.body.classList.toggle('eco-mode'); showToast('🔋 Modo ahorro alternado'); }
+    function resetAllPreferences() { localStorage.clear(); location.reload(); }
     function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.classList.remove('opacity-0', 'translate-y-4');
-      setTimeout(() => { toast.classList.add('opacity-0', 'translate-y-4'); }, 2500);
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.remove('opacity-0');
+      setTimeout(() => t.classList.add('opacity-0'), 2400);
     }
 
-    function addBeatToCart(beatName) {
-      const tier = licenseTiers[currentTierKey];
-      addToCart(`Beat: ${beatName} (${tier.label})`, tier.price, true);
-    }
-
-    function addToCart(name, priceUsd, isBeat = false) {
-      const beatCount = cart.filter((i) => i.isBeat).length;
-      const finalPrice = (isBeat && (beatCount + 1) % 3 === 0) ? 0 : priceUsd;
-      const finalName = finalPrice === 0 ? `${name} [GRATIS BUNDLE 3x2]` : name;
-      cart.push({ name: finalName, price: finalPrice, isBeat });
-      localStorage.setItem('lc_cart', JSON.stringify(cart));
-      renderCart();
-      showToast(`✓ ${finalName} agregado`);
-    }
-
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      localStorage.setItem('lc_cart', JSON.stringify(cart));
-      renderCart();
-    }
-
-    function applyCoupon() {
-      const code = document.getElementById('coupon-input').value.trim().toUpperCase();
-      if (code === 'CHAMACOS10') {
-        discountPct = 0.10;
-        renderCart();
-        showToast('🎉 Cupón CHAMACOS10 aplicado (-10%)');
-      } else {
-        showToast('Cupón no válido. Prueba CHAMACOS10');
-      }
-    }
-
-    function renderCart() {
-      const container = document.getElementById('cart-items');
-      const countEl = document.getElementById('cart-count');
-      const totalEl = document.getElementById('cart-total');
-
-      countEl.textContent = cart.length;
-      const subtotal = cart.reduce((acc, item) => acc + item.price, 0);
-      const total = subtotal * (1 - discountPct);
-      totalEl.textContent = formatMoney(total);
-
-      // Barra de regalo stickers ($60 USD)
-      const pct = Math.min(100, (subtotal / 60) * 100);
-      document.getElementById('gift-bar').style.width = pct + '%';
-      document.getElementById('gift-msg').textContent = subtotal >= 60
-        ? '🎁 ¡Desbloqueaste el Pack de Stickers Oficiales Gratis!'
-        : `Agrega ${formatMoney(60 - subtotal)} más para llevarte Stickers Gratis 🎁`;
-
-      if (cart.length === 0) {
-        container.innerHTML = `<p class="text-gray-400 text-sm text-center py-10">Tu carrito está vacío.</p>`;
-        return;
-      }
-
-      container.innerHTML = cart.map((item, idx) => `
-        <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
-          <div>
-            <p class="text-sm font-bold text-white">${item.name}</p>
-            <p class="text-xs text-neonAcid font-semibold">${item.price === 0 ? 'GRATIS (3x2)' : formatMoney(item.price)}</p>
-          </div>
-          <button onclick="removeFromCart(${idx})" class="text-xs text-red-400 hover:text-red-300 font-bold px-2 py-1">Quitar</button>
-        </div>
-      `).join('');
-    }
-
-    function checkoutDemo() {
-      if (cart.length === 0) { showToast('Agrega un beat o prenda primero'); return; }
-      const orderId = 'LC-' + Math.floor(100000 + Math.random() * 900000);
-      cart = [];
-      discountPct = 0;
-      localStorage.setItem('lc_cart', JSON.stringify(cart));
-      renderCart();
-      toggleCart();
-      showToast(`✅ Orden ${orderId} confirmada con SSL 256-bit`);
-    }
-
-    function submitCustomRequest(e) {
-      e.preventDefault();
-      e.target.reset();
-      showToast('🎛️ Solicitud enviada al estudio. Te contactaremos en menos de 24h.');
-    }
-
-    function subscribeVip(e) {
-      e.preventDefault();
-      e.target.reset();
-      showToast('🔥 Bienvenido al Inner Circle VIP. Revisa tu correo para tu beat gratis.');
-    }
-
-    // Scroll Reveal
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-    }, { threshold: 0.12 });
+      entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('active'); });
+    }, { threshold: 0.08 });
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-
-    // Créditos ocultos en consola
-    console.log('%c LOS CHAMACOS RECORDS — PURE VIBE CODING ', 'background: #b829ff; color: #fff; font-weight: bold; padding: 6px 12px; border-radius: 6px;');
   </script>
 </body>
 </html>
