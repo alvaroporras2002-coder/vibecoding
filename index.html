@@ -3,169 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vibe Coding | IA Minimalista</title>
+    <title>Los Chamacos | Beats & Merch</title>
     <style>
-        /* =========================================
-           VARIABLES DE COLOR
-        ========================================= */
+        /* VARIABLES DE ESTILO CYBER-TRAP */
         :root {
-            --bg-color: #050508; /* Fondo casi negro */
+            --bg-color: #0b0c10;
+            --glass-bg: rgba(20, 20, 25, 0.6);
+            --neon-purple: #9d4edd;
+            --neon-toxic: #c6ff00;
             --text-main: #ffffff;
             --text-muted: #8892b0;
-            --grad-start: #9d4edd; /* Morado */
-            --grad-end: #00b4d8;   /* Azul claro */
+            --border-glass: rgba(157, 78, 221, 0.3);
         }
 
-        /* =========================================
-           RESETEO Y ESTILOS BASE
-        ========================================= */
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden; /* Evita barras de desplazamiento */
-            position: relative;
+        /* NAVEGACIÓN */
+        nav {
+            position: fixed; width: 100%; top: 0; z-index: 100;
+            background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-glass); padding: 1rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
-        /* =========================================
-           EFECTO DE LUZ SIGUIENDO EL RATÓN
-        ========================================= */
-        .cursor-glow {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(157, 78, 221, 0.15) 0%, rgba(0, 180, 216, 0.1) 40%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none; /* Para que no interfiera con los clics */
-            transform: translate(-50%, -50%);
-            z-index: 1;
-            transition: opacity 0.3s ease;
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--text-main); text-shadow: 0 0 10px var(--neon-purple); letter-spacing: 2px; }
+        .nav-links button {
+            background: transparent; border: 1px solid var(--border-glass); color: var(--text-main);
+            padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-left: 10px; transition: 0.3s;
         }
+        .nav-links button:hover { background: var(--neon-purple); border-color: var(--neon-purple); }
+        .nav-links button.accent { border-color: var(--neon-toxic); color: var(--neon-toxic); }
+        .nav-links button.accent:hover { background: var(--neon-toxic); color: #000; box-shadow: 0 0 15px var(--neon-toxic); }
 
-        /* =========================================
-           TARJETA GLASSMORPHISM (Efecto Cristal)
-        ========================================= */
+        /* HERO SECTION */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: radial-gradient(circle at center, rgba(157, 78, 221, 0.15) 0%, transparent 60%);
+            text-align: center; padding: 2rem; margin-top: 50px;
+        }
+        .hero-img { width: 100%; max-width: 600px; border-radius: 15px; margin-bottom: 2rem; border: 1px solid var(--border-glass); box-shadow: 0 0 30px rgba(157,78,221,0.2); }
+        .hero h1 { font-size: 3rem; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 1rem; }
+        .hero span { color: var(--neon-toxic); }
+
+        /* SECCIONES GRUPO */
+        .section { padding: 4rem 5%; }
+        .section-title { font-size: 2rem; margin-bottom: 2rem; border-left: 4px solid var(--neon-purple); padding-left: 1rem; }
+
+        /* BEATS PLAYER */
+        .beats-grid, .merch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
         .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 3rem 2rem;
-            max-width: 450px;
-            width: 90%;
-            z-index: 2; /* Para que esté por encima de la luz */
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-            text-align: center;
-            transition: transform 0.4s ease, border-color 0.4s ease;
+            background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--border-glass);
+            border-radius: 15px; padding: 1.5rem; text-align: center; transition: 0.3s;
         }
+        .glass-card:hover { transform: translateY(-5px); border-color: var(--neon-toxic); }
+        .glass-card img { width: 100%; border-radius: 10px; margin-bottom: 1rem; }
+        
+        /* BOTONES */
+        .btn-buy {
+            width: 100%; padding: 0.8rem; background: transparent; border: 1px solid var(--neon-purple);
+            color: var(--text-main); font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 1rem; transition: 0.3s;
+        }
+        .btn-buy:hover { background: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
 
-        .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.15);
+        /* MODALES (Cart, Login, Checkout) */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 200;
         }
+        .modal-content {
+            background: #12141a; border: 1px solid var(--border-glass); border-radius: 15px;
+            padding: 2rem; width: 90%; max-width: 400px; box-shadow: 0 0 40px rgba(157,78,221,0.4);
+        }
+        .close-btn { float: right; cursor: pointer; color: var(--text-muted); font-size: 1.5rem; }
+        .close-btn:hover { color: var(--neon-toxic); }
 
-        /* =========================================
-           TEXTOS CON DEGRADADO
-        ========================================= */
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            /* Degradado de morado a azul */
-            background: linear-gradient(90deg, var(--grad-start), var(--grad-end));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: transparent;
+        /* FORMULARIOS Y CARRITO */
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+        input {
+            width: 100%; padding: 0.8rem; margin: 0.5rem 0 1.5rem; background: rgba(255,255,255,0.05);
+            border: 1px solid #333; color: white; border-radius: 5px; outline: none;
         }
+        input:focus { border-color: var(--neon-purple); }
+        
+        .btn-google { background: white; color: black; border: none; padding: 0.8rem; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 1rem; }
+        .btn-checkout { background: var(--neon-toxic); color: black; border: none; padding: 1rem; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
 
-        p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
+        /* ESTADO DE LOGIN */
+        .user-profile { display: none; align-items: center; gap: 10px; }
+        .user-avatar { width: 35px; height: 35px; background: var(--neon-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
 
-        /* =========================================
-           BOTÓN ESTILO NEÓN/MINIMALISTA
-        ========================================= */
-        button {
-            background: linear-gradient(90deg, var(--grad-start), var(--grad-end));
-            border: none;
-            padding: 0.8rem 2.5rem;
-            border-radius: 30px;
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(157, 78, 221, 0.2);
-        }
-
-        button:hover {
-            opacity: 0.9;
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 180, 216, 0.4);
-        }
-
-        button:active {
-            transform: scale(0.95);
-        }
     </style>
 </head>
 <body>
 
-    <!-- Halo de luz que seguirá el ratón -->
-    <div class="cursor-glow" id="glow"></div>
+    <!-- NAVEGACIÓN -->
+    <nav>
+        <div class="logo">LOS CHAMACOS</div>
+        <div class="nav-links">
+            <button onclick="document.getElementById('beats').scrollIntoView()">Beats</button>
+            <button onclick="document.getElementById('merch').scrollIntoView()">Merch</button>
+            
+            <!-- Login Switcher -->
+            <button id="nav-login-btn" onclick="openModal('login-modal')">Ingresar</button>
+            <div id="user-profile" class="user-profile">
+                <div class="user-avatar">U</div>
+                <span style="font-size: 0.9rem;">Usuario</span>
+            </div>
 
-    <!-- Contenedor principal con efecto de cristal -->
-    <div class="glass-card">
-        <h1>Vibe Coding</h1>
-        <p>Tú pones la intuición y la creatividad. La inteligencia artificial escribe el código.</p>
-        <button id="vibe-btn">Siente la vibra</button>
+            <button class="accent" onclick="openModal('cart-modal')">Carrito (<span id="cart-count">0</span>)</button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <div class="hero">
+        <!-- Reemplaza src con tu imagen de la banda -->
+        <img src="img/banda-estudio-principal.jpg" alt="Los Chamacos en el estudio" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'">
+        <h1>El sonido del <span>Underground</span></h1>
+        <p style="color: var(--text-muted); max-width: 600px; margin-bottom: 2rem;">Trap Latino, Reggaetón Oscuro y Hip-Hop 90s. Compra nuestras licencias de beats o llévate la colección premium de merch.</p>
+    </div>
+
+    <!-- SECCIÓN BEATS -->
+    <div id="beats" class="section">
+        <h2 class="section-title">Últimos Beats</h2>
+        <div class="beats-grid">
+            <div class="glass-card">
+                <h3>Nebula (Trap)</h3>
+                <p style="color: var(--neon-toxic); margin: 0.5rem 0;">$29.99 - Lease</p>
+                <button class="btn-buy" onclick="addToCart('Beat - Nebula', 29.99)">Añadir al Carrito</button>
+            </div>
+            <div class="glass-card">
+                <h3>3AM (Dark Reggaetón)</h3>
+                <p style="color: var(--neon-toxic); margin: 0.5rem 0;">$35.00 - Lease</p>
+                <button class="btn-buy" onclick="addToCart('Beat - 3AM', 35.00)">Añadir al Carrito</button>
+            </div>
+            <div class="glass-card">
+                <h3>Brooklyn 98 (Hip-Hop)</h3>
+                <p style="color: var(--neon-toxic); margin: 0.5rem 0;">$25.00 - Lease</p>
+                <button class="btn-buy" onclick="addToCart('Beat - Brooklyn 98', 25.00)">Añadir al Carrito</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN MERCH -->
+    <div id="merch" class="section">
+        <h2 class="section-title">Merch Oficial</h2>
+        <div class="merch-grid">
+            <!-- Camiseta -->
+            <div class="glass-card">
+                <img src="img/merch-camiseta-negra.jpg" alt="Camiseta Negra" onerror="this.src='https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'">
+                <h3>Camiseta Minimal</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Logo neón sutil</p>
+                <p style="color: var(--neon-purple); margin: 0.5rem 0; font-weight: bold;">$40.00</p>
+                <button class="btn-buy" onclick="addToCart('Camiseta Minimal', 40.00)">Añadir al Carrito</button>
+            </div>
+            <!-- Gorra -->
+            <div class="glass-card">
+                <img src="img/merch-gorra-negra.jpg" alt="Gorra Negra" onerror="this.src='https://images.unsplash.com/photo-1588850561407-ed78c282e89b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'">
+                <h3>Gorra Premium</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Negro mate, ajuste urbano</p>
+                <p style="color: var(--neon-purple); margin: 0.5rem 0; font-weight: bold;">$25.00</p>
+                <button class="btn-buy" onclick="addToCart('Gorra Premium', 25.00)">Añadir al Carrito</button>
+            </div>
+            <!-- Vaso Termo -->
+            <div class="glass-card">
+                <img src="img/merch-termo-negro.jpg" alt="Termo Negro" onerror="this.src='https://images.unsplash.com/photo-1606456011354-945768f561f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'">
+                <h3>Termo Dark Studio</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Logo grabado en láser</p>
+                <p style="color: var(--neon-purple); margin: 0.5rem 0; font-weight: bold;">$30.00</p>
+                <button class="btn-buy" onclick="addToCart('Termo Dark Studio', 30.00)">Añadir al Carrito</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: LOGIN -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
+            <h2 style="margin-bottom: 1rem; color: var(--neon-purple);">Acceder</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Inicia sesión para guardar tus licencias y seguir envíos.</p>
+            <button class="btn-google" onclick="simulateLogin()">Continuar con Google</button>
+            <p id="login-msg" style="text-align: center; display: none; color: var(--neon-toxic); margin-top: 1rem;">Verificando credenciales...</p>
+        </div>
+    </div>
+
+    <!-- MODAL: CARRITO -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('cart-modal')">&times;</span>
+            <h2 style="margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 10px;">Tu Carrito</h2>
+            <div id="cart-items" style="max-height: 200px; overflow-y: auto; margin-bottom: 1rem;">
+                <p style="color: var(--text-muted); text-align: center;">El carrito está vacío</p>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem;">
+                <span>Total:</span>
+                <span style="color: var(--neon-toxic);">$<span id="cart-total">0.00</span></span>
+            </div>
+            <button class="btn-checkout" onclick="proceedToCheckout()">Pagar Ahora</button>
+        </div>
+    </div>
+
+    <!-- MODAL: CHECKOUT -->
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('checkout-modal')">&times;</span>
+            <h2 style="margin-bottom: 1rem; color: var(--neon-toxic);">Pago Seguro</h2>
+            <label>Nombre en la tarjeta</label>
+            <input type="text" placeholder="Ej. Juan Pérez">
+            <label>Número de Tarjeta</label>
+            <input type="text" placeholder="0000 0000 0000 0000" maxlength="19">
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>MM/AA</label>
+                    <input type="text" placeholder="12/26">
+                </div>
+                <div style="flex: 1;">
+                    <label>CVV</label>
+                    <input type="password" placeholder="123" maxlength="3">
+                </div>
+            </div>
+            <button class="btn-checkout" id="pay-btn" onclick="simulatePayment()">Procesar Pago</button>
+            <p id="pay-msg" style="text-align: center; display: none; color: var(--neon-purple); margin-top: 1rem; font-weight: bold;"></p>
+        </div>
     </div>
 
     <script>
-        // =========================================
-        // JAVASCRIPT: Interactividad
-        // =========================================
-        
-        // 1. Efecto del halo de luz siguiendo el ratón
-        const glow = document.getElementById('glow');
-        
-        document.addEventListener('mousemove', (event) => {
-            // Actualizamos la posición del div '.cursor-glow' a las coordenadas del ratón
-            glow.style.left = event.clientX + 'px';
-            glow.style.top = event.clientY + 'px';
-        });
+        // LOGICA DE CARRITO
+        let cart = [];
+        let total = 0;
 
-        // 2. Interacción con el botón
-        const btn = document.getElementById('vibe-btn');
-        
-        btn.addEventListener('click', () => {
-            // Cambiamos el texto y los colores temporalmente al hacer clic
-            const originalText = btn.textContent;
-            btn.textContent = '¡Código generado! ✨';
-            btn.style.background = 'linear-gradient(90deg, #00b4d8, #9d4edd)'; // Invertimos el degradado
+        function addToCart(name, price) {
+            cart.push({name, price});
+            total += price;
+            document.getElementById('cart-count').innerText = cart.length;
+            updateCartUI();
             
-            // Regresamos a la normalidad después de 2.5 segundos
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = ''; // Vuelve al estilo del CSS
-            }, 2500);
-        });
-    </script>
+            // Efecto visual en el botón de carrito nav
+            const navBtn = document.querySelector('.nav-links .accent');
+            navBtn.style.boxShadow = '0 0 20px var(--neon-toxic)';
+            setTimeout(() => navBtn.style.boxShadow = 'none', 500);
+        }
 
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">El carrito está vacío</p>';
+                document.getElementById('cart-total').innerText = '0.00';
+                return;
+            }
+            
+            container.innerHTML = '';
+            cart.forEach((item, index) => {
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.name}</span>
+                        <span style="color: var(--neon-purple);">$${item.price.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            document.getElementById('cart-total').innerText = total.toFixed(2);
+        }
+
+        // LOGICA DE MODALES
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        // CERRAR MODALES AL HACER CLIC FUERA
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // SIMULADOR DE LOGIN GOOGLE
+        function simulateLogin() {
+            const msg = document.getElementById('login-msg');
+            msg.style.display = 'block';
+            
+            setTimeout(() => {
+                closeModal('login-modal');
+                document.getElementById('nav-login-btn').style.display = 'none';
+                document.getElementById('user-profile').style.display = 'flex';
+                msg.style.display = 'none';
+            }, 1500);
+        }
+
+        // TRANSICION A CHECKOUT
+        function proceedToCheckout() {
+            if(cart.length === 0) {
+                alert("Agrega algo al carrito primero.");
+                return;
+            }
+            closeModal('cart-modal');
+            openModal('checkout-modal');
+        }
+
+        // SIMULADOR DE PAGO
+        function simulatePayment() {
+            const btn = document.getElementById('pay-btn');
+            const msg = document.getElementById('pay-msg');
+            
+            btn.innerText = "Procesando...";
+            btn.style.background = "gray";
+            
+            setTimeout(() => {
+                btn.style.display = 'none';
+                msg.style.display = 'block';
+                msg.innerText = "¡Pago Exitoso! Redirigiendo a tus descargas...";
+                
+                // Vaciar carrito
+                cart = []; total = 0; updateCartUI();
+                document.getElementById('cart-count').innerText = "0";
+
+                setTimeout(() => {
+                    closeModal('checkout-modal');
+                    btn.style.display = 'block';
+                    btn.innerText = "Procesar Pago";
+                    btn.style.background = "var(--neon-toxic)";
+                    msg.style.display = 'none';
+                }, 3000);
+            }, 2000);
+        }
+    </script>
 </body>
 </html>
