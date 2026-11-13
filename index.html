@@ -1,329 +1,809 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Los Chamacos | Beats & Merch</title>
-    <style>
-        /* VARIABLES DE ESTILO CYBER-TRAP */
-        :root {
-            --bg-color: #0b0c10;
-            --glass-bg: rgba(20, 20, 25, 0.6);
-            --neon-purple: #9d4edd;
-            --neon-toxic: #c6ff00;
-            --text-main: #ffffff;
-            --text-muted: #8892b0;
-            --border-glass: rgba(157, 78, 221, 0.3);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LOS CHAMACOS RECORDS | Cyber Beat Leasing & Streetwear</title>
+  <link rel="icon" type="image/png" href="img/favicon.png" />
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        
-        body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; }
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
 
-        /* NAVEGACIÓN */
-        nav {
-            position: fixed; width: 100%; top: 0; z-index: 100;
-            background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border-glass); padding: 1rem 5%;
-            display: flex; justify-content: space-between; align-items: center;
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Syne', 'sans-serif'],
+          },
+          colors: {
+            void: '#05040a',
+            surface: '#0c0a16',
+            neonPurple: '#b829ff',
+            neonAcid: '#ccff00',
+            neonCyan: '#00f0ff',
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'float-slow': 'float 9s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+            'spin-slow': 'spin 18s linear infinite',
+            'marquee': 'marquee 28s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-14px)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.55', transform: 'scale(1)' },
+              '50%': { opacity: '0.9', transform: 'scale(1.06)' },
+            },
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            }
+          }
         }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--text-main); text-shadow: 0 0 10px var(--neon-purple); letter-spacing: 2px; }
-        .nav-links button {
-            background: transparent; border: 1px solid var(--border-glass); color: var(--text-main);
-            padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-left: 10px; transition: 0.3s;
-        }
-        .nav-links button:hover { background: var(--neon-purple); border-color: var(--neon-purple); }
-        .nav-links button.accent { border-color: var(--neon-toxic); color: var(--neon-toxic); }
-        .nav-links button.accent:hover { background: var(--neon-toxic); color: #000; box-shadow: 0 0 15px var(--neon-toxic); }
+      }
+    }
+  </script>
 
-        /* HERO SECTION */
-        .hero {
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: radial-gradient(circle at center, rgba(157, 78, 221, 0.15) 0%, transparent 60%);
-            text-align: center; padding: 2rem; margin-top: 50px;
-        }
-        .hero-img { width: 100%; max-width: 600px; border-radius: 15px; margin-bottom: 2rem; border: 1px solid var(--border-glass); box-shadow: 0 0 30px rgba(157,78,221,0.2); }
-        .hero h1 { font-size: 3rem; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 1rem; }
-        .hero span { color: var(--neon-toxic); }
+  <style>
+    :root {
+      --void: #05040a;
+    }
 
-        /* SECCIONES GRUPO */
-        .section { padding: 4rem 5%; }
-        .section-title { font-size: 2rem; margin-bottom: 2rem; border-left: 4px solid var(--neon-purple); padding-left: 1rem; }
+    body {
+      background-color: var(--void);
+      color: #f4f4f8;
+      overflow-x: hidden;
+    }
 
-        /* BEATS PLAYER */
-        .beats-grid, .merch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-        .glass-card {
-            background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--border-glass);
-            border-radius: 15px; padding: 1.5rem; text-align: center; transition: 0.3s;
-        }
-        .glass-card:hover { transform: translateY(-5px); border-color: var(--neon-toxic); }
-        .glass-card img { width: 100%; border-radius: 10px; margin-bottom: 1rem; }
-        
-        /* BOTONES */
-        .btn-buy {
-            width: 100%; padding: 0.8rem; background: transparent; border: 1px solid var(--neon-purple);
-            color: var(--text-main); font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 1rem; transition: 0.3s;
-        }
-        .btn-buy:hover { background: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #05040a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #b829ff, #00f0ff);
+      border-radius: 9999px;
+    }
 
-        /* MODALES (Cart, Login, Checkout) */
-        .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 200;
-        }
-        .modal-content {
-            background: #12141a; border: 1px solid var(--border-glass); border-radius: 15px;
-            padding: 2rem; width: 90%; max-width: 400px; box-shadow: 0 0 40px rgba(157,78,221,0.4);
-        }
-        .close-btn { float: right; cursor: pointer; color: var(--text-muted); font-size: 1.5rem; }
-        .close-btn:hover { color: var(--neon-toxic); }
+    /* MÁSCARAS DE DIFUMINADO PARA FUSIÓN SIN CORTES BRUSCOS */
+    .fade-edges-all {
+      -webkit-mask-image: radial-gradient(ellipse 78% 75% at 50% 50%, #000 52%, transparent 98%);
+      mask-image: radial-gradient(ellipse 78% 75% at 50% 50%, #000 52%, transparent 98%);
+    }
 
-        /* FORMULARIOS Y CARRITO */
-        .cart-item { display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
-        input {
-            width: 100%; padding: 0.8rem; margin: 0.5rem 0 1.5rem; background: rgba(255,255,255,0.05);
-            border: 1px solid #333; color: white; border-radius: 5px; outline: none;
-        }
-        input:focus { border-color: var(--neon-purple); }
-        
-        .btn-google { background: white; color: black; border: none; padding: 0.8rem; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 1rem; }
-        .btn-checkout { background: var(--neon-toxic); color: black; border: none; padding: 1rem; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+    .fade-vertical {
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+    }
 
-        /* ESTADO DE LOGIN */
-        .user-profile { display: none; align-items: center; gap: 10px; }
-        .user-avatar { width: 35px; height: 35px; background: var(--neon-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .fade-bottom {
+      -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+    }
 
-    </style>
+    .fade-card-img {
+      -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+    }
+
+    /* Fondos oscuros de logos integrados con screen/lighten */
+    .blend-dark-bg {
+      mix-blend-mode: lighten;
+    }
+
+    /* Glassmorphism & Glows */
+    .glass-panel {
+      background: linear-gradient(145deg, rgba(20, 16, 38, 0.65), rgba(8, 7, 16, 0.85));
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(184, 41, 255, 0.18);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+    }
+
+    .glass-panel:hover {
+      border-color: rgba(184, 41, 255, 0.48);
+      box-shadow: 0 20px 60px rgba(184, 41, 255, 0.16);
+    }
+
+    .text-gradient-cyber {
+      background: linear-gradient(135deg, #ffffff 10%, #d98aff 50%, #00f0ff 95%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-gradient-acid {
+      background: linear-gradient(135deg, #ccff00 10%, #00f0ff 95%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Reveal Animations on Scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px) scale(0.98);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Ecualizador animado */
+    .eq-bar {
+      animation: eqBounce 0.9s ease-in-out infinite alternate;
+    }
+    .eq-bar:nth-child(2) { animation-delay: 0.2s; }
+    .eq-bar:nth-child(3) { animation-delay: 0.4s; }
+    .eq-bar:nth-child(4) { animation-delay: 0.15s; }
+    .eq-bar:nth-child(5) { animation-delay: 0.35s; }
+
+    @keyframes eqBounce {
+      0% { height: 22%; }
+      100% { height: 100%; }
+    }
+  </style>
 </head>
-<body>
+<body class="antialiased selection:bg-neonPurple selection:text-white">
 
-    <!-- NAVEGACIÓN -->
-    <nav>
-        <div class="logo">LOS CHAMACOS</div>
-        <div class="nav-links">
-            <button onclick="document.getElementById('beats').scrollIntoView()">Beats</button>
-            <button onclick="document.getElementById('merch').scrollIntoView()">Merch</button>
-            
-            <!-- Login Switcher -->
-            <button id="nav-login-btn" onclick="openModal('login-modal')">Ingresar</button>
-            <div id="user-profile" class="user-profile">
-                <div class="user-avatar">U</div>
-                <span style="font-size: 0.9rem;">Usuario</span>
-            </div>
+  <!-- Ambient Background Orbs -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-40 -left-40 w-[520px] h-[520px] rounded-full bg-neonPurple/20 blur-[150px] animate-pulse-glow"></div>
+    <div class="absolute top-[40%] -right-40 w-[480px] h-[480px] rounded-full bg-neonCyan/15 blur-[160px] animate-pulse-glow"></div>
+    <div class="absolute bottom-0 left-1/3 w-[500px] h-[400px] rounded-full bg-neonAcid/10 blur-[160px]"></div>
+  </div>
 
-            <button class="accent" onclick="openModal('cart-modal')">Carrito (<span id="cart-count">0</span>)</button>
+  <!-- NAVBAR FLOTANTE -->
+  <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+      <nav class="glass-panel rounded-2xl px-5 py-3 flex items-center justify-between">
+        <a href="#inicio" class="flex items-center gap-3 group">
+          <img src="img/logo-monograma.png" alt="LC Monograma" class="h-10 w-10 object-contain blend-dark-bg transition-transform duration-300 group-hover:scale-110" />
+          <span class="font-display font-extrabold tracking-wider text-sm sm:text-base text-white">
+            LOS <span class="text-neonPurple">CHAMACOS</span>
+          </span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide text-gray-300">
+          <a href="#beats" class="hover:text-neonCyan transition-colors">BEATS</a>
+          <a href="#estudio" class="hover:text-neonPurple transition-colors">EL ESTUDIO</a>
+          <a href="#merch" class="hover:text-neonAcid transition-colors">MERCH</a>
+          <a href="#licencias" class="hover:text-white transition-colors">LICENCIAS</a>
         </div>
-    </nav>
 
-    <!-- HERO SECTION -->
-    <div class="hero">
-        <!-- Reemplaza src con tu imagen de la banda -->
-        <img src="img/banda-estudio-principal.jpg" alt="Los Chamacos en el estudio" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'">
-        <h1>El sonido del <span>Underground</span></h1>
-        <p style="color: var(--text-muted); max-width: 600px; margin-bottom: 2rem;">Trap Latino, Reggaetón Oscuro y Hip-Hop 90s. Compra nuestras licencias de beats o llévate la colección premium de merch.</p>
+        <div class="flex items-center gap-3">
+          <button onclick="toggleCart()" class="relative px-4 py-2 rounded-xl bg-white/5 hover:bg-neonPurple/25 border border-white/10 hover:border-neonPurple transition-all flex items-center gap-2 text-sm font-bold">
+            <span>Carrito</span>
+            <span id="cart-count" class="px-2 py-0.5 text-xs rounded-full bg-neonAcid text-black font-black">0</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== 1. HERO CINEMATOGRÁFICO ==================== -->
+  <section id="inicio" class="relative min-h-screen flex items-center justify-center pt-28 pb-20 overflow-hidden">
+    <!-- Foto de concierto difuminada en el fondo -->
+    <div class="absolute inset-0 z-0">
+      <img src="img/concierto-vivo.jpg" alt="Los Chamacos En Vivo" class="w-full h-full object-cover opacity-35 fade-vertical scale-105" />
+      <div class="absolute inset-0 bg-gradient-to-b from-void via-void/50 to-void"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-void via-transparent to-void"></div>
     </div>
 
-    <!-- SECCIÓN BEATS -->
-    <div id="beats" class="section">
-        <h2 class="section-title">Últimos Beats</h2>
-        <div class="beats-grid">
-            <div class="glass-card">
-                <h3>Nebula (Trap)</h3>
-                <p style="color: var(--neon-toxic); margin: 0.5rem 0;">$29.99 - Lease</p>
-                <button class="btn-buy" onclick="addToCart('Beat - Nebula', 29.99)">Añadir al Carrito</button>
-            </div>
-            <div class="glass-card">
-                <h3>3AM (Dark Reggaetón)</h3>
-                <p style="color: var(--neon-toxic); margin: 0.5rem 0;">$35.00 - Lease</p>
-                <button class="btn-buy" onclick="addToCart('Beat - 3AM', 35.00)">Añadir al Carrito</button>
-            </div>
-            <div class="glass-card">
-                <h3>Brooklyn 98 (Hip-Hop)</h3>
-                <p style="color: var(--neon-toxic); margin: 0.5rem 0;">$25.00 - Lease</p>
-                <button class="btn-buy" onclick="addToCart('Beat - Brooklyn 98', 25.00)">Añadir al Carrito</button>
-            </div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div class="grid lg:grid-cols-12 gap-10 items-center">
+        <!-- Columna Izquierda: Logo Principal + Copy -->
+        <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neonPurple/15 border border-neonPurple/40 text-xs font-bold tracking-widest uppercase text-purple-200">
+            <span class="w-2 h-2 rounded-full bg-neonAcid animate-ping"></span>
+            CYBER BEAT LEASING &amp; STREETWEAR
+          </div>
+
+          <div class="flex justify-center lg:justify-start">
+            <img src="img/logo-principal.png" alt="Los Chamacos Logo" class="w-full max-w-md sm:max-w-lg object-contain blend-dark-bg drop-shadow-[0_0_35px_rgba(184,41,255,0.45)] animate-float-slow" />
+          </div>
+
+          <p class="text-gray-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+            Sonido urbano futurista producido desde cero. Descarga beats con licencias comerciales inmediatas o viste la colección oficial de <strong class="text-white font-semibold">Los Chamacos Records</strong>.
+          </p>
+
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+            <a href="#beats" class="px-7 py-4 rounded-2xl bg-gradient-to-r from-neonPurple to-indigo-600 hover:from-fuchsia-500 hover:to-neonCyan text-white font-bold tracking-wide shadow-[0_0_30px_rgba(184,41,255,0.5)] transition-all transform hover:-translate-y-1">
+              EXPLORAR BEATS
+            </a>
+            <a href="#merch" class="px-7 py-4 rounded-2xl glass-panel text-white font-bold tracking-wide hover:border-neonAcid/60 transition-all transform hover:-translate-y-1">
+              VER MERCH OFICIAL
+            </a>
+          </div>
         </div>
+
+        <!-- Columna Derecha: Personaje + Sticker flotante -->
+        <div class="lg:col-span-5 relative flex justify-center items-center">
+          <div class="relative w-full max-w-md">
+            <div class="absolute inset-0 bg-gradient-to-tr from-neonPurple/35 via-neonAcid/20 to-neonCyan/30 rounded-full blur-3xl"></div>
+            <img src="img/logo-personaje.png" alt="Mascota Los Chamacos" class="relative z-10 w-full object-contain blend-dark-bg animate-float drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)]" />
+            <img src="img/sticker-circular.png" alt="Sticker Oficial" class="w-24 sm:w-28 h-24 sm:h-28 object-contain blend-dark-bg absolute -bottom-4 -left-2 sm:-left-6 z-20 animate-spin-slow" />
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- SECCIÓN MERCH -->
-    <div id="merch" class="section">
-        <h2 class="section-title">Merch Oficial</h2>
-        <div class="merch-grid">
-            <!-- Camiseta -->
-            <div class="glass-card">
-                <img src="img/merch-camiseta-negra.jpg" alt="Camiseta Negra" onerror="this.src='https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'">
-                <h3>Camiseta Minimal</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Logo neón sutil</p>
-                <p style="color: var(--neon-purple); margin: 0.5rem 0; font-weight: bold;">$40.00</p>
-                <button class="btn-buy" onclick="addToCart('Camiseta Minimal', 40.00)">Añadir al Carrito</button>
-            </div>
-            <!-- Gorra -->
-            <div class="glass-card">
-                <img src="img/merch-gorra-negra.jpg" alt="Gorra Negra" onerror="this.src='https://images.unsplash.com/photo-1588850561407-ed78c282e89b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'">
-                <h3>Gorra Premium</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Negro mate, ajuste urbano</p>
-                <p style="color: var(--neon-purple); margin: 0.5rem 0; font-weight: bold;">$25.00</p>
-                <button class="btn-buy" onclick="addToCart('Gorra Premium', 25.00)">Añadir al Carrito</button>
-            </div>
-            <!-- Vaso Termo -->
-            <div class="glass-card">
-                <img src="img/merch-termo-negro.jpg" alt="Termo Negro" onerror="this.src='https://images.unsplash.com/photo-1606456011354-945768f561f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'">
-                <h3>Termo Dark Studio</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Logo grabado en láser</p>
-                <p style="color: var(--neon-purple); margin: 0.5rem 0; font-weight: bold;">$30.00</p>
-                <button class="btn-buy" onclick="addToCart('Termo Dark Studio', 30.00)">Añadir al Carrito</button>
-            </div>
+    <!-- Difuminado inferior suave hacia la siguiente sección -->
+    <div class="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-void to-transparent pointer-events-none"></div>
+  </section>
+
+  <!-- CINTA DE MARQUESINA INFINITA -->
+  <div class="relative z-10 py-4 border-y border-white/10 bg-surface/70 backdrop-blur-md overflow-hidden">
+    <div class="flex whitespace-nowrap animate-marquee">
+      <div class="flex items-center gap-10 px-5 text-sm font-display font-extrabold tracking-widest uppercase text-gray-300">
+        <span class="text-neonAcid">✦ CYBER BEAT LEASING</span>
+        <span>ENTREGA INSTANTÁNEA WAV + STEMS</span>
+        <span class="text-neonPurple">✦ USO COMERCIAL ILIMITADO</span>
+        <span>LOS CHAMACOS RECORDS</span>
+        <span class="text-neonCyan">✦ STREETWEAR EDICIÓN LIMITADA</span>
+        <span class="text-neonAcid">✦ CYBER BEAT LEASING</span>
+        <span>ENTREGA INSTANTÁNEA WAV + STEMS</span>
+        <span class="text-neonPurple">✦ USO COMERCIAL ILIMITADO</span>
+        <span>LOS CHAMACOS RECORDS</span>
+        <span class="text-neonCyan">✦ STREETWEAR EDICIÓN LIMITADA</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 2. CATÁLOGO DE BEATS INTERACTIVO ==================== -->
+  <section id="beats" class="relative py-28 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+      <!-- Banner Cyber Beat Leasing difuminado -->
+      <div class="reveal mb-16 relative rounded-3xl overflow-hidden">
+        <img src="img/banner-beats.jpg" alt="Cyber Beat Leasing" class="w-full max-h-[340px] object-cover fade-edges-all mx-auto" />
+      </div>
+
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <span class="text-neonCyan font-bold tracking-widest text-xs uppercase">CATÁLOGO EXCLUSIVO</span>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold mt-1 text-gradient-cyber">
+            BEATS DESTACADOS
+          </h2>
         </div>
+        <p class="text-gray-400 max-w-md text-sm">
+          Haz clic en <strong class="text-white">Escuchar Preview</strong> para probar el beat con sintetizador en tiempo real o agrégalo directo a tu licencia.
+        </p>
+      </div>
+
+      <!-- Grid de 3 Beats -->
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- BEAT 1: NEBULA -->
+        <div class="reveal glass-panel rounded-3xl overflow-hidden group transition-all duration-500 hover:-translate-y-2 flex flex-col">
+          <div class="relative h-72 overflow-hidden">
+            <img src="img/beat-nebula.jpg" alt="Nebula Beat" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-110" />
+            <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-neonPurple/50 text-xs font-bold text-purple-200">
+              140 BPM • F#m
+            </div>
+            <button onclick="playPreview('NEBULA', 140, this)" class="play-btn absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
+              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="font-display text-2xl font-extrabold text-white">NEBULA</h3>
+                <span class="text-neonAcid font-display font-extrabold text-xl">$29.99</span>
+              </div>
+              <p class="text-gray-400 text-sm mt-2">Trap cósmico, bajos 808 profundos y sintetizadores espaciales envolventes.</p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <span class="text-xs text-gray-400">WAV + MP3 + Stems</span>
+              <button onclick="addToCart('Beat: NEBULA (Licencia Comercial)', 29.99)" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
+                + Adquirir
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BEAT 2: 3AM -->
+        <div class="reveal glass-panel rounded-3xl overflow-hidden group transition-all duration-500 hover:-translate-y-2 flex flex-col">
+          <div class="relative h-72 overflow-hidden">
+            <img src="img/beat-3am.jpg" alt="3AM Beat" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-110" />
+            <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-neonCyan/50 text-xs font-bold text-cyan-200">
+              124 BPM • Cm
+            </div>
+            <button onclick="playPreview('3AM', 124, this)" class="play-btn absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
+              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="font-display text-2xl font-extrabold text-white">3AM</h3>
+                <span class="text-neonAcid font-display font-extrabold text-xl">$34.99</span>
+              </div>
+              <p class="text-gray-400 text-sm mt-2">Vibe nocturno melódico ideal para sesiones de madrugada y voces atmosféricas.</p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <span class="text-xs text-gray-400">WAV + MP3 + Stems</span>
+              <button onclick="addToCart('Beat: 3AM (Licencia Comercial)', 34.99)" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
+                + Adquirir
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BEAT 3: BROOKLYN 98 -->
+        <div class="reveal glass-panel rounded-3xl overflow-hidden group transition-all duration-500 hover:-translate-y-2 flex flex-col">
+          <div class="relative h-72 overflow-hidden">
+            <img src="img/beat-brooklyn98.jpg" alt="Brooklyn 98 Beat" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-110" />
+            <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-neonAcid/50 text-xs font-bold text-lime-200">
+              96 BPM • Am
+            </div>
+            <button onclick="playPreview('BROOKLYN 98', 96, this)" class="play-btn absolute bottom-4 right-4 w-14 h-14 rounded-full bg-neonPurple hover:bg-neonCyan text-white hover:text-black flex items-center justify-center shadow-[0_0_25px_rgba(184,41,255,0.7)] transition-all">
+              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="font-display text-2xl font-extrabold text-white">BROOKLYN 98</h3>
+                <span class="text-neonAcid font-display font-extrabold text-xl">$39.99</span>
+              </div>
+              <p class="text-gray-400 text-sm mt-2">Boom-bap callejero con texturas analógicas, baterías crudas y esencia clásica.</p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <span class="text-xs text-gray-400">Exclusivo / Stems</span>
+              <button onclick="addToCart('Beat: BROOKLYN 98 (Licencia Comercial)', 39.99)" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-neonAcid hover:text-black text-white text-xs font-bold tracking-wider uppercase transition-all">
+                + Adquirir
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Reproductor Activo -->
+      <div id="audio-bar" class="hidden mt-10 glass-panel rounded-2xl p-4 sm:px-6 flex items-center justify-between gap-4 border-neonCyan/50">
+        <div class="flex items-center gap-4">
+          <div class="flex items-end gap-1 h-6 w-8">
+            <span class="eq-bar w-1.5 bg-neonAcid rounded-full"></span>
+            <span class="eq-bar w-1.5 bg-neonPurple rounded-full"></span>
+            <span class="eq-bar w-1.5 bg-neonCyan rounded-full"></span>
+            <span class="eq-bar w-1.5 bg-neonAcid rounded-full"></span>
+            <span class="eq-bar w-1.5 bg-neonPurple rounded-full"></span>
+          </div>
+          <div>
+            <p class="text-xs text-neonCyan uppercase tracking-wider font-bold">Reproduciendo Preview</p>
+            <p id="now-playing-title" class="font-display font-bold text-white text-base">NEBULA — Los Chamacos Beats</p>
+          </div>
+        </div>
+        <button onclick="stopPreview()" class="px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/40 text-red-200 text-xs font-bold uppercase tracking-wider transition-all">
+          Detener
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 3. EL ESTUDIO & CREW (FUSIÓN ATMOSFÉRICA) ==================== -->
+  <section id="estudio" class="relative py-28 overflow-hidden">
+    <!-- Fondo difuminado del equipo en el estudio -->
+    <div class="absolute inset-0 z-0 pointer-events-none">
+      <img src="img/estudio-equipo.jpg" alt="Equipo Los Chamacos" class="w-full h-full object-cover opacity-20 fade-vertical" />
+      <div class="absolute inset-0 bg-gradient-to-b from-void via-void/75 to-void"></div>
     </div>
 
-    <!-- MODAL: LOGIN -->
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
-            <h2 style="margin-bottom: 1rem; color: var(--neon-purple);">Acceder</h2>
-            <p style="color: var(--text-muted); margin-bottom: 2rem;">Inicia sesión para guardar tus licencias y seguir envíos.</p>
-            <button class="btn-google" onclick="simulateLogin()">Continuar con Google</button>
-            <p id="login-msg" style="text-align: center; display: none; color: var(--neon-toxic); margin-top: 1rem;">Verificando credenciales...</p>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="reveal text-center max-w-3xl mx-auto mb-20">
+        <span class="text-neonPurple font-bold tracking-widest text-xs uppercase">DETRÁS DEL SONIDO</span>
+        <h2 class="font-display text-3xl sm:text-5xl font-extrabold mt-2 text-gradient-cyber">
+          NACIDOS EN LA CALLE, FORJADOS EN EL ESTUDIO
+        </h2>
+        <p class="text-gray-300 mt-4 text-base font-light">
+          Cada frecuencia pasa por sintetizadores analógicos, mezcla quirúrgica y sesiones nocturnas sin descanso hasta lograr un sello inconfundible.
+        </p>
+      </div>
+
+      <!-- Mosaico Orgánico Difuminado (Sin bordes duros) -->
+      <div class="grid lg:grid-cols-12 gap-8 items-center">
+        <!-- Foto grande izquierda: Equipo en el estudio -->
+        <div class="reveal lg:col-span-7 relative">
+          <img src="img/estudio-equipo.jpg" alt="Los Chamacos en el estudio" class="w-full rounded-3xl object-cover fade-edges-all shadow-2xl" />
         </div>
-    </div>
 
-    <!-- MODAL: CARRITO -->
-    <div id="cart-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('cart-modal')">&times;</span>
-            <h2 style="margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 10px;">Tu Carrito</h2>
-            <div id="cart-items" style="max-height: 200px; overflow-y: auto; margin-bottom: 1rem;">
-                <p style="color: var(--text-muted); text-align: center;">El carrito está vacío</p>
+        <!-- Columna derecha: Sintetizador + Sesión -->
+        <div class="reveal lg:col-span-5 space-y-8">
+          <div class="relative">
+            <img src="img/estudio-sintetizador.jpg" alt="Sintetizador Analógico" class="w-full h-60 object-cover fade-edges-all" />
+            <div class="mt-2 px-2">
+              <h3 class="font-display text-xl font-bold text-white">Síntesis &amp; Diseño Sonoro</h3>
+              <p class="text-gray-400 text-sm">Texturas hardware y procesamiento digital de última generación.</p>
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem;">
-                <span>Total:</span>
-                <span style="color: var(--neon-toxic);">$<span id="cart-total">0.00</span></span>
+          </div>
+
+          <div class="relative">
+            <img src="img/estudio-sesion.jpg" alt="Sesión de Producción" class="w-full h-60 object-cover fade-edges-all" />
+            <div class="mt-2 px-2">
+              <h3 class="font-display text-xl font-bold text-white">Ingeniería &amp; Mezcla</h3>
+              <p class="text-gray-400 text-sm">Cada pista lista para competir en plataformas globales desde el primer play.</p>
             </div>
-            <button class="btn-checkout" onclick="proceedToCheckout()">Pagar Ahora</button>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <!-- MODAL: CHECKOUT -->
-    <div id="checkout-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('checkout-modal')">&times;</span>
-            <h2 style="margin-bottom: 1rem; color: var(--neon-toxic);">Pago Seguro</h2>
-            <label>Nombre en la tarjeta</label>
-            <input type="text" placeholder="Ej. Juan Pérez">
-            <label>Número de Tarjeta</label>
-            <input type="text" placeholder="0000 0000 0000 0000" maxlength="19">
-            <div style="display: flex; gap: 10px;">
-                <div style="flex: 1;">
-                    <label>MM/AA</label>
-                    <input type="text" placeholder="12/26">
-                </div>
-                <div style="flex: 1;">
-                    <label>CVV</label>
-                    <input type="password" placeholder="123" maxlength="3">
-                </div>
-            </div>
-            <button class="btn-checkout" id="pay-btn" onclick="simulatePayment()">Procesar Pago</button>
-            <p id="pay-msg" style="text-align: center; display: none; color: var(--neon-purple); margin-top: 1rem; font-weight: bold;"></p>
+      <!-- Segunda fila del estudio: Productor + Grupo Día + Grupo Noche + Firma -->
+      <div class="grid md:grid-cols-3 gap-8 mt-14 items-center">
+        <div class="reveal text-center">
+          <img src="img/estudio-productor.jpg" alt="Productor en consola" class="w-full h-72 object-cover fade-edges-all" />
+          <p class="text-xs uppercase tracking-widest text-neonCyan font-bold mt-2">Producción Ejecutiva</p>
         </div>
+
+        <div class="reveal text-center">
+          <img src="img/estudio-grupo.jpg" alt="El Crew afuera del estudio" class="w-full h-72 object-cover fade-edges-all" />
+          <p class="text-xs uppercase tracking-widest text-neonPurple font-bold mt-2">La Hermandad LC</p>
+        </div>
+
+        <div class="reveal text-center">
+          <img src="img/estudio-grupo-noche.jpg" alt="Sesión nocturna en la ciudad" class="w-full h-72 object-cover fade-edges-all" />
+          <p class="text-xs uppercase tracking-widest text-neonAcid font-bold mt-2">Inspiración 24/7</p>
+        </div>
+      </div>
+
+      <!-- Firma Digital centrada y difuminada -->
+      <div class="reveal mt-16 flex flex-col items-center justify-center text-center">
+        <img src="img/firma-digital.png" alt="Firma Los Chamacos" class="h-24 sm:h-28 object-contain blend-dark-bg opacity-90" />
+        <span class="text-xs tracking-[0.3em] uppercase text-gray-500 mt-2">Sello Oficial • Los Chamacos Records</span>
+      </div>
     </div>
+  </section>
 
-    <script>
-        // LOGICA DE CARRITO
-        let cart = [];
-        let total = 0;
+  <!-- ==================== 4. COLECCIÓN MERCH STREETWEAR ==================== -->
+  <section id="merch" class="relative py-28 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-        function addToCart(name, price) {
-            cart.push({name, price});
-            total += price;
-            document.getElementById('cart-count').innerText = cart.length;
-            updateCartUI();
-            
-            // Efecto visual en el botón de carrito nav
-            const navBtn = document.querySelector('.nav-links .accent');
-            navBtn.style.boxShadow = '0 0 20px var(--neon-toxic)';
-            setTimeout(() => navBtn.style.boxShadow = 'none', 500);
+      <!-- Banner Promo Poster integrado con difuminado -->
+      <div class="reveal grid lg:grid-cols-12 gap-10 items-center mb-20">
+        <div class="lg:col-span-5">
+          <img src="img/promo-poster.jpg" alt="Promo Merch Los Chamacos" class="w-full max-w-md mx-auto object-cover fade-edges-all" />
+        </div>
+        <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
+          <span class="text-neonAcid font-bold tracking-widest text-xs uppercase">DROP OFICIAL • EDICIÓN LIMITADA</span>
+          <h2 class="font-display text-4xl sm:text-6xl font-extrabold text-gradient-acid leading-tight">
+            VISTE EL MOVIMIENTO
+          </h2>
+          <p class="text-gray-300 text-base sm:text-lg font-light max-w-xl mx-auto lg:mx-0">
+            Prendas heavyweight con estampados neón de alta densidad, accesorios para el estudio y piezas coleccionables diseñadas para destacar de día y de noche.
+          </p>
+          <div class="flex flex-wrap justify-center lg:justify-start gap-6 pt-2 text-sm text-gray-300">
+            <div class="flex items-center gap-2"><span class="text-neonAcid">✔</span> Algodón Premium 280gsm</div>
+            <div class="flex items-center gap-2"><span class="text-neonCyan">✔</span> Envío Asegurado</div>
+            <div class="flex items-center gap-2"><span class="text-neonPurple">✔</span> Stickers de Regalo</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid de Productos Merch (6 artículos) -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- Item 1: Hoodie Negro -->
+        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="relative h-72 overflow-hidden">
+            <img src="img/merch-hoodie-negro.jpg" alt="Hoodie Los Chamacos Negro" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-neonPurple text-white text-xs font-bold">TOP VENTAS</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center">
+                <h3 class="font-display text-xl font-bold text-white">Hoodie LC Neon</h3>
+                <span class="text-neonAcid font-extrabold text-lg">$54.99</span>
+              </div>
+              <p class="text-gray-400 text-sm mt-1">Sudadera negra oversized con bordado LC en manga y logo púrpura.</p>
+            </div>
+            <button onclick="addToCart('Hoodie LC Neon (Negro)', 54.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+              Agregar al Carrito
+            </button>
+          </div>
+        </div>
+
+        <!-- Item 2: Camiseta Negra Frente -->
+        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="relative h-72 overflow-hidden">
+            <img src="img/merch-camiseta-negra.jpg" alt="Camiseta Negra Frente" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center">
+                <h3 class="font-display text-xl font-bold text-white">Tee Minimal Glow</h3>
+                <span class="text-neonAcid font-extrabold text-lg">$29.99</span>
+              </div>
+              <p class="text-gray-400 text-sm mt-1">Camiseta negra corte boxy con logotipo neón en el pecho.</p>
+            </div>
+            <button onclick="addToCart('Tee Minimal Glow (Negra)', 29.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+              Agregar al Carrito
+            </button>
+          </div>
+        </div>
+
+        <!-- Item 3: Camiseta Espalda -->
+        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="relative h-72 overflow-hidden">
+            <img src="img/merch-camiseta-espalda.jpg" alt="Camiseta Espalda Gráfico" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-neonCyan text-black text-xs font-bold">EDICIÓN TOUR</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center">
+                <h3 class="font-display text-xl font-bold text-white">Tee Full Back Art</h3>
+                <span class="text-neonAcid font-extrabold text-lg">$34.99</span>
+              </div>
+              <p class="text-gray-400 text-sm mt-1">Estampado trasero de gran formato con arte exclusivo de la gira.</p>
+            </div>
+            <button onclick="addToCart('Tee Full Back Art (Edición Tour)', 34.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+              Agregar al Carrito
+            </button>
+          </div>
+        </div>
+
+        <!-- Item 4: Gorra Negra -->
+        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="relative h-72 overflow-hidden">
+            <img src="img/merch-gorra-negra.jpg" alt="Gorra Negra LC" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center">
+                <h3 class="font-display text-xl font-bold text-white">Snapback Monograma LC</h3>
+                <span class="text-neonAcid font-extrabold text-lg">$24.99</span>
+              </div>
+              <p class="text-gray-400 text-sm mt-1">Gorra estructurada negra con monograma bordado en relieve 3D.</p>
+            </div>
+            <button onclick="addToCart('Snapback Monograma LC', 24.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+              Agregar al Carrito
+            </button>
+          </div>
+        </div>
+
+        <!-- Item 5: Termo Negro -->
+        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="relative h-72 overflow-hidden">
+            <img src="img/merch-termo-negro.jpg" alt="Termo Estudio Negro" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center">
+                <h3 class="font-display text-xl font-bold text-white">Termo Studio Matte</h3>
+                <span class="text-neonAcid font-extrabold text-lg">$22.99</span>
+              </div>
+              <p class="text-gray-400 text-sm mt-1">Acero inoxidable negro mate térmico para largas sesiones de grabación.</p>
+            </div>
+            <button onclick="addToCart('Termo Studio Matte LC', 22.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+              Agregar al Carrito
+            </button>
+          </div>
+        </div>
+
+        <!-- Item 6: Taza + Stickers -->
+        <div class="reveal glass-panel rounded-3xl overflow-hidden group flex flex-col">
+          <div class="relative h-72 overflow-hidden">
+            <img src="img/merch-taza-stickers.jpg" alt="Pack Taza y Stickers" class="w-full h-full object-cover fade-card-img transition-transform duration-700 group-hover:scale-105" />
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center">
+                <h3 class="font-display text-xl font-bold text-white">Pack Taza + Stickers</h3>
+                <span class="text-neonAcid font-extrabold text-lg">$19.99</span>
+              </div>
+              <p class="text-gray-400 text-sm mt-1">Taza cerámica negra brillante + set de calcomanías troqueladas.</p>
+            </div>
+            <button onclick="addToCart('Pack Taza + Stickers LC', 19.99)" class="mt-5 w-full py-3 rounded-xl bg-white/10 hover:bg-neonPurple text-white font-bold text-xs uppercase tracking-wider transition-all">
+              Agregar al Carrito
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 5. LICENCIAS & PAGO 100% SEGURO ==================== -->
+  <section id="licencias" class="relative py-24 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="reveal text-center mb-12">
+        <span class="text-neonCyan font-bold tracking-widest text-xs uppercase">PROTECCIÓN TOTAL</span>
+        <h2 class="font-display text-3xl sm:text-5xl font-extrabold mt-2 text-white">
+          COMPRA Y LICENCIA CON CONFIANZA
+        </h2>
+      </div>
+
+      <!-- Banner Checkout difuminado sin bordes bruscos -->
+      <div class="reveal relative rounded-3xl overflow-hidden">
+        <img src="img/banner-checkout.jpg" alt="Pago 100% Seguro Encriptación SSL 256 Bits" class="w-full max-w-4xl mx-auto object-cover fade-edges-all" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="relative pt-16 pb-12 border-t border-white/10 bg-surface/60 backdrop-blur-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+      <div class="flex items-center gap-4">
+        <img src="img/logo-monograma.png" alt="LC Logo" class="h-12 w-12 object-contain blend-dark-bg" />
+        <div>
+          <p class="font-display font-extrabold text-white tracking-wider">LOS CHAMACOS RECORDS</p>
+          <p class="text-xs text-gray-400">Beats • Producción Musical • Streetwear Oficial</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-6 text-xs text-gray-400">
+        <a href="#inicio" class="hover:text-white transition-colors">Inicio</a>
+        <a href="#beats" class="hover:text-white transition-colors">Beats</a>
+        <a href="#estudio" class="hover:text-white transition-colors">Estudio</a>
+        <a href="#merch" class="hover:text-white transition-colors">Merch</a>
+      </div>
+
+      <p class="text-xs text-gray-500">
+        &copy; 2026 Los Chamacos Records. Todos los derechos reservados.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==================== DRAWER DEL CARRITO ==================== -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 hidden">
+    <div onclick="toggleCart()" class="absolute inset-0 bg-black/75 backdrop-blur-sm"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-surface border-l border-neonPurple/30 p-6 flex flex-col justify-between shadow-2xl">
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-white/10">
+          <h3 class="font-display text-xl font-extrabold text-white">TU CARRITO</h3>
+          <button onclick="toggleCart()" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+        </div>
+        <div id="cart-items" class="mt-6 space-y-4 max-h-[60vh] overflow-y-auto pr-1">
+          <p class="text-gray-400 text-sm text-center py-10">Tu carrito está vacío.</p>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-white/10 space-y-4">
+        <div class="flex items-center justify-between text-lg font-display font-bold">
+          <span>Total:</span>
+          <span id="cart-total" class="text-neonAcid">$0.00</span>
+        </div>
+        <button onclick="checkoutDemo()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-neonPurple to-neonCyan text-black font-display font-extrabold tracking-wider uppercase shadow-lg hover:opacity-95 transition-all">
+          FINALIZAR COMPRA SEGURA
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de Notificación -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-2xl glass-panel border-neonAcid/60 text-white text-sm font-semibold shadow-2xl opacity-0 pointer-events-none transition-all duration-300">
+    Agregado al carrito
+  </div>
+
+  <!-- ==================== SCRIPTS DE INTERACTIVIDAD ==================== -->
+  <script>
+    // 1. Scroll Reveal Animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
         }
+      });
+    }, { threshold: 0.12 });
 
-        function updateCartUI() {
-            const container = document.getElementById('cart-items');
-            if (cart.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">El carrito está vacío</p>';
-                document.getElementById('cart-total').innerText = '0.00';
-                return;
-            }
-            
-            container.innerHTML = '';
-            cart.forEach((item, index) => {
-                container.innerHTML += `
-                    <div class="cart-item">
-                        <span>${item.name}</span>
-                        <span style="color: var(--neon-purple);">$${item.price.toFixed(2)}</span>
-                    </div>
-                `;
-            });
-            document.getElementById('cart-total').innerText = total.toFixed(2);
-        }
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-        // LOGICA DE MODALES
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    // 2. Sintetizador WebAudio para Preview real de los Beats
+    let audioCtx = null;
+    let beatInterval = null;
 
-        // CERRAR MODALES AL HACER CLIC FUERA
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-            }
-        }
+    function playPreview(title, bpm, btn) {
+      stopPreview();
+      const bar = document.getElementById('audio-bar');
+      const titleEl = document.getElementById('now-playing-title');
+      titleEl.textContent = `${title} (${bpm} BPM) — Los Chamacos Beats`;
+      bar.classList.remove('hidden');
 
-        // SIMULADOR DE LOGIN GOOGLE
-        function simulateLogin() {
-            const msg = document.getElementById('login-msg');
-            msg.style.display = 'block';
-            
-            setTimeout(() => {
-                closeModal('login-modal');
-                document.getElementById('nav-login-btn').style.display = 'none';
-                document.getElementById('user-profile').style.display = 'flex';
-                msg.style.display = 'none';
-            }, 1500);
-        }
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const stepTime = (60 / bpm / 2) * 1000;
+      const notes = title === 'NEBULA' ? [110, 130.81, 146.83, 164.81]
+                  : title === '3AM' ? [98, 116.54, 130.81, 146.83]
+                  : [82.41, 98, 110, 123.47];
+      let step = 0;
 
-        // TRANSICION A CHECKOUT
-        function proceedToCheckout() {
-            if(cart.length === 0) {
-                alert("Agrega algo al carrito primero.");
-                return;
-            }
-            closeModal('cart-modal');
-            openModal('checkout-modal');
-        }
+      beatInterval = setInterval(() => {
+        if (!audioCtx) return;
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = step % 4 === 0 ? 'sawtooth' : 'triangle';
+        osc.frequency.setValueAtTime(notes[step % notes.length], now);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.26);
+        step++;
+      }, stepTime);
+    }
 
-        // SIMULADOR DE PAGO
-        function simulatePayment() {
-            const btn = document.getElementById('pay-btn');
-            const msg = document.getElementById('pay-msg');
-            
-            btn.innerText = "Procesando...";
-            btn.style.background = "gray";
-            
-            setTimeout(() => {
-                btn.style.display = 'none';
-                msg.style.display = 'block';
-                msg.innerText = "¡Pago Exitoso! Redirigiendo a tus descargas...";
-                
-                // Vaciar carrito
-                cart = []; total = 0; updateCartUI();
-                document.getElementById('cart-count').innerText = "0";
+    function stopPreview() {
+      if (beatInterval) clearInterval(beatInterval);
+      if (audioCtx) {
+        audioCtx.close();
+        audioCtx = null;
+      }
+      document.getElementById('audio-bar').classList.add('hidden');
+    }
 
-                setTimeout(() => {
-                    closeModal('checkout-modal');
-                    btn.style.display = 'block';
-                    btn.innerText = "Procesar Pago";
-                    btn.style.background = "var(--neon-toxic)";
-                    msg.style.display = 'none';
-                }, 3000);
-            }, 2000);
-        }
-    </script>
+    // 3. Lógica del Carrito
+    let cart = [];
+
+    function toggleCart() {
+      document.getElementById('cart-drawer').classList.toggle('hidden');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.remove('opacity-0', 'translate-y-4');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-4');
+      }, 2400);
+    }
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      renderCart();
+      showToast(`✓ ${name} agregado`);
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cart-items');
+      const countEl = document.getElementById('cart-count');
+      const totalEl = document.getElementById('cart-total');
+
+      countEl.textContent = cart.length;
+      const total = cart.reduce((acc, item) => acc + item.price, 0);
+      totalEl.textContent = `$${total.toFixed(2)}`;
+
+      if (cart.length === 0) {
+        container.innerHTML = `<p class="text-gray-400 text-sm text-center py-10">Tu carrito está vacío.</p>`;
+        return;
+      }
+
+      container.innerHTML = cart.map((item, idx) => `
+        <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+          <div>
+            <p class="text-sm font-bold text-white">${item.name}</p>
+            <p class="text-xs text-neonAcid font-semibold">$${item.price.toFixed(2)}</p>
+          </div>
+          <button onclick="removeFromCart(${idx})" class="text-xs text-red-400 hover:text-red-300 font-bold px-2 py-1">
+            Quitar
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function checkoutDemo() {
+      if (cart.length === 0) {
+        showToast('Agrega un beat o prenda primero');
+        return;
+      }
+      cart = [];
+      renderCart();
+      toggleCart();
+      showToast('¡Orden procesada con encriptación SSL!');
+    }
+  </script>
 </body>
 </html>
